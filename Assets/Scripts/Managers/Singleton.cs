@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
+
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+{
+    private static T instance;
+
+    public static T CreateManager()
+    {
+        if (instance == null)
+        {
+            GameObject go = new GameObject(typeof(T).Name);
+            T instance = go.AddComponent<T>();
+            DontDestroyOnLoad(go);
+            return instance;
+        }
+        return instance;
+    }
+
+    public static void ReleaseManager()
+    {
+        if (instance != null)
+        {
+            Destroy(instance.gameObject);
+            instance = null;
+        }
+    }
+
+    public static T GetInstance()
+    {
+        return instance;
+    }
+}

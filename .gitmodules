@@ -1,0 +1,3 @@
+[submodule "Resource"]
+	path = Resource
+	url = https://github.com/HSD06040/Resource
