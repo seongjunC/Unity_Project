@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
@@ -5,20 +6,35 @@ using UnityEngine;
 public class ResourcesManager : Singleton<ResourcesManager>
 {
     private Dictionary<string, Object> resources = new Dictionary<string, Object>();    
-    private Dictionary<string, Object> fx = new Dictionary<string, Object>();
+    private Dictionary<string, float> lastLoadTime = new Dictionary<string, float>();
+
+    private Coroutine cleanupRoutine;
+
+    const float cacheCleanupTime = 140;
+    const float cacheCleanupDelay = 70;
+
+    private void Start()
+    {
+        cleanupRoutine ??= StartCoroutine(CacheCleanupRoutine());
+    }
 
     public T Load<T>(string path) where T : Object
     {
-        if (resources.ContainsKey(path))
+        string key = $"{typeof(T)}{path}";
+
+        lastLoadTime[key] = Time.time;
+
+        if (resources.ContainsKey(key))
             return resources[path] as T;
         
         T resource = Resources.Load<T>(path);
 
         if(resource != null)
-            resources.Add(path, resource);
+            resources.Add(key, resource);
 
         return resource;
     }
+
     public void Unload(string path)
     {
         if (resources.ContainsKey(path))
@@ -27,6 +43,7 @@ public class ResourcesManager : Singleton<ResourcesManager>
             resources.Remove(path);
         }
     }
+
     public void UnloadAll()
     {
         foreach (var res in resources.Values)
@@ -86,5 +103,41 @@ public class ResourcesManager : Singleton<ResourcesManager>
             Manager.Pool.Release(obj, delay);
         else
             Object.Destroy(obj, delay);
+    }
+
+    private IEnumerator CacheCleanupRoutine()
+    {
+        YieldInstruction delay = new WaitForSeconds(cacheCleanupDelay);
+
+        while (true)
+        {
+            yield return delay;
+
+            float now = Time.time;
+            List<string> toRemove = new List<string>();
+
+            foreach (var kvp in resources)
+            {
+                string key = kvp.Key;
+
+                if(lastLoadTime.TryGetValue(key, out float time))
+                {
+                    if(now - time > cacheCleanupTime)
+                        toRemove.Add(key);
+                }
+            }
+
+            foreach (var key in toRemove)
+            {
+                resources.Remove(key);
+                lastLoadTime.Remove(key);
+            }
+        }
+    }
+
+    public void StopCacheCleanup()
+    {
+        StopCoroutine(cleanupRoutine);
+        cleanupRoutine = null;
     }
 }

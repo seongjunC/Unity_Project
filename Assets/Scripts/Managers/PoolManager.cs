@@ -14,10 +14,10 @@ public class PoolManager : Singleton<PoolManager>
 
     Coroutine poolCleanupRoutine;
 
-    private float poolCleanupTime;
-    private float poolCleanupDelay;
+    const float poolCleanupTime = 60;
+    const float poolCleanupDelay = 30;
 
-    private PoolData poolData;
+    public PoolData poolData;
 
     private void Awake()
     {
@@ -26,15 +26,13 @@ public class PoolManager : Singleton<PoolManager>
         lastUsedTime = new Dictionary<string, float>();
 
         parent = new GameObject("Pool Parent").transform;
-        poolData = Manager.Resources.Load<PoolData>("PoolData");
+        poolData = ScriptableObject.CreateInstance<PoolData>();
     }
 
     private void Start()
     {
-        poolCleanupRoutine = StartCoroutine(PoolCleanupRoutine());
+        poolCleanupRoutine ??= StartCoroutine(PoolCleanupRoutine());
     }
-
-    public void StopPoolCleanupRoutine() => StopCoroutine(poolCleanupRoutine);
 
     IEnumerator PoolCleanupRoutine()
     {
@@ -68,6 +66,12 @@ public class PoolManager : Singleton<PoolManager>
                 lastUsedTime.Remove(value);
             }
         }
+    }
+
+    public void StopPoolCleanupRoutine()
+    {
+        StopCoroutine(poolCleanupRoutine);
+        poolCleanupRoutine = null;
     }
 
     private IObjectPool<GameObject> GetOrCreatePool(string name, GameObject go, int maxSize)

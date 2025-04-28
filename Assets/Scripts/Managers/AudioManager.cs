@@ -1,13 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using EnumType;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public enum SoundType { BGM, Effect }
-
     private AudioMixer audioMixer;
     private AudioMixerGroup bgmGroup;
     private AudioMixerGroup effectGroup;
