@@ -3,6 +3,7 @@ using UnityEngine;
 public class InventoryPanel : MonoBehaviour
 {
     public ItemSlot[] itemSlots;
+    public ItemData data;
 
     private void Awake()
     {
@@ -10,6 +11,12 @@ public class InventoryPanel : MonoBehaviour
         {
             itemSlots[i].slotNum = i;
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+            AddItem(data);
     }
 
     private void OnEnable()
