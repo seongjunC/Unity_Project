@@ -12,12 +12,12 @@ public class Equipment_ItemData : ItemData
 
     public void AddStat()
     {
-        Manager.Data.playerStatus.AddHP(hp);
-        Manager.Data.playerStatus.AddDamage(damage);
+        Manager.Data.playerStatus.AddModifier(hp, StatType.MaxHP);
+        Manager.Data.playerStatus.AddModifier(damage, StatType.Damage);
     }
     public void RemoveStat()
     {
-        Manager.Data.playerStatus.AddHP(-hp);
-        Manager.Data.playerStatus.AddDamage(-damage);
+        Manager.Data.playerStatus.RemoveModifier(hp, StatType.MaxHP);
+        Manager.Data.playerStatus.RemoveModifier(damage, StatType.Damage);
     }
 }

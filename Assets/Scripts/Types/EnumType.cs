@@ -5,4 +5,5 @@ namespace EnumType
     public enum DataType { Pool, Monster, Level }
     public enum ItemGrade { Common, UnCommon, Rare, Epic, Unique, Legendary }
     public enum EquipmentType { Waepon }
+    public enum StatType { Damage, MaxHP }
 }

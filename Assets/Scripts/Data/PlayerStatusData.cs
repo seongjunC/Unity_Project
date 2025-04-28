@@ -1,3 +1,4 @@
+using EnumType;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,10 +23,24 @@ public class PlayerStatusData
 
     public PlayerLevelData levelExpData = ScriptableObject.CreateInstance<PlayerLevelData>();
 
-    public void AddDamage(int amount) => damageModifier.Add(amount);
-    public void AddHP(int amount)
+    public void AddModifier(int amount, StatType type)
     {
-        hpModifier.Add(amount);
-        curHP += amount;
+        switch(type)
+        {
+            case StatType.Damage:
+                damageModifier.Add(amount); break;
+            case StatType.MaxHP:
+                hpModifier.Add(amount); break;
+        }
+    }
+    public void RemoveModifier(int amount, StatType type)
+    {
+        switch (type)
+        {
+            case StatType.Damage:
+                damageModifier.Remove(amount); break;
+            case StatType.MaxHP:
+                hpModifier.Remove(amount); break;
+        }
     }
 }
