@@ -6,6 +6,6 @@ public class HealEffect : UseEffect
 {
     public override void Excute()
     {
-        
+        // Todo
     }
 }
