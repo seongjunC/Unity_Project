@@ -22,7 +22,7 @@ public class ItemData : ScriptableObject
 
     [TextArea]
     public string description;
-    public itemMeshData itemMeshData;
+    public ItemMeshData itemMeshData;
 
     public Color GetItemGradeColor()
     {

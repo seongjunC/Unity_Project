@@ -1,6 +1,4 @@
 using EnumType;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EquipItemData", menuName = "Data/ItemData/EquipmentData")]

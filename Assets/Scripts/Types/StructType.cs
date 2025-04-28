@@ -10,7 +10,7 @@ namespace StructType
         public int size;
     }
     [Serializable]
-    public struct itemMeshData
+    public struct ItemMeshData
     {
         public Mesh mesh;
         public Material material;
