@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65971a4b9e7c1145a4890e891b3e2c2, type: 3}
+  m_Name: ItemSword2
+  m_EditorClassIdentifier: 
+  itemGrade: 5
+  icon: {fileID: 0}
+  itemName: "\uC5D1\uC2A4\uCE7C\uB9AC\uBC84"
+  description: "\uAE30\uC0AC\uC655\uC774 \uC37B\uB2E4\uB294 \uC9C4\uC124\uC758\uAC80 "
+  itemMeshData:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  useEffect: {fileID: 0}

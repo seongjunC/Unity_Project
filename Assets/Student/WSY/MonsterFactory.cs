@@ -80,6 +80,7 @@ public class MonsterFactory : MonoBehaviour
         }
     }
 
+
     private void SpawnMonster()
     {
         // ���� ������Ʈ�� ������Ʈ Ǯ����, Instantiate���� �����
