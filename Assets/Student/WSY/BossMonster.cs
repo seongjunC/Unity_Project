@@ -9,7 +9,7 @@ public class BossMonster : Monster
         Move();
         Attack();
         BossAttack();
-        BossDie();
+        Die();
     }
 
     private void BossAttack()
