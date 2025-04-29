@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class InGame_UI : MonoBehaviour
 {
     private GameObject curUI;
-
+    [SerializeField] private ItemToolTip toolTip;
 
     public void SwitchUI(GameObject ui)
     {
@@ -25,4 +26,11 @@ public class InGame_UI : MonoBehaviour
             curUI = ui;
         }
     }
+
+    public void OpenToolTip(ItemData data)
+    {
+        toolTip.gameObject.SetActive(true);
+        toolTip.SetupToolTip(data);
+    }
+    public void CloseToolTip() => toolTip.gameObject.SetActive(false);
 }
