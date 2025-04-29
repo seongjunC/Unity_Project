@@ -9,9 +9,11 @@ public class DataSetter : MonoBehaviour
 {
     private PoolData poolData;
     private MonsterDataBase monsterDataBase;
+    private PlayerLevelData playerLevelData;
 
     const string poolRange = "A2:B3";
     const string monsterRange = "A2:D4";
+    const string levelDataRange = "A2:B18";
 
     #region URL
     // URL : https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810
@@ -20,6 +22,8 @@ public class DataSetter : MonoBehaviour
 
     // guid 1001143924
     string MonsterURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=1001143924&range={monsterRange}";
+
+    string levelURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=2123442088&range={levelDataRange}";
 
     #endregion
 
@@ -30,6 +34,7 @@ public class DataSetter : MonoBehaviour
 
         StartCoroutine(DownloadData(PoolURL, DataType.Pool));
         StartCoroutine(DownloadData(MonsterURL, DataType.Monster));
+        StartCoroutine(DownloadData(levelURL, DataType.Level));
     }
 
     IEnumerator DownloadData(string URL, DataType type)
@@ -45,6 +50,8 @@ public class DataSetter : MonoBehaviour
                 SetupPoolData(data); break;
             case DataType.Monster:
                 SetupMonsterData(data); break;
+            case DataType.Level:
+                SetupLevelData(data); break;
         }
     }
 
@@ -86,6 +93,19 @@ public class DataSetter : MonoBehaviour
 #if UNITY_EDITOR
             monsterDataBase.monsterDatas.Add(md);
 #endif
+        }
+    }
+
+    private void SetupLevelData(string data)
+    {
+        string[] row = data.Split('\n');
+        int rowSize = row.Length;
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] columns = row[i].Split('\t');
+
+            playerLevelData.AddLevelExpData(int.Parse(columns[0]), int.Parse(columns[1]));
         }
     }
 }
