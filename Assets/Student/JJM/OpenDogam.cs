@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class OpenDogam : MonoBehaviour
 {
     [Header("Dogam UI")]
     public Canvas dogamCanvas; // 도감 UI로 사용할 캔버스
@@ -28,7 +28,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    private void ToggleDogamUI()
+    public void ToggleDogamUI()
     {
         if (dogamCanvas != null)
         {
