@@ -26,6 +26,13 @@ public class OpenDogam : MonoBehaviour
         {
             ToggleDogamUI();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (dogamCanvas.gameObject.activeSelf)
+            {
+                ToggleDogamUI();
+            }
+        }
     }
 
     public void ToggleDogamUI()
