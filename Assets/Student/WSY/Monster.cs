@@ -16,17 +16,19 @@ public class Monster : MonoBehaviour
 
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private LayerMask playerLayer;
+    private MonsterData monsterData;
+    [SerializeField] private EnumType.MonsterType monsterType;
 
-
-    // 몬스터 생성자
-    public Monster(string name, int hp, float damage, float speed, float exp, float detectRadius)
+    // 몬스터 생성자(와 동일한 역할)
+    private void Awake()
     {
-        this.name = name;
-        this.hp = hp;
-        this.damage = damage;
-        this.speed = speed;
-        this.exp = exp;
-        this.detectRadius = detectRadius;
+        // 여기를 특정 타입을 안 쓰고 할 수 있게끔 몬스터 타입을 변수로 두었음.
+        monsterData = Manager.Data.monsterData.GetMonsterData(monsterType);
+
+        // 몬스터 레벨을 플레이어의 레벨에 따라 조정.
+        // 몬스터의 최대 레벨은 5로? (플레이어 레벨 보고 결정)
+        // int playerLevel = Manager.Data.playerStatus.levelExpData.(//플레이어 레벨);
+        // int monsterlevel = Mathf.Clamp(Random.Range(playerLevel - 2, playerLevel - 1), 1, 5);
     }
 
     void Update()
@@ -89,6 +91,5 @@ public class Monster : MonoBehaviour
             // TODO: 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
         }
     }
-
 
 }
