@@ -7,11 +7,11 @@ using UnityEngine.ParticleSystemJobs;
 
 public class ItemToolTip : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI itemName;
-    [SerializeField] private TextMeshProUGUI type;
-    [SerializeField] private TextMeshProUGUI grade;
-    [SerializeField] private TextMeshProUGUI stat;
-    [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private TMP_Text itemName;
+    [SerializeField] private TMP_Text type;
+    [SerializeField] private TMP_Text grade;
+    [SerializeField] private TMP_Text stat;
+    [SerializeField] private TMP_Text description;
     [SerializeField] private float yPosOffset = 60;
     [SerializeField] private float xPosOffset = 60;
 
