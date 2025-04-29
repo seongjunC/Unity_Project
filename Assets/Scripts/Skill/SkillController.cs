@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
-public class SkillManager : MonoBehaviour
+public class SkillController : MonoBehaviour
 {
     public Skill curSkill;
-    public ISkillOnwer onwer;
+    public ISkillOwner owner;
+
+    protected Skill[] ownerSkills;
     private Coroutine skillRoutine;
     [SerializeField] private float test;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        onwer = GetComponent<ISkillOnwer>();
+        owner = GetComponent<ISkillOwner>();   
     }
 
     public void UseSKill(Skill skill)
@@ -21,7 +23,7 @@ public class SkillManager : MonoBehaviour
         if(skillRoutine == null && skill.CanUse())
         {
             curSkill = skill;
-            curSkill.Init(onwer);
+            curSkill.Init(owner);
             StartCoroutine(curSkill.CoolTimeRoutine());
             StartCoroutine(SkillMainRoutine());
         }
@@ -53,6 +55,8 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private SphereCollider sphere;
     private void OnValidate()
     {
+        if (curSkill == null) return;
+
         if (curSkill.overlap.overlapType == OverlapType.Capsule)
         {
             capsule.gameObject.SetActive(true);
