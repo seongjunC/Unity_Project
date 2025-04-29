@@ -13,9 +13,9 @@ public class DataSetter : MonoBehaviour
     private SkillDataBase skillDataBase;
 
     const string poolRange = "A2:B3";
-    const string monsterRange = "A2:D4";
+    const string monsterRange = "A2:G4";
     const string levelDataRange = "A2:B18";
-    const string skillDataRange = "";
+    const string skillDataRange = "A2:C2";
 
     #region URL
     // URL : https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810
@@ -27,7 +27,7 @@ public class DataSetter : MonoBehaviour
     // guid 2123442088
     string levelURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=2123442088&range={levelDataRange}";
     // guid 871025501
-    string skillURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=871025501&range={levelDataRange}";
+    string skillURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=871025501&range={skillDataRange}";
 
     #endregion
 
@@ -132,7 +132,7 @@ public class DataSetter : MonoBehaviour
             string[] columns = row[i].Split('\t');
 
             string skillName = columns[0];
-            SkillData skillData = new SkillData {name = skillName, skillPower = int.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
+            SkillData skillData = new SkillData {skillName = skillName, skillPower = int.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
 
             skillDataBase.AddSkillData(skillName, skillData);
         }

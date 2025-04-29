@@ -20,7 +20,7 @@ namespace StructType
     [Serializable]
     public struct SkillData
     {
-        public string name;
+        public string skillName;
         public int skillPower;
         public float coolTime;
     }

@@ -30,6 +30,9 @@ public class PlayerStatusData
 
     public PlayerLevelData levelExpData = ScriptableObject.CreateInstance<PlayerLevelData>();
 
+    public Skill[] playerSkills;
+    public bool[] skillUnlock;
+
     public void AddModifier(int amount, StatType type)
     {
         switch(type)

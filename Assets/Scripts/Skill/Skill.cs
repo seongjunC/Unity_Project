@@ -6,6 +6,8 @@ using UnityEngine;
 
 public abstract class Skill : ScriptableObject
 {
+    public Sprite icon;
+    public string skillName;
     private SkillVector skillVec;
     public SkillOverlapData overlap;
 
@@ -28,26 +30,37 @@ public abstract class Skill : ScriptableObject
     [Tooltip("스킬실행 후 몇초 후 데미지 판단을 시작할지")]
     [SerializeField] private float delay;
 
-    [Tooltip("스킬 계수")][SerializeField] private float skillPower;
-    [Tooltip("스킬 쿨타임")][SerializeField] private float coolTime;
-    [Tooltip("스킬 지속시간")][SerializeField] private float skillDuration;
+    [Tooltip("스킬 계수")] [SerializeField] private float skillPower;
+    [Tooltip("스킬 쿨타임")] public float coolTime;
+    [Tooltip("스킬 지속시간")] [SerializeField] private float skillDuration;
 
     public YieldInstruction waitTickDelay;
     public YieldInstruction waitDelay;
     public YieldInstruction waitSkillEndDelay;
 
     private GameObject curEffect;
-    private ISkillOnwer onwer;
+    private ISkillOwner onwer;
 
-    private float timer = -1;
+    private float timer;
 
-    public void Init(ISkillOnwer _owner)
+    public float CoolTimeRatio
+    {
+        get
+        {
+            if (coolTime <= 0f) return 0f;
+            return Mathf.Clamp01(timer / coolTime);
+        }
+    }
+
+    public void Init(ISkillOwner _owner)
     {
         onwer = _owner;
 
         waitTickDelay = new WaitForSeconds(tickDelay);
         waitDelay = new WaitForSeconds(delay);
         waitSkillEndDelay = new WaitForSeconds(skillDuration);
+
+        SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
     }
 
     public IEnumerator CoolTimeRoutine()
@@ -101,6 +114,7 @@ public abstract class Skill : ScriptableObject
 
         curEffect.transform.position = position;
     }
+
     IEnumerator DelayCreateEffect(GameObject effect, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -109,4 +123,11 @@ public abstract class Skill : ScriptableObject
     }
 
     public void DestroyEffect() { Manager.Resources.Destroy(curEffect); }
+
+    private void SetupSkillData(SkillData data)
+    {
+        skillPower = data.skillPower;
+        skillName = data.skillName;
+        coolTime = data.coolTime;
+    }
 }

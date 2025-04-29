@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TestPlayer : MonoBehaviour, ISkillOnwer
+public class TestPlayer : MonoBehaviour, ISkillOwner
 {
     [SerializeField] private Skill skill;
-    private SkillManager skillManager;
+    private SkillController skillManager;
 
     Rigidbody rb;
     [SerializeField] private float moveSpped;
@@ -17,7 +17,7 @@ public class TestPlayer : MonoBehaviour, ISkillOnwer
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        skillManager = GetComponent<SkillManager>();
+        skillManager = GetComponent<SkillController>();
     }
 
     private void Update()
