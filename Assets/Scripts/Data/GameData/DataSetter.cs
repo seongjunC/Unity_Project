@@ -10,10 +10,12 @@ public class DataSetter : MonoBehaviour
     private PoolData poolData;
     private MonsterDataBase monsterDataBase;
     private PlayerLevelData playerLevelData;
+    private SkillDataBase skillDataBase;
 
     const string poolRange = "A2:B3";
     const string monsterRange = "A2:D4";
     const string levelDataRange = "A2:B18";
+    const string skillDataRange = "";
 
     #region URL
     // URL : https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810
@@ -22,8 +24,10 @@ public class DataSetter : MonoBehaviour
 
     // guid 1001143924
     string MonsterURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=1001143924&range={monsterRange}";
-
+    // guid 2123442088
     string levelURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=2123442088&range={levelDataRange}";
+    // guid 871025501
+    string skillURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=871025501&range={levelDataRange}";
 
     #endregion
 
@@ -32,10 +36,12 @@ public class DataSetter : MonoBehaviour
         poolData = Manager.Pool.poolData;
         monsterDataBase = Manager.Data.monsterData;
         playerLevelData = Manager.Data.playerStatus.levelExpData;
-        
+        skillDataBase = Manager.Data.skillData;
+
         StartCoroutine(DownloadData(PoolURL, DataType.Pool));
         StartCoroutine(DownloadData(MonsterURL, DataType.Monster));
         StartCoroutine(DownloadData(levelURL, DataType.Level));
+        StartCoroutine(DownloadData(skillURL, DataType.Skill));
     }
 
     IEnumerator DownloadData(string URL, DataType type)
@@ -53,6 +59,10 @@ public class DataSetter : MonoBehaviour
                 SetupMonsterData(data); break;
             case DataType.Level:
                 SetupLevelData(data); break;
+            case DataType.Skill:
+                SetupSkillData(data); break;
+            default:
+                break;
         }
     }
 
@@ -81,10 +91,13 @@ public class DataSetter : MonoBehaviour
             string[] columns = row[i].Split("\t");
             MonsterData md = new MonsterData
             {
-                name = columns[0],
-                health = int.Parse(columns[1]),
-                damage = int.Parse(columns[2]),
-                speed = float.Parse(columns[3])
+                name    = columns[0],
+                health  = int.Parse(columns[1]),
+                damage  = int.Parse(columns[2]),
+                speed   = float.Parse(columns[3]),
+                dropGold = int.Parse(columns[4]),
+                dropExp = int.Parse(columns[5]),
+                range   = float.Parse(columns[6]),
             };
 
             monsterDataBase.AddMonsterData(
@@ -106,6 +119,22 @@ public class DataSetter : MonoBehaviour
             string[] columns = row[i].Split('\t');
 
             playerLevelData.AddLevelExpData(int.Parse(columns[0]), int.Parse(columns[1]));
+        }
+    }
+
+    private void SetupSkillData(string data)
+    {
+        string[] row = data.Split("\n");
+        int rowSize = row.Length;
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] columns = row[i].Split('\t');
+
+            string skillName = columns[0];
+            SkillData skillData = new SkillData {name = skillName, skillPower = int.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
+
+            skillDataBase.AddSkillData(skillName, skillData);
         }
     }
 }

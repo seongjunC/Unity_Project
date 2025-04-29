@@ -17,6 +17,14 @@ namespace StructType
         public Material material;
     }
 
+    [Serializable]
+    public struct SkillData
+    {
+        public string name;
+        public int skillPower;
+        public float coolTime;
+    }
+
     public struct SkillVector
     {
         public Vector3 forward;
