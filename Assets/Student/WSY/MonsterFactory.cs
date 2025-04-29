@@ -86,12 +86,8 @@ public class MonsterFactory : MonoBehaviour
         // 몬스터 오브젝트를 오브젝트 풀에서, Instantiate으로 만들기
         GameObject monster = Instantiate(monsterPrefab, spawnPoint.transform.position, Quaternion.identity);
 
-        // 이 오브젝트는 몬스터 클래스를 상속받는다. 그 오브젝트에 붙어있는 'Monster' 스크립트를 꺼내서 제어.
-        Monster monsterComponent = monster.GetComponent<Monster>();
-
         // 누적 몬스터 생성 갯수 증가시켜주기 
         cumulativeMonsterNum++;
-
     }
 
 
