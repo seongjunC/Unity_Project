@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestPlayer : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] private float moveSpped;
+    [SerializeField] private float rotSpeed;
     Vector3 moveDir;
+    Vector3 camDir;
 
     private void Awake()
     {
@@ -19,11 +22,32 @@ public class TestPlayer : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
-        moveDir = new Vector3(x,0,z);
+        moveDir = new Vector3(x, 0, z);
+
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        camDir = camForward * moveDir.z + camRight * moveDir.x;
+
+        if(camDir.sqrMagnitude > 0)
+            Rotate();
+    }
+
+    private void Rotate()
+    {
+        Quaternion targetRot = Quaternion.LookRotation(camDir);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotSpeed * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = moveDir * moveSpped;
+        rb.velocity = camDir * moveSpped;
     }
 }
