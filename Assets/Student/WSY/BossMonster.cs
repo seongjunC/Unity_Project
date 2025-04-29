@@ -24,8 +24,10 @@ public class BossMonster : Monster
                 // 보스만의 공격 애니메이션 (예: "BossAttack"이라는 트리거)
                 animator.SetTrigger("BossAttack");
 
-                // 더 강한 공격력을 주기 (예: 기존 damage의 1.5배)
-                Manager.Data.playerStatus.curHP -= Mathf.RoundToInt(damage * 1.5f);
+                // 플레이어의 체력을 감소시키기(아래는 직접 수정, 활성화 코드는 IDamagable 사용)
+                // Manager.Data.playerStatus.curHP -= damage;
+                IDamagable target = other.GetComponent<IDamagable>();
+                target.TakeDamage(damage*2);
 
                 break;
             }

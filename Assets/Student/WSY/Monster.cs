@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, IDamagable
 {
     private MonsterData monsterData;
 
@@ -68,8 +68,10 @@ public class Monster : MonoBehaviour
                 // 공격 애니메이션을 할당하고 (트리거 이름 Attack이라고 가정)
                 animator.SetTrigger("Attack");
 
-                // 플레이어의 체력을 감소시키기
-                Manager.Data.playerStatus.curHP -= damage;
+                // 플레이어의 체력을 감소시키기(아래는 직접 수정, 활성화 코드는 IDamagable 사용)
+                // Manager.Data.playerStatus.curHP -= damage;
+                IDamagable target = other.GetComponent<IDamagable>();
+                target.TakeDamage(damage);
 
                 // 플레이어를 찾았으므로 루프 마무리
                 break; 
