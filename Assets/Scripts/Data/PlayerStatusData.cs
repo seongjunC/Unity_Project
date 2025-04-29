@@ -1,6 +1,7 @@
 using EnumType;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerStatusData
@@ -15,13 +16,17 @@ public class PlayerStatusData
     private List<int> hpModifier = new List<int>();
 
     private int _curHP;
-    public int curHP { get => _curHP; set { _curHP = value; OnHPChanged?.Invoke(_curHP); } }
+    public int curHP { get => _curHP; private set { _curHP = value; OnHPChanged?.Invoke(_curHP); } }
 
     private int _curExp;
-    public int curExp { get => curExp; set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
+    public int curExp { get => curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
+
+    private int _level;
+    public int level { get => _level; private set { _level = value; OnLevelUp?.Invoke(_level); } }
 
     public event Action<int> OnHPChanged;
     public event Action<int> OnExpChanged;
+    public event Action<int> OnLevelUp;
 
     public PlayerLevelData levelExpData = ScriptableObject.CreateInstance<PlayerLevelData>();
 
@@ -44,5 +49,31 @@ public class PlayerStatusData
             case StatType.MaxHP:
                 hpModifier.Remove(amount); break;
         }
+    }
+
+    public void IncreaseHealth(int amount)
+    {
+        curHP += amount;
+
+        if(curHP > maxHP)
+            curHP = maxHP;
+    }
+    public void AddExp(int amount)
+    {
+        curExp += Mathf.RoundToInt((UnityEngine.Random.Range(amount * 0.8f, amount * 1.2f)));
+
+        CheckLevelUp();
+    }
+
+    private void CheckLevelUp() // 임시로 여기 두었음 바꿀 수도 있음.
+    {
+        if(curExp >= levelExpData.GetLevelExp(level))
+        {
+            LevelUp();    
+        }
+    }
+    private void LevelUp()
+    {
+        level++;
     }
 }

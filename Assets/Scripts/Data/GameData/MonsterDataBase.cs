@@ -30,4 +30,7 @@ public class MonsterData
     public int health;
     public int damage;
     public float speed;
+    public int dropGold;
+    public int dropExp;
+    public float range;
 }
