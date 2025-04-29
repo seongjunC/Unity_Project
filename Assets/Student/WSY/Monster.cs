@@ -7,19 +7,18 @@ public class Monster : MonoBehaviour
     private MonsterData monsterData;
 
     [Header("Monster Fields")]
-    [SerializeField] private string name;
-    [SerializeField] private int hp;
-    [SerializeField] private int damage;
-    [SerializeField] private float speed;
-    [SerializeField] private int gold;
-    [SerializeField] private int exp;
-    [SerializeField] private float detectRadius;
-    [SerializeField] private EnumType.MonsterType monsterType;
-
-    [SerializeField] private Rigidbody rigid;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private Animator animator;
-    private bool isDead = false;
+    [SerializeField] protected string name;
+    [SerializeField] protected int hp;
+    [SerializeField] protected int damage;
+    [SerializeField] protected float speed;
+    [SerializeField] protected int gold;
+    [SerializeField] protected int exp;
+    [SerializeField] protected float detectRadius;
+    [SerializeField] protected EnumType.MonsterType monsterType;
+    [SerializeField] protected Rigidbody rigid;
+    [SerializeField] protected LayerMask playerLayer;
+    [SerializeField] protected Animator animator;
+    protected bool isDead = false;
 
     // 몬스터 생성자(와 동일한 역할)
     private void Awake()
@@ -41,7 +40,7 @@ public class Monster : MonoBehaviour
     }
 
 
-    private void Move()
+    protected void Move()
     {
         // 이 씬 내에 플레이어 태그를 가진 오브젝트가 있는지 살피고
         GameObject player = GameObject.FindWithTag("Player");
@@ -57,7 +56,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void Attack()
+    protected void Attack()
     {
         // 콜라이더로 원형 추적 범위에 들어온 것을 감지하고, (감지 범위 내 물체들은 배열로 저장됨)
         Collider[] others = Physics.OverlapSphere(transform.position, detectRadius, playerLayer);
@@ -99,7 +98,7 @@ public class Monster : MonoBehaviour
             Manager.Data.playerStatus.curExp += exp;
 
             // 게임 오브젝트를 2초 뒤에 다시 풀로 돌려보내기.
-            Manager.Pool.Release(gameObject, 2f);
+            Manager.Resources.Destroy(gameObject, 2f);
 
         }
     }
