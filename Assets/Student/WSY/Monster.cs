@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    private MonsterData monsterData;
 
     [Header("Monster Fields")]
     [SerializeField] private string name;
     [SerializeField] private int hp;
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
     [SerializeField] private float speed;
-    [SerializeField] private float gold;
-    [SerializeField] private float exp;
+    [SerializeField] private int gold;
+    [SerializeField] private int exp;
     [SerializeField] private float detectRadius;
+    [SerializeField] private EnumType.MonsterType monsterType;
 
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private LayerMask playerLayer;
-    private MonsterData monsterData;
-    [SerializeField] private EnumType.MonsterType monsterType;
+    [SerializeField] private Animator animator;
 
     // 몬스터 생성자(와 동일한 역할)
     private void Awake()
@@ -64,10 +65,12 @@ public class Monster : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                // 공격 애니메이션을 할당하고 
-                // TODO: 공격 애니메이션 할당하기 
-                // 플레이어의 체력을 감소시키기 (데이터 매니저 통해서)
-                // TODO: 플레이어의 체력 감소 시키기 
+                // 공격 애니메이션을 할당하고 (트리거 이름 Attack이라고 가정)
+                animator.SetTrigger("Attack");
+
+                // 플레이어의 체력을 감소시키기
+                Manager.Data.playerStatus.curHP -= damage;
+
                 // 플레이어를 찾았으므로 루프 마무리
                 break; 
             }
@@ -82,13 +85,15 @@ public class Monster : MonoBehaviour
     {
         if (hp == 0)
         {
-            // 사망 애니메이션 발동하기
-            // TODO: 사망 애니메이션 할당하기 
-            // 플레이어의 골드 증가시키기 (데이터 매니저 통해서)
-            // TODO: 플레이어의 골드 증가시키기 (데이터 매니저 통해서)
-            // 활용할 것: gold x Random.Range(0.8f, 1.1f)
+            // 사망 애니메이션 발동하기(트리거 이름 Die로 가정)
+            animator.SetTrigger("Die");
+
+            // 플레이어의 골드 증가시키기
+            Manager.Data.playerStatus.(골드 추가 시) += gold * Random.Range(0.8f, 1.1f);
+
             // 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
-            // TODO: 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
+            Manager.Data.playerStatus.curExp += exp;
+
         }
     }
 
