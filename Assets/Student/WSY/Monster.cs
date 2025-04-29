@@ -17,10 +17,23 @@ public class Monster : MonoBehaviour
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private LayerMask playerLayer;
 
+
+    // 몬스터 생성자
+    public Monster(string name, int hp, float damage, float speed, float exp, float detectRadius)
+    {
+        this.name = name;
+        this.hp = hp;
+        this.damage = damage;
+        this.speed = speed;
+        this.exp = exp;
+        this.detectRadius = detectRadius;
+    }
+
     void Update()
     {
         Move();
         Attack();
+        Die();
     }
 
 
@@ -57,7 +70,6 @@ public class Monster : MonoBehaviour
                 break; 
             }
         }
-    
 
         //추적 범위 기즈모도 그려주기 
         Gizmos.color = Color.cyan;
@@ -66,7 +78,7 @@ public class Monster : MonoBehaviour
     
     private void Die()
     {
-        if(hp == 0)
+        if (hp == 0)
         {
             // 사망 애니메이션 발동하기
             // TODO: 사망 애니메이션 할당하기 
