@@ -11,8 +11,6 @@ public class PlayerMoveState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
-        player.anim.SetBool("Move", true);
     }
 
     public override void Update()
@@ -24,8 +22,6 @@ public class PlayerMoveState : PlayerState
     public override void Exit()
     {
         base.Exit();
-
-        player.anim.SetBool("Move", false);
     }
     public override void Transition()
     {
@@ -39,6 +35,10 @@ public class PlayerMoveState : PlayerState
         else if (player.moveDir.sqrMagnitude == 0)
         {
             stateMachine.ChangeState(player.stateCon.idleState);
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            stateMachine.ChangeState(player.stateCon.attackState);
         }
     }
 
