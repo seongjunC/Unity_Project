@@ -1,15 +1,19 @@
 using EnumType;
 using StructType;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Skill : ScriptableObject
 {
-    [SerializeField] protected GameObject effectPrefab;
     private SkillVector skillVec;
     public SkillOverlapData overlap;
 
-    [SerializeField] private Quaternion rotation;
+    [Header("Effect Data")]
+    [SerializeField] protected GameObject effectPrefab;
+    [Space]
+    [SerializeField] private Vector3 effectRotation;
+    [SerializeField] private Vector3 effectDistance;
 
     [Header("Tick")]
     [SerializeField] protected bool isTick;
@@ -90,9 +94,13 @@ public abstract class Skill : ScriptableObject
         skillVec.right = curEffect.transform.right;
         skillVec.up = curEffect.transform.up;
 
-        curEffect.transform.rotation *= rotation;
-    }
+        curEffect.transform.rotation *= Quaternion.Euler(effectRotation);
 
+        Vector3 position = curEffect.transform.position + (curEffect.transform.forward * effectDistance.z) 
+            + (curEffect.transform.right * effectDistance.x) + (curEffect.transform.up * effectDistance.y);
+
+        curEffect.transform.position = position;
+    }
     IEnumerator DelayCreateEffect(GameObject effect, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -101,39 +109,4 @@ public abstract class Skill : ScriptableObject
     }
 
     public void DestroyEffect() { Manager.Resources.Destroy(curEffect); }
-
-//#if UNITY_EDITOR
-
-//    private BoxCollider box;
-//    private CapsuleCollider capsule;
-//    private SphereCollider sphere;
-//    private void OnValidate()
-//    {
-//        if (overlap.overlapType == OverlapType.Capsule)
-//        {
-//            capsule.gameObject.SetActive(true);
-//            box.gameObject.SetActive(false);
-//            sphere.gameObject.SetActive(false);
-//            capsule.center = new Vector3(0, 0.5f, 0) + overlap.distance;
-//            capsule.height = overlap.height;
-//            capsule.radius = overlap.radius;
-//        }
-//        else if (overlap.overlapType == OverlapType.Box)
-//        {
-//            capsule.gameObject.SetActive(false);
-//            box.gameObject.SetActive(true);
-//            sphere.gameObject.SetActive(false);
-//            box.center = new Vector3(0, 0.5f, 0) + overlap.distance;
-//            box.size = overlap.boxSize;
-//        }
-//        else
-//        {
-//            capsule.gameObject.SetActive(false);
-//            box.gameObject.SetActive(false);
-//            sphere.gameObject.SetActive(true);
-//            sphere.center = new Vector3(0, 0.5f, 0) + overlap.distance;
-//            sphere.radius = overlap.radius;
-//        }
-//    }
-//#endif
 }

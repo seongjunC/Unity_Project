@@ -28,7 +28,7 @@ public class SkillOverlapData
 
         Vector3 position = effectTransform.position + (forward * distance.z) + (right * distance.x) + (up * distance.y);
 
-        if(overlapType == OverlapType.Capsule)
+        if (overlapType == OverlapType.Capsule)
         {
             offset = effectTransform.forward * (height / 2 - radius);
         }
