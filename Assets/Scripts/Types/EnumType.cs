@@ -6,4 +6,5 @@ namespace EnumType
     public enum ItemGrade { Common, UnCommon, Rare, Epic, Unique, Legendary }
     public enum EquipmentType { Waepon }
     public enum StatType { Damage, MaxHP }
+    public enum OverlapType { Box, Capsule, Sphere }
 }

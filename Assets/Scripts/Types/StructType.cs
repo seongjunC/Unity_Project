@@ -9,10 +9,18 @@ namespace StructType
         public string name;
         public int size;
     }
+
     [Serializable]
     public struct ItemMeshData
     {
         public Mesh mesh;
         public Material material;
+    }
+
+    public struct SkillVector
+    {
+        public Vector3 forward;
+        public Vector3 right;
+        public Vector3 up;
     }
 }
