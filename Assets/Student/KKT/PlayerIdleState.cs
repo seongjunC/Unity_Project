@@ -11,12 +11,10 @@ public class PlayerIdleState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.anim.SetBool("Idle", true);
     }
 
     public override void Update()
     {
-        base.Transition();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             stateMachine.ChangeState(player.stateCon.jumpState);
@@ -25,11 +23,14 @@ public class PlayerIdleState : PlayerState
         {
             stateMachine.ChangeState(player.stateCon.moveState);
         }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            stateMachine.ChangeState(player.stateCon.attackState);
+        }
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.anim.SetBool("Idle", false);
     }
 }

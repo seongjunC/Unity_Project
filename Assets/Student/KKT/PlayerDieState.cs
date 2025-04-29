@@ -11,7 +11,11 @@ public class PlayerDieState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        
-        player.anim.SetBool("Die", true);
+
+        player.rigid.velocity = Vector3.zero; // 속도 초기화
+        player.rigid.isKinematic = true; // 물리 비활성화
+
+        player.moveDir = Vector3.zero;
+        player.camDir = Vector3.zero;
     }
 }

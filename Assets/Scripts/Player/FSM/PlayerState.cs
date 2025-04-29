@@ -19,6 +19,7 @@ public class PlayerState
     public virtual void Enter()
     {
         // 상태로 들어왔을 때 실행되는 함수
+        player.anim.SetBool(animBoolName, true);
     }
 
     public virtual void Update()
@@ -29,6 +30,7 @@ public class PlayerState
     public virtual void Exit()
     {
         // 상태에서 나갈때 실행되는 함수
+        player.anim.SetBool(animBoolName, false);
     }
 
     public virtual void Transition()

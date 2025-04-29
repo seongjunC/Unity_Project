@@ -9,7 +9,8 @@ public class StateController : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerIdleState idleState { get; private set; }
-    public PlayerDieState dieState { get; private set; }
+    public PlayerAttackState attackState { get; private set; }
+    //public PlayerDieState dieState { get; private set; }
 
     private void Awake()
     {
@@ -20,7 +21,8 @@ public class StateController : MonoBehaviour
         moveState = new PlayerMoveState(player, stateMachine, "Move");
         jumpState = new PlayerJumpState(player, stateMachine, "Jump");
         idleState = new PlayerIdleState(player, stateMachine, "Idle");
-        dieState = new PlayerDieState(player, stateMachine, "Die");
+        attackState = new PlayerAttackState(player, stateMachine, "Attack");
+        //dieState = new PlayerDieState(player, stateMachine, "Die");
         // 그래서 객체마다 stateMachine을 각자 가지고 있어야함
     }
 
