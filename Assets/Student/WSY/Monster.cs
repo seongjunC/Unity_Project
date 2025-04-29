@@ -19,6 +19,7 @@ public class Monster : MonoBehaviour
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Animator animator;
+    private bool isDead = false;
 
     // 몬스터 생성자(와 동일한 역할)
     private void Awake()
@@ -28,8 +29,8 @@ public class Monster : MonoBehaviour
 
         // 몬스터 레벨을 플레이어의 레벨에 따라 조정.
         // 몬스터의 최대 레벨은 5로? (플레이어 레벨 보고 결정)
-        // int playerLevel = Manager.Data.playerStatus.levelExpData.(//플레이어 레벨);
-        // int monsterlevel = Mathf.Clamp(Random.Range(playerLevel - 2, playerLevel - 1), 1, 5);
+        //int playerLevel = Manager.Data.playerStatus.levelExpData.(플레이어 레벨);
+        //int monsterlevel = Mathf.Clamp(Random.Range(playerLevel - 2, playerLevel - 1), 1, 5);
     }
 
     void Update()
@@ -83,16 +84,22 @@ public class Monster : MonoBehaviour
     
     private void Die()
     {
-        if (hp == 0)
+        if (hp == 0 && !isDead)
         {
+            // 죽었는지 여부를 true로 바꿔주고 
+            isDead = true;
+
             // 사망 애니메이션 발동하기(트리거 이름 Die로 가정)
             animator.SetTrigger("Die");
 
             // 플레이어의 골드 증가시키기
-            Manager.Data.playerStatus.(골드 추가 시) += gold * Random.Range(0.8f, 1.1f);
+            //Manager.Data.playerStatus.(골드 추가 시) += gold * Random.Range(0.8f, 1.1f);
 
             // 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
             Manager.Data.playerStatus.curExp += exp;
+
+            // 게임 오브젝트를 2초 뒤에 다시 풀로 돌려보내기.
+            Manager.Pool.Release(gameObject, 2f);
 
         }
     }
