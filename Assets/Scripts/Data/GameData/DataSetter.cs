@@ -31,7 +31,8 @@ public class DataSetter : MonoBehaviour
     {
         poolData = Manager.Pool.poolData;
         monsterDataBase = Manager.Data.monsterData;
-
+        playerLevelData = Manager.Data.playerStatus.levelExpData;
+        
         StartCoroutine(DownloadData(PoolURL, DataType.Pool));
         StartCoroutine(DownloadData(MonsterURL, DataType.Monster));
         StartCoroutine(DownloadData(levelURL, DataType.Level));
@@ -59,7 +60,6 @@ public class DataSetter : MonoBehaviour
     {
         string[] row = data.Split("\n");
         int rowSize = row.Length;
-
         poolData.poolSize = new PoolSize[rowSize];
 
         for (int i = 0; i < rowSize; i++)

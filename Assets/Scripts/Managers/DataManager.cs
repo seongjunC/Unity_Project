@@ -6,6 +6,7 @@ public class DataManager : Singleton<DataManager>
     
     public MonsterDataBase monsterData;
     public PlayerStatusData playerStatus;
+
     public Inventory inventory;
 
     private void Awake()
@@ -21,6 +22,6 @@ public class DataManager : Singleton<DataManager>
     {
         dataSetter.Init();
 
-        Destroy(dataSetter);
+        Destroy(dataSetter, 5);
     }
 }

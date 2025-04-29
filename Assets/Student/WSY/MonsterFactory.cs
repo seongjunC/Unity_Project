@@ -16,7 +16,7 @@ public class MonsterFactory : MonoBehaviour
     [SerializeField] private GameObject spawnPoint;
 
     [Header("Prefabs")]
-    // ¾î¶² ÇÁ¸®ÆÕÀ» ²ø¾î´Ù ³õ³Ä¿¡ µû¶ó¼­ ¾î¶² ¾À¿¡¼­ ¾î¶² ¸ó½ºÅÍ°¡ »ý¼ºµÇ´ÂÁö°¡ °áÁ¤µÇ´Ï±î ÇÏ³ª¸¸ ÀÖ¾îµµ µÊ.
+    // ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´Ï±ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¾îµµ ï¿½ï¿½.
     [SerializeField] private GameObject monsterPrefab;
 
     private float spawnTimer;
@@ -26,10 +26,10 @@ public class MonsterFactory : MonoBehaviour
 
     void Start()
     {
-        // ¿ÀºêÁ§Æ® Ç® ¸Å´ÏÀú¿¡¼­ ÇÁ¸®ÆÕÀ» ¿ÀºêÁ§Æ® Ç®¿¡ µî·ÏÇØÁÖ±â. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç® ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½. 
         Manager.Resources.Instantiate(monsterPrefab, Vector3.zero, true);
 
-        // ÃÊ±â ¸Ê¿¡ ÀÖ´Â ¸ó½ºÅÍÀÇ °¹¼ö (¿¹½Ã: 2¸¶¸®)
+        // ï¿½Ê±ï¿½ ï¿½Ê¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½: 2ï¿½ï¿½ï¿½ï¿½)
         cumulativeMonsterNum = 2;
     }
 
@@ -38,19 +38,18 @@ public class MonsterFactory : MonoBehaviour
         Create();
     }
 
-
     public void Create()
     {
-        // ÇöÀç±îÁöÀÇ ´©Àû ¸ó½ºÅÍ¼ö°¡ ¸ñÇ¥ ¸ó½ºÅÍ¼öº¸´Ù Àû´Ù¸é 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ 
         if (cumulativeMonsterNum < targetcumMonsterNum + 1)
         {
-            // ¸ó½ºÅÍ ÅÂ±×¸¦ °¡Áø °ÔÀÓ ¿ÀºêÁ§Æ® Ã£±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ã£ï¿½ï¿½
             GameObject detectedMonster = GameObject.FindWithTag("Monster");
 
-            // ¸Ê ¾È¿¡ ¸ó½ºÅÍ°¡ ÇÑ ¸¶¸®µµ ¾ø´Ù¸é
+            // ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½
             if (detectedMonster == null)
             {
-                // ½ºÆù Å¸ÀÌ¸Ó ½ÃÀÛ, ¾È ±â´Ù¸®°í ÀÖÀ¸¸é ±â´Ù¸®±â·Î ¹Ù²Ù°í, ½Ã°£ 0À¸·Î ÃÊ±âÈ­ ÇØÁÖ±â.
+                // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù°ï¿½, ï¿½Ã°ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½Ö±ï¿½.
                 if (!isWaitingToSpawn)
                 {
                     isWaitingToSpawn = true;
@@ -59,7 +58,7 @@ public class MonsterFactory : MonoBehaviour
 
                 spawnTimer += Time.deltaTime;
 
-                // Å¸ÀÌ¸Ó°¡ ´Ù µÇ¸é ¸ó½ºÅÍ¸¦ spawnNum¸¸Å­ »ý¼º.
+                // Å¸ï¿½Ì¸Ó°ï¿½ ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ spawnNumï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½.
                 if (spawnTimer >= spawnTime)
                 {
                     for (int i = 0; i < spawnNum; i++)
@@ -67,7 +66,7 @@ public class MonsterFactory : MonoBehaviour
                         SpawnMonster();
                     }
 
-                    // ½ºÆù Å¸ÀÌ¹Ö ´ë±â ¿©ºÎµµ ÇØÁ¦ÇÏ±â
+                    // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
                     isWaitingToSpawn = false;
 
                 }
@@ -83,10 +82,10 @@ public class MonsterFactory : MonoBehaviour
 
     private void SpawnMonster()
     {
-        // ¸ó½ºÅÍ ¿ÀºêÁ§Æ®¸¦ ¿ÀºêÁ§Æ® Ç®¿¡¼­, InstantiateÀ¸·Î ¸¸µé±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ï¿½ï¿½, Instantiateï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         GameObject monster = Instantiate(monsterPrefab, spawnPoint.transform.position, Quaternion.identity);
 
-        // ´©Àû ¸ó½ºÅÍ »ý¼º °¹¼ö Áõ°¡½ÃÄÑÁÖ±â 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ 
         cumulativeMonsterNum++;
     }
 

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TestPlayer : MonoBehaviour
+public class TestPlayer : MonoBehaviour, ISkillOnwer
 {
+    [SerializeField] private Skill skill;
+    private SkillManager skillManager;
+
     Rigidbody rb;
     [SerializeField] private float moveSpped;
     [SerializeField] private float rotSpeed;
@@ -14,6 +17,7 @@ public class TestPlayer : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        skillManager = GetComponent<SkillManager>();
     }
 
     private void Update()
@@ -37,6 +41,9 @@ public class TestPlayer : MonoBehaviour
 
         if(camDir.sqrMagnitude > 0)
             Rotate();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            skillManager.UseSKill(skill);
     }
 
     private void Rotate()
@@ -49,5 +56,15 @@ public class TestPlayer : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = camDir * moveSpped;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
+    public int GetDamage()
+    {
+        return 1;
     }
 }
