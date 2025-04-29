@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MonsterFactory : MonoBehaviour
 {
@@ -11,79 +13,81 @@ public class MonsterFactory : MonoBehaviour
     [SerializeField] private int initialMonsterNum;
     [SerializeField] private int cumulativeMonsterNum;
     [SerializeField] private int targetcumMonsterNum;
-    [SerializeField] private GameObject spawnpoint;
+    [SerializeField] private GameObject spawnPoint;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject slimePrefab;
-    [SerializeField] private GameObject orcPrefab;
-    [SerializeField] private GameObject goblinPrefab;
+    // ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´Ï±ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¾îµµ ï¿½ï¿½.
+    [SerializeField] private GameObject monsterPrefab;
 
-
-    [SerializeField] private PoolManager poolManager;
     private float spawnTimer;
     private bool isWaitingToSpawn;
 
 
+
     void Start()
     {
-        // ¾À¸¶´Ù ¸ó½ºÅÍÀÇ Á¾·ù°¡ ´Þ¶óÁö¹Ç·Î ÇöÀç ¾À ÀÌ¸§ È®ÀÎ, ±×¿¡ µû¸¥ ¸ó½ºÅÍÀÇ Á¾·ù °áÁ¤
-        
-        
-        // °ÔÀÓ ½ÃÀÛÇÒ ¶§,
-        // ¿ÀºêÁ§Æ® Ç® ¸Å´ÏÀú¿¡ Slime/Orc/Goblin °¢ ¸ó½ºÅÍÀÇ ÇÁ¸®ÆÕÀ» ¿ÀºêÁ§Æ® Ç®¿¡ µî·ÏÇØÁÖ±â.
-        poolManager.Get(slimePrefab, Vector3.zero, Quaternion.identity);
-        poolManager.Get(orcPrefab, Vector3.zero, Quaternion.identity);
-        poolManager.Get(goblinPrefab, Vector3.zero, Quaternion.identity);
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç® ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½. 
+        Manager.Resources.Instantiate(monsterPrefab, Vector3.zero, true);
 
-        // ÃÊ±â ¸ó½ºÅÍ »ý¼º(¸î ¸¶¸®·Î, ¾î¶² °ÍÀ¸·Î ÇÒÁö´Â °áÁ¤ ÇÊ¿ä + ¾Æ´Ï¸é ±×³É ¹èÄ¡ÇÏ±â?)
-        for (int i = 0; i < initialMonsterNum; i++)
-        {
-            // SpawnMonster("Slime");
-        }
-
-
+        // ï¿½Ê±ï¿½ ï¿½Ê¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½: 2ï¿½ï¿½ï¿½ï¿½)
+        cumulativeMonsterNum = 2;
     }
 
     void Update()
     {
-        
-        
+        Create();
     }
 
+    public void Create()
+    {
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ 
+        if (cumulativeMonsterNum < targetcumMonsterNum + 1)
+        {
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ã£ï¿½ï¿½
+            GameObject detectedMonster = GameObject.FindWithTag("Monster");
 
-    //public Monster Create(string name)
-    //{
-    //    // ÇöÀç±îÁöÀÇ ´©Àû ¸ó½ºÅÍ¼ö°¡ ¸ñÇ¥ ¸ó½ºÅÍ¼öº¸´Ù Àû´Ù¸é 
-    //    if (cumulativeMonsterNum < targetcumMonsterNum + 1)
-    //    {
-    //        GameObject detectedMonster = GameObject.FindWithTag("Monster");
+            // ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½
+            if (detectedMonster == null)
+            {
+                // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù°ï¿½, ï¿½Ã°ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½Ö±ï¿½.
+                if (!isWaitingToSpawn)
+                {
+                    isWaitingToSpawn = true;
+                    spawnTimer = 0f;
+                }
 
-    //        // ¸Ê ¾È¿¡ ¸ó½ºÅÍ°¡ ÇÑ ¸¶¸®µµ ¾ø´Ù¸é
-    //        if (detectedMonster == null)
-    //        {
-    //            // ½ºÆù Å¸ÀÌ¸Ó ½ÃÀÛ,
-    //            // Å¸ÀÌ¸Ó°¡ ´Ù µÇ¸é ¸ó½ºÅÍ¸¦ spawnNum¸¸Å­ »ý¼º.(¿ÀºêÁ§Æ® Ç®¿¡¼­.)
+                spawnTimer += Time.deltaTime;
 
+                // Å¸ï¿½Ì¸Ó°ï¿½ ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ spawnNumï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½.
+                if (spawnTimer >= spawnTime)
+                {
+                    for (int i = 0; i < spawnNum; i++)
+                    {
+                        SpawnMonster();
+                    }
 
+                    // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+                    isWaitingToSpawn = false;
 
-    //            // spawnpoint¿¡ spawnTime ÈÄ¿¡ spawnNum ¸¶¸® »ý¼º
-    //            // (¿ÀºêÁ§Æ®°¡ Ç® »ç¿ë -> °ÔÀÓ¿ÀºêÁ§Æ® ¸ó½ºÅÍ = Instantiate(»ç¿ëÇÒ ÇÁ¸®ÆÕ,½ºÆùÆ÷ÀÎÆ®, ÄõÅÍ´Ï¾ð.¾ÆÀÌµ§Æ¼Æ¼)
-    //            // ÀÌ ¾Æ·¡ ³»¿ëÀ» ¿ÀºêÁ§Æ® Ç®À» »ç¿ëÇØ¼­ ¾î¶»°Ô ÇÒ°ÍÀÎ°¡.
-    //            // ÀÌ ¾Æ·¡ ¾ÖµéÀ» °¡Áö°í ÇÁ¸®ÆÕÀ» ¸¸µé±î? 
-    //            // ±×¸®°í ±× ¸¸µç ÇÁ¸®ÆÕÀ» °¡Áö°í ÀÎ½ºÅÏÆ¼¿¡Æ®·Î ¸¸µé¾îÁÖ±â?
-    //            Monster monster;
-    //            switch (name)
-    //            {
-    //                // TODO: ¿©±æ µ¥ÀÌÅÍ ¸Å´ÏÀú¸¦ È°¿ëÇØ¼­ Á¶±Ý ´õ °£´ÜÈ÷ ÇÒ ¼ö ÀÖÀ»Áö?(Á÷Á¢ °ªÀ» ³Ö¾îÁÖ´Â °Ô ¾Æ´Ï¶ó, µ¥ÀÌÅÍ ¸Å´ÏÀúÀÇ  
-    //                case "Slime": monster = new Monster("Slime", 100, 10, 10, exp, detectRadius); break;
-    //                case "Orc": monster = new Monster("Orc", 231, 15, 8, exp, detectRadius); break;
-    //                case "Goblin": monster = new Monster("Goblin", 70, 13, 15, exp, detectRadius); break;
-    //                default: return null;
-    //            }
+                }
+            }
 
-    //            return monster;
-    //        }
-    //    }
-    //}
+        }
+        else
+        {
+            isWaitingToSpawn = false;
+            spawnTimer = 0f;
+        }
+    }
+
+    private void SpawnMonster()
+    {
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ï¿½ï¿½, Instantiateï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+        GameObject monster = Instantiate(monsterPrefab, spawnPoint.transform.position, Quaternion.identity);
+
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ 
+        cumulativeMonsterNum++;
+    }
+
 
 }

@@ -4,29 +4,33 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    private MonsterData monsterData;
 
     [Header("Monster Fields")]
     [SerializeField] private string name;
     [SerializeField] private int hp;
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
     [SerializeField] private float speed;
-    [SerializeField] private float gold;
-    [SerializeField] private float exp;
+    [SerializeField] private int gold;
+    [SerializeField] private int exp;
     [SerializeField] private float detectRadius;
+    [SerializeField] private EnumType.MonsterType monsterType;
 
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Animator animator;
+    private bool isDead = false;
 
-
-    // 몬스터 생성자
-    public Monster(string name, int hp, float damage, float speed, float exp, float detectRadius)
+    // 몬스터 생성자(와 동일한 역할)
+    private void Awake()
     {
-        this.name = name;
-        this.hp = hp;
-        this.damage = damage;
-        this.speed = speed;
-        this.exp = exp;
-        this.detectRadius = detectRadius;
+        // 여기를 특정 타입을 안 쓰고 할 수 있게끔 몬스터 타입을 변수로 두었음.
+        monsterData = Manager.Data.monsterData.GetMonsterData(monsterType);
+
+        // 몬스터 레벨을 플레이어의 레벨에 따라 조정.
+        // 몬스터의 최대 레벨은 5로? (플레이어 레벨 보고 결정)
+        //int playerLevel = Manager.Data.playerStatus.levelExpData.(플레이어 레벨);
+        //int monsterlevel = Mathf.Clamp(Random.Range(playerLevel - 2, playerLevel - 1), 1, 5);
     }
 
     void Update()
@@ -62,10 +66,12 @@ public class Monster : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                // 공격 애니메이션을 할당하고 
-                // TODO: 공격 애니메이션 할당하기 
-                // 플레이어의 체력을 감소시키기 (데이터 매니저 통해서)
-                // TODO: 플레이어의 체력 감소 시키기 
+                // 공격 애니메이션을 할당하고 (트리거 이름 Attack이라고 가정)
+                animator.SetTrigger("Attack");
+
+                // 플레이어의 체력을 감소시키기
+                Manager.Data.playerStatus.curHP -= damage;
+
                 // 플레이어를 찾았으므로 루프 마무리
                 break; 
             }
@@ -78,17 +84,24 @@ public class Monster : MonoBehaviour
     
     private void Die()
     {
-        if (hp == 0)
+        if (hp == 0 && !isDead)
         {
-            // 사망 애니메이션 발동하기
-            // TODO: 사망 애니메이션 할당하기 
-            // 플레이어의 골드 증가시키기 (데이터 매니저 통해서)
-            // TODO: 플레이어의 골드 증가시키기 (데이터 매니저 통해서)
-            // 활용할 것: gold x Random.Range(0.8f, 1.1f)
+            // 죽었는지 여부를 true로 바꿔주고 
+            isDead = true;
+
+            // 사망 애니메이션 발동하기(트리거 이름 Die로 가정)
+            animator.SetTrigger("Die");
+
+            // 플레이어의 골드 증가시키기
+            //Manager.Data.playerStatus.(골드 추가 시) += gold * Random.Range(0.8f, 1.1f);
+
             // 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
-            // TODO: 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
+            Manager.Data.playerStatus.curExp += exp;
+
+            // 게임 오브젝트를 2초 뒤에 다시 풀로 돌려보내기.
+            Manager.Pool.Release(gameObject, 2f);
+
         }
     }
-
 
 }

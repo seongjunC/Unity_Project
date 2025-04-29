@@ -4,28 +4,25 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerState
 {
-    private Rigidbody rigid;
-    private bool isGrounded = true;
-
     public PlayerJumpState(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
-        rigid = player.rigid;
     }
 
     public override void Enter()
     {
         base.Enter();
+        player.anim.SetBool("Jump", true);
         Jump();
-    }
-
-    private void Jump()
-    {
-        rigid.AddForce(Vector3.up * 5f, ForceMode.Impulse);
     }
 
     public override void Update()
     {
         base.Update();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
     }
 
     public override void Transition()
@@ -34,7 +31,20 @@ public class PlayerJumpState : PlayerState
 
         if (player.IsGrounded())
         {
-            stateMachine.ChangeState(new PlayerMoveState(player, stateMachine, "Move"));
+            player.anim.SetBool("Jump", false);
+
+            if (player.moveDir.sqrMagnitude > 0)
+            {
+                stateMachine.ChangeState(player.stateCon.moveState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.stateCon.idleState);
+            }
         }
+    }
+    private void Jump()
+    {
+        player.rigid.AddForce(Vector3.up * 5f, ForceMode.Impulse);
     }
 }

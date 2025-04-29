@@ -11,10 +11,21 @@ public class PlayerMoveState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        player.anim.SetBool("Move", true);
     }
+
+    public override void Update()
+    {
+        base.Update();
+        Move();
+    }
+
     public override void Exit()
     {
         base.Exit();
+
+        player.anim.SetBool("Move", false);
     }
     public override void Transition()
     {
@@ -23,35 +34,17 @@ public class PlayerMoveState : PlayerState
         // ex) 스페이스바를 누르면 상태 전이
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            stateMachine.ChangeState(new PlayerJumpState(player, stateMachine, "Jump"));
+            stateMachine.ChangeState(player.stateCon.jumpState);
         }
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        if (x == 0 && z == 0)
+        else if (player.moveDir.sqrMagnitude == 0)
         {
-            stateMachine.ChangeState(new PlayerIdleState(player, stateMachine, "Idle"));
+            stateMachine.ChangeState(player.stateCon.idleState);
         }
-    }
-
-    public override void Update()
-    {
-        base.Update();
-        Move();
-        Rotate();
     }
 
     // 움직임
     private void Move()
     {
-        float input = Input.GetAxis("Vertical");
-        player.transform.Translate(Vector3.forward * player.moveSpeed * input * Time.deltaTime);
-    }
-
-    private void Rotate()
-    {
-        float input = Input.GetAxis("Horizontal");
-        player.transform.Rotate(Vector3.up, player.rotateSpeed * input * Time.deltaTime);
+        player.transform.Translate(player.moveDir*player.moveSpeed*Time.deltaTime);
     }
 }
