@@ -473,6 +473,24 @@ MonoBehaviour:
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!1 &1808502995 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1159431235747748010, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+  m_PrefabInstance: {fileID: 5021829537505710533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1808503000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808502995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22070d5fd395ed4998c610d8ffe3626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openDogam: {fileID: 730853306}
 --- !u!223 &2010025250 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 1344669397409961325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
@@ -650,6 +668,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1808503000}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseDogamUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CloseDogam, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215497145137907325, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3452400960902998945, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
       propertyPath: m_SizeDelta.x
       value: 1329.6
@@ -729,6 +775,9 @@ PrefabInstance:
     - {fileID: 444938240425141345, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1159431235747748010, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1808503000}
     - targetCorrespondingSourceObject: {fileID: 5939675174425334533, guid: 0e1f6dac7cadf324dae3501b4efd0d1a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1508408550}
