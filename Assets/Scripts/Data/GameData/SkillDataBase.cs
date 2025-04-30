@@ -15,6 +15,7 @@ public class SkillDataBase
     }
     public SkillData GetSkillData(string name)
     {
+        Debug.Log(skillDataDic[name]);
         return skillDataDic[name];
     }
 }

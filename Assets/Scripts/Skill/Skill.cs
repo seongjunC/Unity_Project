@@ -32,19 +32,19 @@ public abstract class Skill : ScriptableObject
     [SerializeField] protected Vector3 dir;
 
     [Header("Skill Data")]
-    [Tooltip("½ºÅ³½ÇÇà ÈÄ ¸îÃÊ ÈÄ µ¥¹ÌÁö ÆÇ´ÜÀ» ½ÃÀÛÇÒÁö")]
+    [Tooltip("ìŠ¤í‚¬ì‹¤í–‰ í›„ ëª‡ì´ˆ í›„ ë°ë¯¸ì§€ íŒë‹¨ì„ ì‹œìž‘í• ì§€")]
     [SerializeField] private float delay;
 
-    [Tooltip("½ºÅ³ °è¼ö")] [SerializeField] private float skillPower;
-    [Tooltip("½ºÅ³ ÄðÅ¸ÀÓ")] public float coolTime;
-    [Tooltip("½ºÅ³ Áö¼Ó½Ã°£")] [SerializeField] private float skillDuration;
+    [Tooltip("ìŠ¤í‚¬ ê³„ìˆ˜")] [SerializeField] private float skillPower;
+    [Tooltip("ìŠ¤í‚¬ ì¿¨íƒ€ìž„")] public float coolTime;
+    [Tooltip("ìŠ¤í‚¬ ì§€ì†ì‹œê°„")] [SerializeField] private float skillDuration;
 
     public YieldInstruction waitTickDelay;
     public YieldInstruction waitDelay;
     public YieldInstruction waitSkillEndDelay;
 
     private GameObject curEffect;
-    private ISkillOwner onwer;
+    private ISkillOwner owner;
 
     private float timer;
 
@@ -59,7 +59,7 @@ public abstract class Skill : ScriptableObject
 
     public void Init(ISkillOwner _owner)
     {
-        onwer = _owner;
+        owner = _owner;
 
         waitTickDelay = new WaitForSeconds(tickDelay);
         waitDelay = new WaitForSeconds(delay);
@@ -88,7 +88,7 @@ public abstract class Skill : ScriptableObject
         return false;
     }
 
-    public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, onwer.GetDamage());
+    public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
 
     protected abstract bool SkillCondition();
     
@@ -106,7 +106,7 @@ public abstract class Skill : ScriptableObject
 
     protected void CreateEffect(GameObject effect)
     {
-        curEffect = Manager.Resources.Instantiate(effect, onwer.GetTransform().position, onwer.GetTransform().rotation, true);
+        curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
 
         skillVec.forward = curEffect.transform.forward;
         skillVec.right = curEffect.transform.right;

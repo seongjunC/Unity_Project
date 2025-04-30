@@ -41,9 +41,6 @@ public class TestPlayer : MonoBehaviour, ISkillOwner
 
         if(camDir.sqrMagnitude > 0)
             Rotate();
-
-        if (Input.GetKeyDown(KeyCode.Q))
-            skillManager.UseSKill(skill);
     }
 
     private void Rotate()
