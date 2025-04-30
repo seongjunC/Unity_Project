@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PlayerLevelData
+public class PlayerLevelDatas
 {
     private Dictionary<int ,int> levelExpDic = new Dictionary<int ,int>();
 
