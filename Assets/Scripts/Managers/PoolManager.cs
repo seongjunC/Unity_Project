@@ -26,7 +26,7 @@ public class PoolManager : Singleton<PoolManager>
         lastUsedTime = new Dictionary<string, float>();
 
         parent = new GameObject("Pool Parent").transform;
-        poolData = ScriptableObject.CreateInstance<PoolData>();
+        poolData = new();
     }
 
     private void Start()

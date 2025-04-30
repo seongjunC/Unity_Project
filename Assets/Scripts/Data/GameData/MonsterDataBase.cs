@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterDataBase : ScriptableObject
+[Serializable]
+public class MonsterDataBase
 {
 
 #if UNITY_EDITOR
@@ -30,4 +31,7 @@ public class MonsterData
     public int health;
     public int damage;
     public float speed;
+    public int dropGold;
+    public int dropExp;
+    public float range;
 }

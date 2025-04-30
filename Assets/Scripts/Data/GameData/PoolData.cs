@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using StructType;
 
-public class PoolData : ScriptableObject
+[Serializable]
+public class PoolData
 {
     public PoolSize[] poolSize;
 }

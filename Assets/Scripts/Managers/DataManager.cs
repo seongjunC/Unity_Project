@@ -6,12 +6,15 @@ public class DataManager : Singleton<DataManager>
     
     public MonsterDataBase monsterData;
     public PlayerStatusData playerStatus;
+    public SkillDataBase skillData;
+
     public Inventory inventory;
 
     private void Awake()
     {
-        monsterData = ScriptableObject.CreateInstance<MonsterDataBase>();
-        playerStatus = new PlayerStatusData();
+        monsterData = new();
+        skillData = new();
+        playerStatus = new();
         inventory = new GameObject("Inventory").AddComponent<Inventory>();
 
         dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
@@ -20,7 +23,6 @@ public class DataManager : Singleton<DataManager>
     private void Start()
     {
         dataSetter.Init();
-
-        Destroy(dataSetter);
+        Destroy(dataSetter, 5);
     }
 }
