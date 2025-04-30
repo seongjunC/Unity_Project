@@ -32,13 +32,6 @@ public class PlayerSkillController : SkillController
 
     private void SetupPlayerSkill()
     {
-        Skill[] tempSkills = new Skill[skills.Length];
-
-        for (int i = 0; i < skills.Length; i++)
-        {
-            tempSkills[i] = skills[i];
-        }
-
-        Manager.Data.playerStatus.playerSkills = tempSkills;
+        Manager.Data.playerStatus.SetupSkills(skills);
     }
 }

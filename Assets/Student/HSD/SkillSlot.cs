@@ -5,23 +5,27 @@ public class SkillSlot : MonoBehaviour
 {
     [SerializeField] private Image icon;
     [SerializeField] private Image cooldown;
-    
+    public Skill skill {  get; private set; }
+
     public int needLevel;
-    [SerializeField] private Skill skill;
 
     private bool isCooldown = false;
 
     private void Awake()
     {
-        icon ??= GetComponent<Image>();
+        icon ??= GetComponentInChildren<Image>();
+        cooldown ??= GetComponentInChildren<Image>();
     }
 
     public void SetupSkillSlot(Skill _skill)
     {
-        if (skill == null) return;
+        if (_skill == null || _skill.metaData == null)
+            return;
 
         skill = _skill;
-        icon.sprite = skill.icon;
+        skill.ResetCoolTime();
+        icon.sprite = skill.metaData.icon;
+        needLevel = skill.metaData.needLevel;
         icon.color = Color.gray;
     }
 

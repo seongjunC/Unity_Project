@@ -21,17 +21,17 @@ public class PlayerStatusData
     private int _curExp;
     public int curExp { get => curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
 
-    private int _level;
+    private int _level = 1;
     public int level { get => _level; private set { _level = value; OnLevelUp?.Invoke(_level); } }
 
     public event Action<int> OnHPChanged;
     public event Action<int> OnExpChanged;
     public event Action<int> OnLevelUp;
 
-    public PlayerLevelData levelExpData = ScriptableObject.CreateInstance<PlayerLevelData>();
+    public PlayerLevelData levelExpData = new();
 
-    public Skill[] playerSkills;
-    public bool[] skillUnlock;
+    public Skill[] playerSkills {  get; private set; }
+    public bool[] skillUnlock {  get; private set; }
 
     public void AddModifier(int amount, StatType type)
     {
@@ -77,6 +77,12 @@ public class PlayerStatusData
     }
     private void LevelUp()
     {
-        level++;
+        level = _level++;
+    }
+
+    public void SetupSkills(Skill[] skills)
+    {
+        playerSkills = skills;
+        skillUnlock = new bool[playerSkills.Length];
     }
 }

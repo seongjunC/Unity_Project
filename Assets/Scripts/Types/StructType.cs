@@ -17,7 +17,6 @@ namespace StructType
         public Material material;
     }
 
-    [Serializable]
     public struct SkillData
     {
         public string skillName;

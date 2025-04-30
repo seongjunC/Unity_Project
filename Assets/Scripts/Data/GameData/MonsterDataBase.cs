@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterDataBase : ScriptableObject
+[Serializable]
+public class MonsterDataBase
 {
 
 #if UNITY_EDITOR

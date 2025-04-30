@@ -704,7 +704,6 @@ MonoBehaviour:
   icon: {fileID: 1400889348}
   cooldown: {fileID: 1837728092}
   needLevel: 0
-  skill: {fileID: 0}
 --- !u!1 &191211802
 GameObject:
   m_ObjectHideFlags: 0
@@ -3752,7 +3751,6 @@ MonoBehaviour:
   icon: {fileID: 928898483}
   cooldown: {fileID: 1219419359}
   needLevel: 0
-  skill: {fileID: 0}
 --- !u!1 &1219419357
 GameObject:
   m_ObjectHideFlags: 0
@@ -6685,7 +6683,6 @@ MonoBehaviour:
   icon: {fileID: 359155948}
   cooldown: {fileID: 1130739915}
   needLevel: 0
-  skill: {fileID: 11400000, guid: 3dc7f7faabd0d904fabd5bd8e451855e, type: 2}
 --- !u!1 &1959023612
 GameObject:
   m_ObjectHideFlags: 0
@@ -6963,7 +6960,6 @@ MonoBehaviour:
   icon: {fileID: 1441173361}
   cooldown: {fileID: 1959023614}
   needLevel: 0
-  skill: {fileID: 0}
 --- !u!1 &2064830902
 GameObject:
   m_ObjectHideFlags: 0
