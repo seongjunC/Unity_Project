@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     public PlayerStatusData status;
     public float moveSpeed;
     public float rotateSpeed;
+    public float hp;
 
     public Vector3 moveDir;
     public Vector3 camDir;
@@ -31,17 +33,13 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        //if (stateCon.stateMachine.currentState == stateCon.dieState)
-        //{
-        //    return;
-        //}
+        if (stateCon.stateMachine.currentState == stateCon.dieState)
+        {
+            return;
+        }
 
         HandleInput();
 
-        //if(status.curHP <= 0)
-        //{
-        //    stateCon.stateMachine.ChangeState(stateCon.dieState);
-        //}
     }
     public bool IsGrounded()
     {
@@ -75,5 +73,17 @@ public class Player : MonoBehaviour
 
         if (camDir.sqrMagnitude > 0)
             Rotate();
+    }
+    public void TakeDamage(int amount)
+    {
+        hp = Mathf.Max(0, status.curHP - amount);
+
+        var hpProp = typeof(PlayerStatusData).GetProperty("curHP", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        hpProp?.SetValue(status, hp);
+
+        if (status.curHP <= 0)
+        {
+            stateCon.stateMachine.ChangeState(stateCon.dieState);
+        }
     }
 }

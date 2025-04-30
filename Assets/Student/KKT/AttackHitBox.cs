@@ -11,18 +11,14 @@ public class AttackHitbox : MonoBehaviour
         player = GetComponentInParent<Player>();
     }
 
-    // Monster¿¡ 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Monster"))
-    //    {
-    //        Monster monster = other.GetComponent<Monster>();
-
-    //        if (monster != null)
-    //        {
-    //            int damage = player.status.damage;
-    //            monster.TakeDamage(damage);
-    //        }
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        IDamagable target = other.GetComponent<IDamagable>();
+       
+        if (target != null)
+        {
+            int damage = player.status.damage;
+            target.TakeDamage(damage);
+        }
+    }
 }

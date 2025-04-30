@@ -18,13 +18,14 @@ public class PlayerAttackState : PlayerState
         // 공격하면 공격 히트 박스 켜기
         if (player.attackHitbox != null)
             player.attackHitbox.SetActive(true);
+
     }
 
     public override void Update()
     {
         attackTimer -= Time.deltaTime;
 
-        if (attackTimer <= 0)
+        if (attackTimer <= 0f)
         {
             if (player.moveDir.sqrMagnitude > 0)
             {
