@@ -2,6 +2,7 @@ using StructType;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
 
 [Serializable]
 public class PlayerStatDatas
@@ -12,6 +13,7 @@ public class PlayerStatDatas
     {
         playerStats.Add(level, statData);
     }
+
     public PlayerStatData GetStatData(int level)
     {
         return playerStats[level];
