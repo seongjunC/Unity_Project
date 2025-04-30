@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMonster : Monster
+public class BossMonster : Monster, ISkillOwner
 {
     void Update()
     {
@@ -14,17 +14,17 @@ public class BossMonster : Monster
 
     private void BossAttack()
     {
-        // Äİ¶óÀÌ´õ·Î ¿øÇü ÃßÀû ¹üÀ§¿¡ µé¾î¿Â °ÍÀ» °¨ÁöÇÏ°í, (°¨Áö ¹üÀ§ ³» ¹°Ã¼µéÀº ¹è¿­·Î ÀúÀåµÊ, 2¹è ³ĞÀº ¹üÀ§ °¨Áö)
+        // ì½œë¼ì´ë”ë¡œ ì›í˜• ì¶”ì  ë²”ìœ„ì— ë“¤ì–´ì˜¨ ê²ƒì„ ê°ì§€í•˜ê³ , (ê°ì§€ ë²”ìœ„ ë‚´ ë¬¼ì²´ë“¤ì€ ë°°ì—´ë¡œ ì €ì¥ë¨, 2ë°° ë„“ì€ ë²”ìœ„ ê°ì§€)
         Collider[] others = Physics.OverlapSphere(transform.position, detectRadius * 2, playerLayer);
 
         foreach (var other in others)
         {
             if (other.CompareTag("Player"))
             {
-                // º¸½º¸¸ÀÇ °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç (¿¹: "BossAttack"ÀÌ¶ó´Â Æ®¸®°Å)
+                // ë³´ìŠ¤ë§Œì˜ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ (ì˜ˆ: "BossAttack"ì´ë¼ëŠ” íŠ¸ë¦¬ê±°)
                 animator.SetTrigger("BossAttack");
 
-                // ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀ» °¨¼Ò½ÃÅ°±â(¾Æ·¡´Â Á÷Á¢ ¼öÁ¤, È°¼ºÈ­ ÄÚµå´Â IDamagable »ç¿ë)
+                // í”Œë ˆì´ì–´ì˜ ì²´ë ¥ì„ ê°ì†Œì‹œí‚¤ê¸°(ì•„ë˜ëŠ” ì§ì ‘ ìˆ˜ì •, í™œì„±í™” ì½”ë“œëŠ” IDamagable ì‚¬ìš©)
                 // Manager.Data.playerStatus.curHP -= damage;
                 IDamagable target = other.GetComponent<IDamagable>();
                 target.TakeDamage(damage*2);
@@ -37,5 +37,15 @@ public class BossMonster : Monster
     protected override void Die()
     {
         base.Die();
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;   
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 }

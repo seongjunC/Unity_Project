@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamagable
@@ -20,16 +21,33 @@ public class Monster : MonoBehaviour, IDamagable
     [SerializeField] protected Animator animator;
     protected bool isDead = false;
 
-    // ¸ó½ºÅÍ »ı¼ºÀÚ(¿Í µ¿ÀÏÇÑ ¿ªÇÒ)
+    // ì´ ì”¬ ë‚´ì— í”Œë ˆì´ì–´ íƒœê·¸ë¥¼ ê°€ì§„ ì˜¤ë¸Œì íŠ¸ê°€ ìˆëŠ”ì§€ ì‚´í”¼ê³ 
+    GameObject player;
+
     private void Awake()
     {
-        // ¿©±â¸¦ Æ¯Á¤ Å¸ÀÔÀ» ¾È ¾²°í ÇÒ ¼ö ÀÖ°Ô²û ¸ó½ºÅÍ Å¸ÀÔÀ» º¯¼ö·Î µÎ¾úÀ½.
-        monsterData = Manager.Data.monsterData.GetMonsterData(monsterType);
+        player = GameObject.FindWithTag("Player");
+    }
 
-        // ¸ó½ºÅÍ ·¹º§À» ÇÃ·¹ÀÌ¾îÀÇ ·¹º§¿¡ µû¶ó Á¶Á¤.
-        // ¸ó½ºÅÍÀÇ ÃÖ´ë ·¹º§Àº 5·Î? (ÇÃ·¹ÀÌ¾î ·¹º§ º¸°í °áÁ¤)
-        //int playerLevel = Manager.Data.playerStatus.levelExpData.(ÇÃ·¹ÀÌ¾î ·¹º§);
-        //int monsterlevel = Mathf.Clamp(Random.Range(playerLevel - 2, playerLevel - 1), 1, 5);
+    // ëª¬ìŠ¤í„° ìƒì„±ì(ì™€ ë™ì¼í•œ ì—­í• )
+    private void Start()
+    {
+        // ì—¬ê¸°ë¥¼ íŠ¹ì • íƒ€ì…ì„ ì•ˆ ì“°ê³  í•  ìˆ˜ ìˆê²Œë” ëª¬ìŠ¤í„° íƒ€ì…ì„ ë³€ìˆ˜ë¡œ ë‘ì—ˆìŒ.
+        monsterData = Manager.Data.monsterData.GetMonsterData(monsterType);
+        
+        // ë°ì´í„° í• ë‹¹í•´ì£¼ê¸°
+        name = monsterData.name;
+        hp = monsterData.health;
+        damage = monsterData.damage;
+        speed = monsterData.speed;
+        gold = monsterData.dropGold;
+        exp = monsterData.dropExp;
+        detectRadius = monsterData.range;
+
+        // ëª¬ìŠ¤í„° ë ˆë²¨ì„ í”Œë ˆì´ì–´ì˜ ë ˆë²¨ì— ë”°ë¼ ì¡°ì •.
+        // ëª¬ìŠ¤í„°ì˜ ìµœëŒ€ ë ˆë²¨ì€ 20ìœ¼ë¡œ
+        int playerLevel = Manager.Data.playerStatus.level;
+        int monsterlevel = Mathf.Clamp(Random.Range(playerLevel - 2, playerLevel - 1), 1, 20);
     }
 
     void Update()
@@ -42,64 +60,66 @@ public class Monster : MonoBehaviour, IDamagable
 
     protected void Move()
     {
-        // ÀÌ ¾À ³»¿¡ ÇÃ·¹ÀÌ¾î ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®°¡ ÀÖ´ÂÁö »ìÇÇ°í
-        GameObject player = GameObject.FindWithTag("Player");
+        // ëª¬ìŠ¤í„°ë¼ë¦¬ ë°€ì–´ë‚´ëŠ” ê°€ì†ë„ë¥¼ ê³„ì† 0ìœ¼ë¡œ ì´ˆê¸°í™”í•´ì¤˜ì„œ, ìê¸°ë“¤ë¼ë¦¬ ë°€ê¸´ í•˜ì§€ë§Œ ì„œë¡œ ê°€ì†ë„ê°€ ë¶™ì§€ëŠ” ì•Šê²Œ í•´ì£¼ê¸°.
+        rigid.velocity = Vector3.zero;
 
-        // ¾À ¾È¿¡ ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Ù¸é
         if (player != null)
         {
-            // ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸°Ô È¸ÀüÇÏ°í
-            transform.LookAt(player.transform.position * Time.deltaTime);
+            // í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ê²Œ íšŒì „í•˜ê³  / í¬ì›Œë“œë¥¼ í•´ë‹¹ ë°©í–¥ìœ¼ë¡œ ëŒë ¤ì£¼ëŠ” ê²ƒ. ì—…ë°ì´íŠ¸ë§ˆë‹¤ í•  í•„ìš” X
+            transform.LookAt(player.transform.position);
 
-            // ÇÃ·¹ÀÌ¾î¿¡°Ô ´Ù°¡°¡±â
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed);
+            // í”Œë ˆì´ì–´ì—ê²Œ ë‹¤ê°€ê°€ê¸°
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
     }
 
     protected void Attack()
     {
-        // Äİ¶óÀÌ´õ·Î ¿øÇü ÃßÀû ¹üÀ§¿¡ µé¾î¿Â °ÍÀ» °¨ÁöÇÏ°í, (°¨Áö ¹üÀ§ ³» ¹°Ã¼µéÀº ¹è¿­·Î ÀúÀåµÊ)
+        // ì½œë¼ì´ë”ë¡œ ì›í˜• ì¶”ì  ë²”ìœ„ì— ë“¤ì–´ì˜¨ ê²ƒì„ ê°ì§€í•˜ê³ , (ê°ì§€ ë²”ìœ„ ë‚´ ë¬¼ì²´ë“¤ì€ ë°°ì—´ë¡œ ì €ì¥ë¨)
         Collider[] others = Physics.OverlapSphere(transform.position, detectRadius, playerLayer);
 
         foreach (var other in others)
         {
             if (other.CompareTag("Player"))
             {
-                // °ø°İ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÇÒ´çÇÏ°í (Æ®¸®°Å ÀÌ¸§ AttackÀÌ¶ó°í °¡Á¤)
+                // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ì„ í• ë‹¹í•˜ê³  (íŠ¸ë¦¬ê±° ì´ë¦„ Attackì´ë¼ê³  ê°€ì •)
                 animator.SetTrigger("Attack");
 
-                // ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀ» °¨¼Ò½ÃÅ°±â(¾Æ·¡´Â Á÷Á¢ ¼öÁ¤, È°¼ºÈ­ ÄÚµå´Â IDamagable »ç¿ë)
+                // í”Œë ˆì´ì–´ì˜ ì²´ë ¥ì„ ê°ì†Œì‹œí‚¤ê¸°(ì•„ë˜ëŠ” ì§ì ‘ ìˆ˜ì •, í™œì„±í™” ì½”ë“œëŠ” IDamagable ì‚¬ìš©)
                 // Manager.Data.playerStatus.curHP -= damage;
                 IDamagable target = other.GetComponent<IDamagable>();
                 target.TakeDamage(damage);
 
-                // ÇÃ·¹ÀÌ¾î¸¦ Ã£¾ÒÀ¸¹Ç·Î ·çÇÁ ¸¶¹«¸®
+                // í”Œë ˆì´ì–´ë¥¼ ì°¾ì•˜ìœ¼ë¯€ë¡œ ë£¨í”„ ë§ˆë¬´ë¦¬
                 break; 
             }
         }
+    }
 
-        //ÃßÀû ¹üÀ§ ±âÁî¸ğµµ ±×·ÁÁÖ±â 
+    private void OnDrawGizmos()
+    {
+        //ì¶”ì  ë²”ìœ„ ê¸°ì¦ˆëª¨ë„ ê·¸ë ¤ì£¼ê¸° 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
-    
+
     protected virtual void Die()
     {
         if (hp == 0 && !isDead)
         {
-            // Á×¾ú´ÂÁö ¿©ºÎ¸¦ true·Î ¹Ù²ãÁÖ°í 
+            // ì£½ì—ˆëŠ”ì§€ ì—¬ë¶€ë¥¼ trueë¡œ ë°”ê¿”ì£¼ê³  
             isDead = true;
 
-            // »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç ¹ßµ¿ÇÏ±â(Æ®¸®°Å ÀÌ¸§ Die·Î °¡Á¤)
+            // ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ë°œë™í•˜ê¸°(íŠ¸ë¦¬ê±° ì´ë¦„ Dieë¡œ ê°€ì •)
             animator.SetTrigger("Die");
 
-            // ÇÃ·¹ÀÌ¾îÀÇ °ñµå Áõ°¡½ÃÅ°±â
-            //Manager.Data.playerStatus.(°ñµå Ãß°¡ ½Ã) += gold * Random.Range(0.8f, 1.1f);
+            // í”Œë ˆì´ì–´ì˜ ê³¨ë“œ ì¦ê°€ì‹œí‚¤ê¸°
+            Manager.Game.AddGold(gold * Random.Range(0.8f, 1.1f));
 
-            // ÇÃ·¹ÀÌ¾îÀÇ °æÇèÄ¡ Áõ°¡½ÃÅ°±â (µ¥ÀÌÅÍ ¸Å´ÏÀú ÅëÇØ¼­)
+            // í”Œë ˆì´ì–´ì˜ ê²½í—˜ì¹˜ ì¦ê°€ì‹œí‚¤ê¸° (ë°ì´í„° ë§¤ë‹ˆì € í†µí•´ì„œ)
             Manager.Data.playerStatus.AddExp(exp);
 
-            // °ÔÀÓ ¿ÀºêÁ§Æ®¸¦ 2ÃÊ µÚ¿¡ ´Ù½Ã Ç®·Î µ¹·Áº¸³»±â.
+            // ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ 2ì´ˆ ë’¤ì— ë‹¤ì‹œ í’€ë¡œ ëŒë ¤ë³´ë‚´ê¸°.
             Manager.Resources.Destroy(gameObject, 2f);
 
         }
