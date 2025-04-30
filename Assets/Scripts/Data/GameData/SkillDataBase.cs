@@ -1,9 +1,11 @@
 using StructType;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillDataBase : ScriptableObject
+[Serializable]
+public class SkillDataBase
 {
     private Dictionary<string, SkillData> skillDataDic = new Dictionary<string, SkillData>();
 

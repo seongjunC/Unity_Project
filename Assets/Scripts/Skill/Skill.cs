@@ -6,8 +6,13 @@ using UnityEngine;
 
 public abstract class Skill : ScriptableObject
 {
-    public Sprite icon;
+    [Header("SkillMetaData")]
+    public SkillMetaData metaData;
+
+    [Space]
+    [Header("Skill")]
     public string skillName;
+
     private SkillVector skillVec;
     public SkillOverlapData overlap;
 
@@ -129,5 +134,10 @@ public abstract class Skill : ScriptableObject
         skillPower = data.skillPower;
         skillName = data.skillName;
         coolTime = data.coolTime;
+    }
+
+    public void ResetCoolTime()
+    {
+        timer = 0;
     }
 }

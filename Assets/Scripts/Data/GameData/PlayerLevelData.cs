@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLevelData : ScriptableObject
+[Serializable]
+public class PlayerLevelData
 {
     private Dictionary<int ,int> levelExpDic = new Dictionary<int ,int>();
 

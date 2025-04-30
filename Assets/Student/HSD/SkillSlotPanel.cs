@@ -9,6 +9,7 @@ public class SkillSlotPanel : MonoBehaviour
     private void Start()
     {
         SetupSkillSlot();
+        UnlockSkill(Manager.Data.playerStatus.level);
     }
 
     private void OnEnable()
@@ -32,7 +33,8 @@ public class SkillSlotPanel : MonoBehaviour
     {
         for (int i = 0; i < skillSlots.Length; i++)
         {
-            if (Manager.Data.playerStatus.skillUnlock[i] == false && skillSlots[i].needLevel <= level)
+            if (Manager.Data.playerStatus.skillUnlock[i] == false
+                && skillSlots[i].skill.metaData?.needLevel <= level)
             {
                 Manager.Data.playerStatus.skillUnlock[i] = true;
                 skillSlots[i].UnlockSkill();

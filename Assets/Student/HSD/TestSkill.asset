@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e819018ef4a267e4aa12b49395e8c7ab, type: 3}
   m_Name: TestSkill
   m_EditorClassIdentifier: 
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  metaData:
+    icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    skillDescription: 1313
+    needLevel: 0
   skillName: Test
   overlap:
     overlapType: 0

@@ -12,9 +12,9 @@ public class DataManager : Singleton<DataManager>
 
     private void Awake()
     {
-        monsterData = ScriptableObject.CreateInstance<MonsterDataBase>();
-        skillData = ScriptableObject.CreateInstance<SkillDataBase>();
-        playerStatus = new PlayerStatusData();
+        monsterData = new();
+        skillData = new();
+        playerStatus = new();
         inventory = new GameObject("Inventory").AddComponent<Inventory>();
 
         dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
