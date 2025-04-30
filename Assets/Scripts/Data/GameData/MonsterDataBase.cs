@@ -8,7 +8,7 @@ public class MonsterDataBase
 {
 
 #if UNITY_EDITOR
-    public List<MonsterData> monsterDatas = new(); // º¸±â ¿ë
+    public List<MonsterData> monsterDatas = new(); // ë³´ê¸° ìš©
 #endif
 
     private Dictionary<MonsterType, MonsterData> monsterDic = new();
