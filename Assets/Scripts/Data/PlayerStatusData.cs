@@ -1,4 +1,5 @@
 using EnumType;
+using StructType;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -28,7 +29,8 @@ public class PlayerStatusData
     public event Action<int> OnExpChanged;
     public event Action<int> OnLevelUp;
 
-    public PlayerLevelData levelExpData = new();
+    public PlayerLevelDatas levelExpData = new();
+    public PlayerStatDatas playerStatData = new();
 
     public Skill[] playerSkills {  get; private set; }
     public bool[] skillUnlock {  get; private set; }
@@ -68,7 +70,7 @@ public class PlayerStatusData
         CheckLevelUp();
     }
 
-    private void CheckLevelUp() // ÀÓ½Ã·Î ¿©±â µÎ¾úÀ½ ¹Ù²Ü ¼öµµ ÀÖÀ½.
+    private void CheckLevelUp() // ìž„ì‹œë¡œ ì—¬ê¸° ë‘ì—ˆìŒ ë°”ê¿€ ìˆ˜ë„ ìžˆìŒ.
     {
         if(curExp >= levelExpData.GetLevelExp(level))
         {
@@ -78,11 +80,25 @@ public class PlayerStatusData
     private void LevelUp()
     {
         level = _level++;
+        SetupPlayerStat();
     }
 
     public void SetupSkills(Skill[] skills)
     {
         playerSkills = skills;
         skillUnlock = new bool[playerSkills.Length];
+    }
+
+    public void SetupPlayerStat()
+    {
+        PlayerStatData data = playerStatData.GetStatData(level);
+
+        baseDamage = data.damage;
+
+        int _maxHP = playerStatData.GetStatData(level).hp;
+        int amount = _maxHP - baseMaxHP;
+        baseMaxHP = _maxHP;
+
+        IncreaseHealth(amount);
     }
 }

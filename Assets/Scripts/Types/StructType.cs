@@ -17,6 +17,12 @@ namespace StructType
         public Material material;
     }
 
+    public struct PlayerStatData
+    {
+        public int damage;
+        public int hp;
+    }
+
     public struct SkillData
     {
         public string skillName;

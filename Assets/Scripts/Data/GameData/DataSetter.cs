@@ -9,12 +9,14 @@ public class DataSetter : MonoBehaviour
 {
     private PoolData poolData;
     private MonsterDataBase monsterDataBase;
-    private PlayerLevelData playerLevelData;
+    private PlayerLevelDatas playerLevelData;
     private SkillDataBase skillDataBase;
+    private PlayerStatDatas playerStatData;
 
     const string poolRange = "A2:B3";
     const string monsterRange = "A2:G4";
     const string levelDataRange = "A2:B18";
+    const string playerStatDataRange = "C2:E22";
     const string skillDataRange = "A2:C2";
 
     #region URL
@@ -25,9 +27,10 @@ public class DataSetter : MonoBehaviour
     // guid 1001143924
     string MonsterURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=1001143924&range={monsterRange}";
     // guid 2123442088
-    string levelURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=2123442088&range={levelDataRange}";
+    string LevelURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=2123442088&range={levelDataRange}";
+    string StatURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=2123442088&range={playerStatDataRange}";
     // guid 871025501
-    string skillURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=871025501&range={skillDataRange}";
+    string SkillURL = $"https://docs.google.com/spreadsheets/d/1rqimYysZfUS9PuEodI6qOfoqEmX-2pi6TSmnBiJM810/export?format=tsv&gid=871025501&range={skillDataRange}";
 
     #endregion
 
@@ -36,12 +39,14 @@ public class DataSetter : MonoBehaviour
         poolData = Manager.Pool.poolData;
         monsterDataBase = Manager.Data.monsterData;
         playerLevelData = Manager.Data.playerStatus.levelExpData;
+        playerStatData = Manager.Data.playerStatus.playerStatData;
         skillDataBase = Manager.Data.skillData;
 
         StartCoroutine(DownloadData(PoolURL, DataType.Pool));
         StartCoroutine(DownloadData(MonsterURL, DataType.Monster));
-        StartCoroutine(DownloadData(levelURL, DataType.Level));
-        StartCoroutine(DownloadData(skillURL, DataType.Skill));
+        StartCoroutine(DownloadData(LevelURL, DataType.Level));
+        StartCoroutine(DownloadData(SkillURL, DataType.Skill));
+        StartCoroutine(DownloadData(StatURL, DataType.PlayerStat));
     }
 
     IEnumerator DownloadData(string URL, DataType type)
@@ -61,6 +66,8 @@ public class DataSetter : MonoBehaviour
                 SetupLevelData(data); break;
             case DataType.Skill:
                 SetupSkillData(data); break;
+            case DataType.PlayerStat:
+                SetupStatData(data); break;
             default:
                 break;
         }
@@ -135,6 +142,22 @@ public class DataSetter : MonoBehaviour
             SkillData skillData = new SkillData {skillName = skillName, skillPower = int.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
 
             skillDataBase.AddSkillData(skillName, skillData);
+        }
+    }
+
+    private void SetupStatData(string data)
+    {
+        string[] row = data.Split("\n");
+        int rowSize = row.Length;
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] columns = row[i].Split('\t');
+
+            int level = int.Parse(columns[0]);
+            PlayerStatData statData = new PlayerStatData { damage = int.Parse(columns[1]), hp = int.Parse(columns[2]) };
+
+            playerStatData.AddStatData(level, statData);
         }
     }
 }

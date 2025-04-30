@@ -24,5 +24,6 @@ public class DataManager : Singleton<DataManager>
     {
         dataSetter.Init();
         Destroy(dataSetter, 5);
+        playerStatus.SetupPlayerStat();
     }
 }
