@@ -8,7 +8,6 @@ public class SkillSlot : MonoBehaviour
     public Skill skill {  get; private set; }
 
     public int needLevel;
-
     private bool isCooldown = false;
 
     private void Awake()
@@ -39,15 +38,17 @@ public class SkillSlot : MonoBehaviour
     {
         if (!cooldown.gameObject.activeSelf || skill == null) return;
 
-        cooldown.fillAmount = 1f - skill.CoolTimeRatio;
+        cooldown.fillAmount = skill.CoolTimeRatio;
 
         if (isCooldown && cooldown.fillAmount <= 0f)
         {
-            OnCooldownComplete();
+            //OnCooldownComplete();
             isCooldown = false;
         }
         else if (cooldown.fillAmount > 0f)
+        {
             isCooldown = true;
+        }
     }
 
     private void OnCooldownComplete()

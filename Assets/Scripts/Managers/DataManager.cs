@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DataManager : Singleton<DataManager>
@@ -22,7 +23,12 @@ public class DataManager : Singleton<DataManager>
     }
     private void Start()
     {
+        dataSetter.OnDataSetupCompleted = () =>
+        {
+            playerStatus.SetupPlayerStat();
+            Destroy(dataSetter.gameObject);
+        };
+
         dataSetter.Init();
-        Destroy(dataSetter, 5);
     }
 }
