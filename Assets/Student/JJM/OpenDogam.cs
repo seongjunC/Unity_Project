@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ public class OpenDogam : MonoBehaviour
     public List<ItemData> itemDatabase; // 아이템 데이터베이스
     private List<ItemData> originalOrder; // 초기 순서를 저장할 리스트
 
+    [Header("Search")]
+    public TMP_InputField searchInputField; // 검색 입력 필드
+
     [Header("Sorting")]
     public Dropdown sortDropdown; // 정렬 기준 선택 Dropdown
     private void Start()
@@ -25,6 +29,8 @@ public class OpenDogam : MonoBehaviour
         originalOrder = new List<ItemData>(itemDatabase);
 
         PopulateDogam();
+        // 검색 입력 필드 값 변경 시 검색 메서드 호출
+        searchInputField.onValueChanged.AddListener(OnSearchValueChanged);
         // Dropdown 값 변경 시 정렬 메서드 호출
         sortDropdown.onValueChanged.AddListener(OnSortChanged);
     }
@@ -116,6 +122,33 @@ public class OpenDogam : MonoBehaviour
                               $"Description: {item.description}";
         itemDetailIcon.sprite = item.icon;
         itemDetailIcon.color = item.GetItemGradeColor(); // 등급에 따른 색상 설정
+    }
+    private void OnSearchValueChanged(string searchText)
+    {
+        // 검색어가 비어 있으면 전체 목록 표시
+        if (string.IsNullOrEmpty(searchText))
+        {
+            PopulateDogam();
+            return;
+        }
+
+        // 기존 UI 제거
+        foreach (Transform child in itemListParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // 검색 결과에 해당하는 아이템만 표시
+        var searchResults = itemDatabase.Where(item => item.itemName.ToLower().Contains(searchText.ToLower())).ToList();
+        foreach (var item in searchResults)
+        {
+            GameObject itemUI = Instantiate(itemUIPrefab, itemListParent);
+            itemUI.GetComponentInChildren<Text>().text = item.itemName;
+            itemUI.GetComponentInChildren<Image>().sprite = item.icon;
+
+            Button itemButton = itemUI.GetComponent<Button>();
+            itemButton.onClick.AddListener(() => ShowItemDetails(item));
+        }
     }
     private void OnSortChanged(int selectedIndex)
     {
