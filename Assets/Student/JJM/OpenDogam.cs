@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,10 +15,18 @@ public class OpenDogam : MonoBehaviour
 
     [Header("Item Data")]
     public List<ItemData> itemDatabase; // 아이템 데이터베이스
+    private List<ItemData> originalOrder; // 초기 순서를 저장할 리스트
 
+    [Header("Sorting")]
+    public Dropdown sortDropdown; // 정렬 기준 선택 Dropdown
     private void Start()
     {
+        // 초기 순서 저장
+        originalOrder = new List<ItemData>(itemDatabase);
+
         PopulateDogam();
+        // Dropdown 값 변경 시 정렬 메서드 호출
+        sortDropdown.onValueChanged.AddListener(OnSortChanged);
     }
 
     private void Update()
@@ -50,12 +59,13 @@ public class OpenDogam : MonoBehaviour
 
     private void PopulateDogam()
     {
-        if (itemDatabase == null || itemDatabase.Count == 0)
+        // 기존 UI 제거
+        foreach (Transform child in itemListParent)
         {
-            Debug.LogError("itemDatabase가 비어 있습니다. 아이템 데이터를 추가하세요.");
-            return;
+            Destroy(child.gameObject);
         }
 
+        // 아이템 목록 생성
         foreach (var item in itemDatabase)
         {
             if (item == null)
@@ -63,8 +73,6 @@ public class OpenDogam : MonoBehaviour
                 Debug.LogError("itemDatabase에 null 항목이 있습니다.");
                 continue;
             }
-
-            Debug.Log($"아이템 추가: {item.itemName}");
 
             GameObject itemUI = Instantiate(itemUIPrefab, itemListParent);
             if (itemUI == null)
@@ -95,7 +103,6 @@ public class OpenDogam : MonoBehaviour
                 Debug.LogError("itemUIPrefab에 Button 컴포넌트가 없습니다.");
                 continue;
             }
-            Debug.Log($"Button 컴포넌트가 설정되었습니다: {item.itemName}");
             itemButton.onClick.AddListener(() => ShowItemDetails(item));
         }
     }
@@ -109,5 +116,26 @@ public class OpenDogam : MonoBehaviour
                               $"Description: {item.description}";
         itemDetailIcon.sprite = item.icon;
         itemDetailIcon.color = item.GetItemGradeColor(); // 등급에 따른 색상 설정
+    }
+    private void OnSortChanged(int selectedIndex)
+    {
+        switch (selectedIndex)
+        {
+            case 0: // 기본 순서
+                itemDatabase = new List<ItemData>(originalOrder);
+                break;
+            case 1: // 이름순 정렬
+                itemDatabase = itemDatabase.OrderBy(item => item.itemName).ToList();
+                break;
+            case 2: // 등급순 정렬
+                itemDatabase = itemDatabase.OrderBy(item => item.itemGrade).ToList();
+                break;
+            default:
+                Debug.LogWarning("알 수 없는 정렬 기준입니다.");
+                return;
+        }
+
+        Debug.Log($"정렬 기준 변경: {sortDropdown.options[selectedIndex].text}");
+        PopulateDogam(); // 정렬된 데이터로 UI 갱신
     }
 }
