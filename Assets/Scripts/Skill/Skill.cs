@@ -66,9 +66,6 @@ public abstract class Skill : ScriptableObject
         waitSkillEndDelay = new WaitForSeconds(skillDuration);
 
         SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
-
-        Debug.Log(owner.GetDamage()); 
-        Debug.Log(owner.GetTransform());
     }
 
     public IEnumerator CoolTimeRoutine()

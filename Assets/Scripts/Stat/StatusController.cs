@@ -15,9 +15,4 @@ public class StatusController : MonoBehaviour, IDamagable
     {
         
     }
-
-    public virtual void DcreaseHealth(int amount)
-    {
-
-    }
 }

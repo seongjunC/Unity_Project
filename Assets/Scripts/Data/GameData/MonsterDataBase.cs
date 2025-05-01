@@ -20,7 +20,18 @@ public class MonsterDataBase
 
     public MonsterData GetMonsterData(MonsterType type)
     {
-        return monsterDic[type];
+        var copyData = monsterDic[type];
+
+        return new MonsterData 
+        { 
+            name = copyData.name,
+            maxHP = copyData.maxHP,
+            damage = copyData.damage,
+            speed = copyData.speed,
+            dropGold = copyData.dropGold,
+            dropExp = copyData.dropExp,
+            range = copyData.range,
+        };
     }
 }
 
@@ -28,10 +39,14 @@ public class MonsterDataBase
 public class MonsterData
 {
     public string name;
-    public int hp;
+    [SerializeField] private int _hp;
+    public int hp {  get => _hp; set { _hp = value; OnHealthChanged?.Invoke(_hp); } }
+    public int maxHP;
     public int damage;
     public float speed;
     public int dropGold;
     public int dropExp;
     public float range;
+
+    public event Action<int> OnHealthChanged;
 }

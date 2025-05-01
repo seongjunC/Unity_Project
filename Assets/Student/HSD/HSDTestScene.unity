@@ -651,32 +651,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 127424070}
   m_CullTransparentMesh: 1
---- !u!1 &197382353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8849124689134227855, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-  m_PrefabInstance: {fileID: 2052528861846591525}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &197382361
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 197382353}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &252239727
 GameObject:
   m_ObjectHideFlags: 0
@@ -6558,6 +6532,8 @@ GameObject:
   - component: {fileID: 2032257477}
   - component: {fileID: 2032257476}
   - component: {fileID: 2032257475}
+  - component: {fileID: 2032257482}
+  - component: {fileID: 2032257483}
   - component: {fileID: 2032257478}
   - component: {fileID: 2032257481}
   m_Layer: 7
@@ -9562,6 +9538,44 @@ CapsuleCollider:
   m_Height: 1.9262073
   m_Direction: 1
   m_Center: {x: 0, y: 0.9309732, z: 0}
+--- !u!114 &2032257482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804103435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd30fb55d126b64193f7219fe20f3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popUpText: {fileID: 7143703367006742917, guid: 5b0bd2f16785e9545b13acb83eb5bcc2, type: 3}
+--- !u!114 &2032257483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804103435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4b7c91c0b151e4ea41b1347bd028ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status:
+    maxHP:
+      baseStat: 0
+      modifiers: 
+    damage:
+      baseStat: 0
+      modifiers: 
+    critChance:
+      baseStat: 0
+      modifiers: 
+    critDamage:
+      baseStat: 0
+      modifiers: 
 --- !u!1 &2049253069
 GameObject:
   m_ObjectHideFlags: 0
@@ -9810,10 +9824,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1850312491184529171, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 3472400046356720251, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9854,37 +9864,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5883491682861737088, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      propertyPath: monsterType
-      value: 2
+    - target: {fileID: 7153605921017290241, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7601265482586753572, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      propertyPath: rotationSpeed
-      value: 90
+    - target: {fileID: 7153605921017290241, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7601265482586753572, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      propertyPath: playerLayer.m_Bits
-      value: 128
+    - target: {fileID: 8067436494768253858, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067436494768253858, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849124689134227855, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
-    - target: {fileID: 8849124689134227855, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8849124689134227855, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      propertyPath: m_TagString
-      value: Monster
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8849124689134227855, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 197382361}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03bacd035b84ef94eaba099853554c04, type: 3}
 --- !u!4 &5621717344875107716
 Transform:

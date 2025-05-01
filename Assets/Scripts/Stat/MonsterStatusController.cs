@@ -13,26 +13,26 @@ public class MonsterStatusController : StatusController
     [SerializeField] private MonsterType monsterType;
 
     public Action OnDied;
+    public event Action OnSettigEnded;
 
     protected override void Awake()
     {
         base.Awake();
+        int playerLevel = Manager.Data.playerStatus.level;
+        level = Mathf.Clamp(UnityEngine.Random.Range(playerLevel - 2, playerLevel - 1), 1, 20);
     }
 
     // 몬스터 생성자(와 동일한 역할)
     private void Start()
     {
-
-
         //// 여기를 특정 타입을 안 쓰고 할 수 있게끔 몬스터 타입을 변수로 두었음.
         //status = Manager.Data.monsterData.GetMonsterData(monsterType);
 
         //// 몬스터 레벨을 플레이어의 레벨에 따라 조정.
         //// 몬스터의 최대 레벨은 20으로
-        //int playerLevel = Manager.Data.playerStatus.level;
-        //level = Mathf.Clamp(UnityEngine.Random.Range(playerLevel - 2, playerLevel - 1), 1, 20);
-        StartCoroutine(Delay());
-        //SetupLevelStat();
+        
+        //StartCoroutine(DelayInit());
+        SetupLevelStat();
     }
 
     public override void TakeDamage(float amount)
@@ -40,9 +40,11 @@ public class MonsterStatusController : StatusController
         DamageCalulator.PlayerAttackCalculator(Manager.Data.playerStatus, this, amount);
     }
 
-    public override void DcreaseHealth(int amount)
+    public void DcreaseHealth(int amount, bool isCrit = false)
     {
         status.hp -= amount;
+
+        fx.CreatePopUpText(amount, isCrit);
 
         if (status.hp <= 0)
             Die();
@@ -64,11 +66,15 @@ public class MonsterStatusController : StatusController
 
     private void SetupLevelStat()
     {
+        status = Manager.Data.monsterData.GetMonsterData(monsterType);
+        OnSettigEnded?.Invoke();
+
         status.damage *= 1 + level / 4;
-        status.hp *= 1 + level / 4;
+        status.maxHP *= 1 + level / 4;
+        status.hp = status.maxHP;
     }
 
-    IEnumerator Delay()
+    IEnumerator DelayInit() // 테스트 용
     {
         yield return new WaitForSeconds(5);
         int playerLevel = Manager.Data.playerStatus.level;
