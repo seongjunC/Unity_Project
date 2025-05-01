@@ -1,23 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISkillOwner
 {
     [SerializeField] private Transform groundCheckPoint;
 
     public Animator anim;
     public Rigidbody rigid;
     public StateController stateCon;
+    public PlayerStatusController statusCon;
     public GameObject attackHitbox;
-    public PlayerStatusData status;
+    public PlayerStatusData status => Manager.Data.playerStatus;
     public float moveSpeed;
+
     public float rotateSpeed;
 
-    public Vector3 moveDir;
-    public Vector3 camDir;
+    public Vector3 moveDir {  get; private set; }
+    public Vector3 camDir {  get; private set; }
+    public Vector3 lastMoveDir;
+    public float[] attackMoveForce;
+    public float[] attackForce;
 
-    // À¯´ÏÆ¼¿¡¼­ Ground ·¹ÀÌ¾î Ãß°¡ÇÏ±â
+    // ìœ ë‹ˆí‹°ì—ì„œ Ground ë ˆì´ì–´ ì¶”ê°€í•˜ê¸°
     public LayerMask groundLayer;
     public float groundCheckDistance = 0.2f;
 
@@ -26,9 +32,8 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         stateCon = GetComponent<StateController>();
-
-        status = new PlayerStatusData();
     }
+
     private void Update()
     {
         //if (stateCon.stateMachine.currentState == stateCon.dieState)
@@ -48,13 +53,6 @@ public class Player : MonoBehaviour
         return Physics.Raycast(groundCheckPoint.position, Vector3.down, groundCheckDistance, groundLayer);
     }
 
-    private void Rotate()
-    {
-        if (camDir.sqrMagnitude == 0) return;
-        Quaternion targetRot = Quaternion.LookRotation(camDir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotateSpeed * Time.deltaTime);
-    }
-
     private void HandleInput()
     {
         float x = Input.GetAxis("Horizontal");
@@ -71,9 +69,16 @@ public class Player : MonoBehaviour
         camForward.Normalize();
         camRight.Normalize();
 
-        camDir = camForward * moveDir.z + camRight * moveDir.x;
+        camDir = camForward * moveDir.z + camRight * moveDir.x;  
+    }
 
-        if (camDir.sqrMagnitude > 0)
-            Rotate();
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
+    public int GetDamage()
+    {
+        return status.damage.GetValue();
     }
 }

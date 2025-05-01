@@ -26,6 +26,8 @@ public class DataManager : Singleton<DataManager>
         dataSetter.OnDataSetupCompleted = () =>
         {
             playerStatus.SetupPlayerStat();
+            playerStatus.critChance.SetBaseStat(10);
+            playerStatus.critDamage.SetBaseStat(150);
             Destroy(dataSetter.gameObject);
         };
 

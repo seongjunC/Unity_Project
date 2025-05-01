@@ -12,10 +12,7 @@ public class PlayerDieState : PlayerState
     {
         base.Enter();
 
-        player.rigid.velocity = Vector3.zero; // ¼Óµµ ÃÊ±âÈ­
-        player.rigid.isKinematic = true; // ¹°¸® ºñÈ°¼ºÈ­
-
-        player.moveDir = Vector3.zero;
-        player.camDir = Vector3.zero;
+        player.rigid.velocity = Vector3.zero; // ì†ë„ ì´ˆê¸°í™”
+        player.rigid.isKinematic = true; // ë¬¼ë¦¬ ë¹„í™œì„±í™”
     }
 }

@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class OpenDogam : MonoBehaviour
 {
     [Header("Dogam UI")]
-    public Canvas dogamCanvas; // µµ°¨ UI·Î »ç¿ëÇÒ Äµ¹ö½º
-    public GameObject itemUIPrefab; // ¾ÆÀÌÅÛ UI ÇÁ¸®ÆÕ (¾ÆÀÌÅÛ ÀÌ¸§, ¾ÆÀÌÄÜ Ç¥½Ã)
-    public Transform itemListParent; // ¾ÆÀÌÅÛ ¸ñ·ÏÀ» Ç¥½ÃÇÒ ºÎ¸ğ °´Ã¼
-    public Text itemDetailText; // ¾ÆÀÌÅÛ »ó¼¼ Á¤º¸¸¦ Ç¥½ÃÇÒ ÅØ½ºÆ®
-    public Image itemDetailIcon; // ¾ÆÀÌÅÛ »ó¼¼ Á¤º¸ÀÇ ¾ÆÀÌÄÜ Ç¥½Ã
+    public Canvas dogamCanvas; // ë„ê° UIë¡œ ì‚¬ìš©í•  ìº”ë²„ìŠ¤
+    public GameObject itemUIPrefab; // ì•„ì´í…œ UI í”„ë¦¬íŒ¹ (ì•„ì´í…œ ì´ë¦„, ì•„ì´ì½˜ í‘œì‹œ)
+    public Transform itemListParent; // ì•„ì´í…œ ëª©ë¡ì„ í‘œì‹œí•  ë¶€ëª¨ ê°ì²´
+    public Text itemDetailText; // ì•„ì´í…œ ìƒì„¸ ì •ë³´ë¥¼ í‘œì‹œí•  í…ìŠ¤íŠ¸
+    public Image itemDetailIcon; // ì•„ì´í…œ ìƒì„¸ ì •ë³´ì˜ ì•„ì´ì½˜ í‘œì‹œ
 
     [Header("Item Data")]
-    public List<ItemData> itemDatabase; // ¾ÆÀÌÅÛ µ¥ÀÌÅÍº£ÀÌ½º
+    public List<ItemData> itemDatabase; // ì•„ì´í…œ ë°ì´í„°ë² ì´ìŠ¤
 
     private void Start()
     {
@@ -40,11 +40,11 @@ public class OpenDogam : MonoBehaviour
         if (dogamCanvas != null)
         {
             dogamCanvas.gameObject.SetActive(!dogamCanvas.gameObject.activeSelf);
-            Debug.Log($"Dogam Canvas »óÅÂ: {dogamCanvas.gameObject.activeSelf}");
+            Debug.Log($"Dogam Canvas ìƒíƒœ: {dogamCanvas.gameObject.activeSelf}");
         }
         else
         {
-            Debug.LogWarning("Dogam Canvas°¡ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("Dogam Canvasê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -52,7 +52,7 @@ public class OpenDogam : MonoBehaviour
     {
         if (itemDatabase == null || itemDatabase.Count == 0)
         {
-            Debug.LogError("itemDatabase°¡ ºñ¾î ÀÖ½À´Ï´Ù. ¾ÆÀÌÅÛ µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÏ¼¼¿ä.");
+            Debug.LogError("itemDatabaseê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤. ì•„ì´í…œ ë°ì´í„°ë¥¼ ì¶”ê°€í•˜ì„¸ìš”.");
             return;
         }
 
@@ -60,23 +60,23 @@ public class OpenDogam : MonoBehaviour
         {
             if (item == null)
             {
-                Debug.LogError("itemDatabase¿¡ null Ç×¸ñÀÌ ÀÖ½À´Ï´Ù.");
+                Debug.LogError("itemDatabaseì— null í•­ëª©ì´ ìˆìŠµë‹ˆë‹¤.");
                 continue;
             }
 
-            Debug.Log($"¾ÆÀÌÅÛ Ãß°¡: {item.itemName}");
+            Debug.Log($"ì•„ì´í…œ ì¶”ê°€: {item.itemName}");
 
             GameObject itemUI = Instantiate(itemUIPrefab, itemListParent);
             if (itemUI == null)
             {
-                Debug.LogError("itemUIPrefab¿¡¼­ »ı¼ºµÈ itemUI°¡ nullÀÔ´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì—ì„œ ìƒì„±ëœ itemUIê°€ nullì…ë‹ˆë‹¤.");
                 continue;
             }
 
             Text textComponent = itemUI.GetComponentInChildren<Text>();
             if (textComponent == null)
             {
-                Debug.LogError("itemUIPrefab¿¡ Text ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì— Text ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
             textComponent.text = item.itemName;
@@ -84,7 +84,7 @@ public class OpenDogam : MonoBehaviour
             Image imageComponent = itemUI.GetComponentInChildren<Image>();
             if (imageComponent == null)
             {
-                Debug.LogError("itemUIPrefab¿¡ Image ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì— Image ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
             imageComponent.sprite = item.icon;
@@ -92,22 +92,22 @@ public class OpenDogam : MonoBehaviour
             Button itemButton = itemUI.GetComponent<Button>();
             if (itemButton == null)
             {
-                Debug.LogError("itemUIPrefab¿¡ Button ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì— Button ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
-            Debug.Log($"Button ÄÄÆ÷³ÍÆ®°¡ ¼³Á¤µÇ¾ú½À´Ï´Ù: {item.itemName}");
+            Debug.Log($"Button ì»´í¬ë„ŒíŠ¸ê°€ ì„¤ì •ë˜ì—ˆìŠµë‹ˆë‹¤: {item.itemName}");
             itemButton.onClick.AddListener(() => ShowItemDetails(item));
         }
     }
 
     private void ShowItemDetails(ItemData item)
     {
-        Debug.Log($"¾ÆÀÌÅÛ »ó¼¼ Á¤º¸ Ç¥½Ã: {item.itemName}");
-        // ¾ÆÀÌÅÛ »ó¼¼ Á¤º¸ Ç¥½Ã
+        Debug.Log($"ì•„ì´í…œ ìƒì„¸ ì •ë³´ í‘œì‹œ: {item.itemName}");
+        // ì•„ì´í…œ ìƒì„¸ ì •ë³´ í‘œì‹œ
         itemDetailText.text = $"Name: {item.itemName}\n" +
                               $"Grade: {item.itemGrade}\n" +
                               $"Description: {item.description}";
         itemDetailIcon.sprite = item.icon;
-        itemDetailIcon.color = item.GetItemGradeColor(); // µî±Ş¿¡ µû¸¥ »ö»ó ¼³Á¤
+        itemDetailIcon.color = item.GetItemGradeColor(); // ë“±ê¸‰ì— ë”°ë¥¸ ìƒ‰ìƒ ì„¤ì •
     }
 }

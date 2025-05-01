@@ -41,10 +41,10 @@ public class SkillController : MonoBehaviour
 
     private IEnumerator SkillMainRoutine()
     {
-        curSkill.StartSkill();
+        curSkill.SkillStart();
         skillRoutine ??= StartCoroutine(curSkill.SkillRoutine());
         yield return curSkill.waitSkillEndDelay;
-        curSkill.EndSkill();
+        curSkill.SkillEnd();
         skillRoutine = null;
     }
 

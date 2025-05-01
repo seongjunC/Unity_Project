@@ -66,6 +66,9 @@ public abstract class Skill : ScriptableObject
         waitSkillEndDelay = new WaitForSeconds(skillDuration);
 
         SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
+
+        Debug.Log(owner.GetDamage()); 
+        Debug.Log(owner.GetTransform());
     }
 
     public IEnumerator CoolTimeRoutine()
@@ -92,11 +95,11 @@ public abstract class Skill : ScriptableObject
 
     protected abstract bool SkillCondition();
     
-    public virtual void StartSkill()
+    public virtual void SkillStart()
     {
 
     }
-    public virtual void EndSkill()
+    public virtual void SkillEnd()
     {
         DestroyEffect();
         curEffect = null;

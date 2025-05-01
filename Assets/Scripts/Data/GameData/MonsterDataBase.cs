@@ -28,7 +28,7 @@ public class MonsterDataBase
 public class MonsterData
 {
     public string name;
-    public int health;
+    public int hp;
     public int damage;
     public float speed;
     public int dropGold;

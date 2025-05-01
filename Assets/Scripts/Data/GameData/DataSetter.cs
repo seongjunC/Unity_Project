@@ -144,7 +144,7 @@ public class DataSetter : MonoBehaviour
             MonsterData md = new MonsterData
             {
                 name    = columns[0],
-                health  = int.Parse(columns[1]),
+                hp  = int.Parse(columns[1]),
                 damage  = int.Parse(columns[2]),
                 speed   = float.Parse(columns[3]),
                 dropGold = int.Parse(columns[4]),
