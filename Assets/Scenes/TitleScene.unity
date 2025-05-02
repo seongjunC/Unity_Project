@@ -875,6 +875,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeScreen: {fileID: 2044246213}
+  spawnId: 0
+  sceneName: Dungeon1F
 --- !u!114 &1568113777
 MonoBehaviour:
   m_ObjectHideFlags: 0

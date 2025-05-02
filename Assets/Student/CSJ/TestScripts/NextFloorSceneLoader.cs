@@ -21,9 +21,17 @@ public class NextFloorSceneLoader : MonoBehaviour
             return;
 
         SceneChangeManager sceneInstance = Manager.SceneChanger;
+        
         if(sceneInstance != null){
-            Debug.Log("" + sceneInstance.name);
+            Debug.Log(targetSpawnPointId + " " + sceneInstance.name);
         }
+        else{
+            Debug.Log("Scene is null");
+        }
+
+        Debug.Log(sceneName);
+        Debug.Log(targetSpawnPointId);
+
         sceneInstance.ChangeToScene(sceneName, targetSpawnPointId, other.gameObject); 
     }
 }
