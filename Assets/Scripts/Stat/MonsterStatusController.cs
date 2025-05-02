@@ -14,6 +14,7 @@ public class MonsterStatusController : StatusController
 
     public Action OnDied;
     public event Action OnSettigEnded;
+    private bool isDead = false;
 
     protected override void Awake()
     {
@@ -37,6 +38,8 @@ public class MonsterStatusController : StatusController
 
     public override void TakeDamage(float amount)
     {
+        if (isDead) return;
+        
         DamageCalulator.PlayerAttackCalculator(Manager.Data.playerStatus, this, amount);
     }
 
@@ -52,6 +55,7 @@ public class MonsterStatusController : StatusController
 
     private void Die()
     {
+        isDead = true;
         OnDied?.Invoke();
 
         // 플레이어의 골드 증가시키기

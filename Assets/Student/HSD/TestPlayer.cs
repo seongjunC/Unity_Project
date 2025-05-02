@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TestPlayer : MonoBehaviour, ISkillOwner
+public class TestPlayer : MonoBehaviour
 {
     [SerializeField] private Skill skill;
     private SkillController skillManager;

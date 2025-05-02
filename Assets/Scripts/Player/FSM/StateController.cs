@@ -6,6 +6,8 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class StateController : MonoBehaviour 
 {
     private Player player;
+
+#region States
     public StateMachine stateMachine {  get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
@@ -14,6 +16,12 @@ public class StateController : MonoBehaviour
     public PlayerAttackState attackState { get; private set; }
     //public PlayerDieState dieState { get; private set; }
 
+    // Skill
+    public Player_CrossSlash_State crossSlashState { get; private set; }
+    public Player_PowerSkill_State powerSkillState { get; private set; }
+    public Player_Bladestorm_State bladestormState { get; private set; }
+
+#endregion
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -26,7 +34,12 @@ public class StateController : MonoBehaviour
         attackState = new PlayerAttackState(player, stateMachine, "Attack");
         stopState = new PlayerStopState(player, stateMachine, "Stop");
         // dieState = new PlayerDieState(player, stateMachine, "Die");
-        // 그래서 객체마다 stateMachine을 각자 가지고 있어야함
+
+        // Skill
+
+        crossSlashState = new Player_CrossSlash_State(player, stateMachine, "CrossSlash");
+        powerSkillState = new Player_PowerSkill_State(player, stateMachine, "Power");
+        bladestormState = new Player_Bladestorm_State(player, stateMachine, "Bladestorm");
     }
 
     private void Start()
@@ -45,5 +58,6 @@ public class StateController : MonoBehaviour
     }
 
     public void AnimFinishEvent() => stateMachine.currentState.AnimFinishEvent();
-    public void CanNextComboEvent() => attackState.canNextCombo = true;   
+    public void CanNextComboEvent() => attackState.canNextCombo = true;
+    private void MoveEvent(float force) => player.rigid.AddForce(player.transform.forward * force,ForceMode.Impulse);
 }

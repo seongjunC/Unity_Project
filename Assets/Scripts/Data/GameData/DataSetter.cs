@@ -18,7 +18,7 @@ public class DataSetter : MonoBehaviour
     const string monsterRange = "A2:G4";
     const string levelDataRange = "A2:B18";
     const string playerStatDataRange = "C2:E22";
-    const string skillDataRange = "A2:C2";
+    const string skillDataRange = "A2:C4";
 
     public Action OnDataSetupCompleted;
 
@@ -41,7 +41,7 @@ public class DataSetter : MonoBehaviour
 
     public void Init()
     {
-        poolData = Manager.Pool.poolData;
+        poolData = Manager.Data.poolData;
         monsterDataBase = Manager.Data.monsterData;
         playerLevelData = Manager.Data.playerStatus.levelExpData;
         playerStatData = Manager.Data.playerStatus.playerStatData;
@@ -68,14 +68,10 @@ public class DataSetter : MonoBehaviour
         Debug.Log("Monster Data Load");
 
         // 풀 데이터
-
         www = UnityWebRequest.Get(PoolURL);
-
         yield return www.SendWebRequest();
         yield return null;
-
         data = www.downloadHandler.text;
-
         SetupPoolData(data);
         Debug.Log("Pool Data Load");
 
@@ -184,7 +180,7 @@ public class DataSetter : MonoBehaviour
             string[] columns = row[i].Split('\t');
 
             string skillName = columns[0];
-            SkillData skillData = new SkillData {skillName = skillName, skillPower = int.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
+            SkillData skillData = new SkillData {skillName = skillName, skillPower = float.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
 
             skillDataBase.AddSkillData(skillName, skillData);
         }

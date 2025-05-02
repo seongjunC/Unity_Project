@@ -26,7 +26,7 @@ namespace StructType
     public struct SkillData
     {
         public string skillName;
-        public int skillPower;
+        public float skillPower;
         public float coolTime;
     }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossMonster : Monster, ISkillOwner
 {
+    public bool isSkillActive { get; set; }
+
     void Update()
     {
         Move();

@@ -1,6 +1,7 @@
 using EnumType;
 using StructType;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,10 +18,10 @@ public abstract class Skill : ScriptableObject
     public SkillOverlapData overlap;
 
     [Header("Effect Data")]
-    [SerializeField] protected GameObject effectPrefab;
+    public GameObject effectPrefab;
     [Space]
-    [SerializeField] private Vector3 effectRotation;
-    [SerializeField] private Vector3 effectDistance;
+    [SerializeField] private Vector3[] effectRotations;
+    [SerializeField] private Vector3[] effectDistances;
 
     [Header("Tick")]
     [SerializeField] protected bool isTick;
@@ -35,7 +36,7 @@ public abstract class Skill : ScriptableObject
     [Tooltip("스킬실행 후 몇초 후 데미지 판단을 시작할지")]
     [SerializeField] private float delay;
 
-    [Tooltip("스킬 계수")] [SerializeField] private float skillPower;
+    [Tooltip("스킬 계수")] [SerializeField] protected float skillPower;
     [Tooltip("스킬 쿨타임")] public float coolTime;
     [Tooltip("스킬 지속시간")] [SerializeField] private float skillDuration;
 
@@ -43,10 +44,13 @@ public abstract class Skill : ScriptableObject
     public YieldInstruction waitDelay;
     public YieldInstruction waitSkillEndDelay;
 
-    private GameObject curEffect;
+    protected GameObject curEffect;
+    private List<GameObject> effects;
     private ISkillOwner owner;
 
     private float timer;
+    private int effectCount;
+    private bool isSetup = false;
 
     public float CoolTimeRatio
     {
@@ -61,11 +65,12 @@ public abstract class Skill : ScriptableObject
     {
         owner = _owner;
 
-        waitTickDelay = new WaitForSeconds(tickDelay);
-        waitDelay = new WaitForSeconds(delay);
-        waitSkillEndDelay = new WaitForSeconds(skillDuration);
+        waitTickDelay ??= new WaitForSeconds(tickDelay);
+        waitDelay ??= new WaitForSeconds(delay);
+        waitSkillEndDelay ??= new WaitForSeconds(skillDuration);
 
-        SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
+        if(!isSetup)
+            SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
     }
 
     public IEnumerator CoolTimeRoutine()
@@ -89,35 +94,88 @@ public abstract class Skill : ScriptableObject
     }
 
     public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
+    public void DamageToTargets(float _skillPower)
+    {
+        if(curEffect == null)
+        {
+            Debug.Log("이펙트가 없습니다.");
+            return;
+        }
+        overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
+    }
+    public void DamageToTargets(float _skillPower, Vector3 overlapDistance) => overlap.DealDamageToTargets(curEffect.transform, overlapDistance, skillVec, _skillPower, owner.GetDamage());
 
     protected abstract bool SkillCondition();
     
     public virtual void SkillStart()
     {
+        owner.isSkillActive = true;
 
+        if(effects.Count > 0)
+            effects.Clear();
+
+        effectCount = 0;
     }
-    public virtual void SkillEnd()
+    public IEnumerator SkillEnd()
     {
-        DestroyEffect();
+        owner.isSkillActive = false;
+        effects.Add(curEffect);  
         curEffect = null;
+
+        yield return waitDelay;
+
+        DestroyEffect();
     }
 
     public abstract IEnumerator SkillRoutine();
 
-    protected void CreateEffect(GameObject effect)
+    public void CreateEffect(GameObject effect)
     {
+        if (curEffect != null)
+            effects.Add(curEffect);
+
         curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
 
         skillVec.forward = curEffect.transform.forward;
         skillVec.right = curEffect.transform.right;
         skillVec.up = curEffect.transform.up;
 
-        curEffect.transform.rotation *= Quaternion.Euler(effectRotation);
+        curEffect.transform.rotation *= Quaternion.Euler(effectRotations[effectCount]);
 
-        Vector3 position = curEffect.transform.position + (curEffect.transform.forward * effectDistance.z) 
-            + (curEffect.transform.right * effectDistance.x) + (curEffect.transform.up * effectDistance.y);
+        Vector3 position = OwnerPos(effectDistances[effectCount]);
 
         curEffect.transform.position = position;
+        effectCount++;
+    }
+
+    private Vector3 OwnerPos(Vector3 effectDistances)
+    {
+        return curEffect.transform.position +
+                    (owner.GetTransform().forward * effectDistances.z) +
+                    (owner.GetTransform().right * effectDistances.x) +
+                    (owner.GetTransform().up * effectDistances.y);
+    }
+
+    private Transform OwnerTransform(Vector3 effectDistances)
+    {
+        Transform temp = curEffect.transform;
+        temp.position = curEffect.transform.position +
+                    (owner.GetTransform().forward * effectDistances.z) +
+                    (owner.GetTransform().right * effectDistances.x) +
+                    (owner.GetTransform().up * effectDistances.y);
+
+        return temp;
+    }
+
+    private Transform EffectPos(Vector3 distance)
+    {
+        Transform temp = curEffect.transform;
+        temp.position = curEffect.transform.position +
+                    (curEffect.transform.forward * distance.z) +
+                    (curEffect.transform.right * distance.x) +
+                    (curEffect.transform.up * distance.y);
+
+        return temp;
     }
 
     IEnumerator DelayCreateEffect(GameObject effect, float delay)
@@ -127,10 +185,17 @@ public abstract class Skill : ScriptableObject
         CreateEffect(effect);
     }
 
-    public void DestroyEffect() { Manager.Resources.Destroy(curEffect); }
+    public void DestroyEffect() 
+    {
+        foreach (var e in effects)
+        {
+            Manager.Resources.Destroy(e);
+        }
+    }
 
     private void SetupSkillData(SkillData data)
     {
+        isSetup = true;
         skillPower = data.skillPower;
         skillName = data.skillName;
         coolTime = data.coolTime;
