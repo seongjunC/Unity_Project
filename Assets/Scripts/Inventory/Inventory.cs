@@ -7,6 +7,9 @@ public class Inventory : MonoBehaviour
     public List<InventoryItem> inventory = new List<InventoryItem>();
     private Dictionary<ItemData, InventoryItem> inventoryDic = new Dictionary<ItemData, InventoryItem>();
 
+    public InventoryItem equipment;
+    private Dictionary<Equipment_ItemData, InventoryItem> equipmentDic = new Dictionary<Equipment_ItemData, InventoryItem>();
+
     public event Action<int, ItemData> OnItemChanged;
 
     public void AddItem(int index ,ItemData data)
@@ -49,5 +52,14 @@ public class Inventory : MonoBehaviour
 
             OnItemChanged?.Invoke(index, null);
         }
+    }
+
+    public Equipment_ItemData GetCurrentWeapon()
+    {
+        foreach (var item in equipmentDic.Keys)
+        {
+            return item;
+        }
+        return null;
     }
 }

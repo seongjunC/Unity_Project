@@ -21,7 +21,7 @@ public class PlayerStopState : PlayerState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        player.rigid.velocity = player.lastMoveDir * (player.moveSpeed / 2);
+        player.rigid.velocity = input.lastMoveDir * (player.moveSpeed / 2);
     }
 
     public override void Transition()
@@ -31,7 +31,7 @@ public class PlayerStopState : PlayerState
         if (isFinishAnim)
             stateMachine.ChangeState(stateCon.idleState);
 
-        if (player.camDir.sqrMagnitude > 0)
+        if (input.camDir.sqrMagnitude > 0)
             stateMachine.ChangeState(stateCon.moveState);
     }
 

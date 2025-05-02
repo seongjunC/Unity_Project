@@ -6,13 +6,7 @@ public class CrossSlashSkill : Skill
 {
     public override IEnumerator SkillRoutine()
     {
-        yield return waitDelay;
-
-        DamageToTargets(skillPower);
-
-        yield return new WaitForSeconds(.35f);
-
-        DamageToTargets(skillPower);
+        yield return null;
     }
 
     protected override bool SkillCondition()

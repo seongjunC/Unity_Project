@@ -7,6 +7,8 @@ public class PlayerState
     protected Animator anim => player.anim;
     protected Rigidbody rb => player.rigid;
     protected StateController stateCon => player.stateCon;
+    protected PlayerInput input => player.input;
+
     private string animBoolName;
     protected float stateTimer;
     protected bool isFinishAnim;
@@ -37,7 +39,7 @@ public class PlayerState
 
     public virtual void Exit()
     {
-        player.anim.SetBool(animBoolName, false);
+        player.anim.SetBool(animBoolName, false);   
     }
 
     public virtual void Transition()
@@ -55,5 +57,8 @@ public class PlayerState
         }
     }
 
-    public void AnimFinishEvent() => isFinishAnim = true;
+    public void AnimFinishEvent()
+    {
+        isFinishAnim = true;
+    }
 }

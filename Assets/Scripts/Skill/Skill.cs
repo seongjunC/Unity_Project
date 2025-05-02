@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class Skill : ScriptableObject
 {
@@ -45,7 +46,8 @@ public abstract class Skill : ScriptableObject
     public YieldInstruction waitSkillEndDelay;
 
     protected GameObject curEffect;
-    private List<GameObject> effects;
+    private List<GameObject> effects = new List<GameObject>();
+    private List<SkillVector> skillVectors = new List<SkillVector>();
     private ISkillOwner owner;
 
     private float timer;
@@ -94,13 +96,10 @@ public abstract class Skill : ScriptableObject
     }
 
     public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
+    public void DamageToTargets(int count) => overlap.DealDamageToTargets(effects[count].transform, skillVectors[count], skillPower, owner.GetDamage());
+
     public void DamageToTargets(float _skillPower)
     {
-        if(curEffect == null)
-        {
-            Debug.Log("이펙트가 없습니다.");
-            return;
-        }
         overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
     }
     public void DamageToTargets(float _skillPower, Vector3 overlapDistance) => overlap.DealDamageToTargets(curEffect.transform, overlapDistance, skillVec, _skillPower, owner.GetDamage());
@@ -113,6 +112,9 @@ public abstract class Skill : ScriptableObject
 
         if(effects.Count > 0)
             effects.Clear();
+
+        if(skillVectors.Count > 0)
+            skillVectors.Clear();
 
         effectCount = 0;
     }
@@ -131,7 +133,7 @@ public abstract class Skill : ScriptableObject
 
     public void CreateEffect(GameObject effect)
     {
-        if (curEffect != null)
+        if(curEffect != null)
             effects.Add(curEffect);
 
         curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
@@ -139,6 +141,8 @@ public abstract class Skill : ScriptableObject
         skillVec.forward = curEffect.transform.forward;
         skillVec.right = curEffect.transform.right;
         skillVec.up = curEffect.transform.up;
+
+        skillVectors.Add(skillVec);
 
         curEffect.transform.rotation *= Quaternion.Euler(effectRotations[effectCount]);
 

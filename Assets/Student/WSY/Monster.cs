@@ -74,12 +74,12 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        //추적 범위 기즈모도 그려주기 
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    //추적 범위 기즈모도 그려주기 
+    //    Gizmos.color = Color.cyan;
+    //    Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
+    //}
 
     private void Die()
     {

@@ -1,14 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_PowerSkill_State : PlayerState
+public class Player_Ultimate_State : PlayerState
 {
-    public Player_PowerSkill_State(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public Player_Ultimate_State(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
+        player.cutSceneCon.PlayUltimateCutScnen();
     }
 
     public override void Exit()
@@ -23,13 +26,10 @@ public class Player_PowerSkill_State : PlayerState
 
     public override void Transition()
     {
+        base.Transition();
+
         if (!player.isSkillActive)
-        {
-            if(input.moveDir.sqrMagnitude > 0)
-                stateMachine.ChangeState(stateCon.moveState);
-            else
-                stateMachine.ChangeState(stateCon.idleState);
-        }
+            stateMachine.ChangeState(stateCon.idleState);
     }
 
     public override void Update()

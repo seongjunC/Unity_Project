@@ -135,7 +135,9 @@ public class PoolManager : Singleton<PoolManager>
 
         GameObject obj = pool.Get();
 
-        obj.transform.parent = parent;
+        if(parent != null)
+            obj.transform.parent = parent;
+
         obj.transform.localPosition = position;
         obj.transform.localRotation = rotation;
 

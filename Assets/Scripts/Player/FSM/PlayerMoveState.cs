@@ -3,9 +3,6 @@ using UnityEngine;
 // 생성된 state
 public class PlayerMoveState : PlayerState
 {
-    Vector3 currentVelocity;
-    Vector3 targetVelocity;
-    float acceleration = 10;
 
     public PlayerMoveState(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -19,14 +16,14 @@ public class PlayerMoveState : PlayerState
     {
         base.Update();
 
-        player.transform.Translate(player.camDir * player.moveSpeed * Time.deltaTime, Space.World);
+        player.transform.Translate(input.camDir * player.moveSpeed * Time.deltaTime, Space.World);
 
-        if (player.camDir.sqrMagnitude > 0.2f)
+        if (input.camDir.sqrMagnitude > 0.2f)
         {
-            player.lastMoveDir = player.camDir;
+            input.lastMoveDir = input.camDir;
         }
 
-        if (player.camDir.sqrMagnitude > 0)
+        if (input.camDir.sqrMagnitude > 0)
             Rotate();
     }
 
@@ -38,12 +35,7 @@ public class PlayerMoveState : PlayerState
     {
         base.Transition();
 
-        // ex) 스페이스바를 누르면 상태 전이
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            stateMachine.ChangeState(stateCon.jumpState);
-        }
-        else if (player.moveDir.sqrMagnitude < .1f)
+        if (input.moveDir.sqrMagnitude < .1f)
         {
             stateMachine.ChangeState(stateCon.stopState);
         }
@@ -63,8 +55,8 @@ public class PlayerMoveState : PlayerState
 
     private void Rotate()
     {
-        if (player.camDir.sqrMagnitude == 0) return;
-        Quaternion targetRot = Quaternion.LookRotation(player.camDir);
+        if (input.camDir.sqrMagnitude == 0) return;
+        Quaternion targetRot = Quaternion.LookRotation(input.camDir);
         player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRot, player.rotateSpeed * Time.deltaTime);
     }
 }
