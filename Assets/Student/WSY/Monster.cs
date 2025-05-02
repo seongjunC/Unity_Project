@@ -3,20 +3,24 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    public MonsterStatusController statusCon;
 
-    [SerializeField] protected Rigidbody rigid;
+    [SerializeField] public Rigidbody rigid;
     [SerializeField] protected LayerMask playerLayer;
-    [SerializeField] protected Animator animator;
+    [SerializeField] public Animator anim;
     [SerializeField] private float rotationSpeed;
 
     GameObject player;
     bool isAttacking = false;
 
+    public MonsterStatusController statusCon;
+
+
     private void Awake()
     {
         player = GameObject.FindWithTag("Player");
         statusCon = GetComponent<MonsterStatusController>();
+        anim = GetComponent<Animator>();
+
     }
 
     private void OnEnable()
@@ -36,6 +40,7 @@ public class Monster : MonoBehaviour
             Move();
         }
         Attack();
+
     }
 
     protected void Move()
@@ -44,6 +49,10 @@ public class Monster : MonoBehaviour
 
         if (player != null)
         {
+            // 몬스터랑 플레이어의 직선거리를 보아서, 아직 도달 전이면 (0.1보다 크면?)
+            bool isMoving = Vector3.Distance(transform.position, player.transform.position) > 0.1f;
+            anim.SetBool("IsMoving", isMoving);
+
             Vector3 newPos = player.transform.position;
             newPos.y = 0;
 
@@ -62,7 +71,8 @@ public class Monster : MonoBehaviour
             {
                 if (!isAttacking)
                 {
-                    animator.SetTrigger("Attack");
+                    isAttacking = true;
+                    anim.SetTrigger("Attack");
 
                     IDamagable target = other.GetComponent<IDamagable>();
                     target.TakeDamage(statusCon.status.damage);
@@ -88,6 +98,6 @@ public class Monster : MonoBehaviour
 
     private void Die()
     {
-        animator.SetTrigger("Die");
+        anim.SetTrigger("Die");
     }
 }
