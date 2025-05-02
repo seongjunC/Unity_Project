@@ -44,12 +44,13 @@ public abstract class Skill : ScriptableObject
     public YieldInstruction waitDelay;
     public YieldInstruction waitSkillEndDelay;
 
-    private GameObject curEffect;
+    protected GameObject curEffect;
     private List<GameObject> effects;
     private ISkillOwner owner;
 
     private float timer;
     private int effectCount;
+    private bool isSetup = false;
 
     public float CoolTimeRatio
     {
@@ -64,11 +65,12 @@ public abstract class Skill : ScriptableObject
     {
         owner = _owner;
 
-        waitTickDelay = new WaitForSeconds(tickDelay);
-        waitDelay = new WaitForSeconds(delay);
-        waitSkillEndDelay = new WaitForSeconds(skillDuration);
+        waitTickDelay ??= new WaitForSeconds(tickDelay);
+        waitDelay ??= new WaitForSeconds(delay);
+        waitSkillEndDelay ??= new WaitForSeconds(skillDuration);
 
-        SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
+        if(!isSetup)
+            SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
     }
 
     public IEnumerator CoolTimeRoutine()
@@ -91,7 +93,17 @@ public abstract class Skill : ScriptableObject
         return false;
     }
 
-    public void DamageToTargets(float _skillPower) => overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
+    public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
+    public void DamageToTargets(float _skillPower)
+    {
+        if(curEffect == null)
+        {
+            Debug.Log("이펙트가 없습니다.");
+            return;
+        }
+        overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
+    }
+    public void DamageToTargets(float _skillPower, Vector3 overlapDistance) => overlap.DealDamageToTargets(curEffect.transform, overlapDistance, skillVec, _skillPower, owner.GetDamage());
 
     protected abstract bool SkillCondition();
     
@@ -119,7 +131,7 @@ public abstract class Skill : ScriptableObject
 
     public void CreateEffect(GameObject effect)
     {
-        if(curEffect != null)
+        if (curEffect != null)
             effects.Add(curEffect);
 
         curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
@@ -130,13 +142,40 @@ public abstract class Skill : ScriptableObject
 
         curEffect.transform.rotation *= Quaternion.Euler(effectRotations[effectCount]);
 
-        Vector3 position = curEffect.transform.position + 
-            (owner.GetTransform().forward * effectDistances[effectCount].z) +
-            (owner.GetTransform().right   * effectDistances[effectCount].x) + 
-            (owner.GetTransform().up      * effectDistances[effectCount].y);
+        Vector3 position = OwnerPos(effectDistances[effectCount]);
 
         curEffect.transform.position = position;
         effectCount++;
+    }
+
+    private Vector3 OwnerPos(Vector3 effectDistances)
+    {
+        return curEffect.transform.position +
+                    (owner.GetTransform().forward * effectDistances.z) +
+                    (owner.GetTransform().right * effectDistances.x) +
+                    (owner.GetTransform().up * effectDistances.y);
+    }
+
+    private Transform OwnerTransform(Vector3 effectDistances)
+    {
+        Transform temp = curEffect.transform;
+        temp.position = curEffect.transform.position +
+                    (owner.GetTransform().forward * effectDistances.z) +
+                    (owner.GetTransform().right * effectDistances.x) +
+                    (owner.GetTransform().up * effectDistances.y);
+
+        return temp;
+    }
+
+    private Transform EffectPos(Vector3 distance)
+    {
+        Transform temp = curEffect.transform;
+        temp.position = curEffect.transform.position +
+                    (curEffect.transform.forward * distance.z) +
+                    (curEffect.transform.right * distance.x) +
+                    (curEffect.transform.up * distance.y);
+
+        return temp;
     }
 
     IEnumerator DelayCreateEffect(GameObject effect, float delay)
@@ -156,6 +195,7 @@ public abstract class Skill : ScriptableObject
 
     private void SetupSkillData(SkillData data)
     {
+        isSetup = true;
         skillPower = data.skillPower;
         skillName = data.skillName;
         coolTime = data.coolTime;

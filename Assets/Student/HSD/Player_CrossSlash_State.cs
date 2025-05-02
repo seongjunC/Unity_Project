@@ -11,7 +11,6 @@ public class Player_CrossSlash_State : PlayerState
     public override void Enter()
     {
         base.Enter();
-        stateTimer = .3f;
     }
 
     public override void Exit()
@@ -35,10 +34,5 @@ public class Player_CrossSlash_State : PlayerState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        if (stateTimer > 0)
-        {
-            rb.velocity = player.camDir * 2;
-        }
     }
 }

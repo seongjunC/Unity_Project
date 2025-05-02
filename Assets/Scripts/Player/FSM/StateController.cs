@@ -19,6 +19,7 @@ public class StateController : MonoBehaviour
     // Skill
     public Player_CrossSlash_State crossSlashState { get; private set; }
     public Player_PowerSkill_State powerSkillState { get; private set; }
+    public Player_Bladestorm_State bladestormState { get; private set; }
 
 #endregion
     private void Awake()
@@ -38,6 +39,7 @@ public class StateController : MonoBehaviour
 
         crossSlashState = new Player_CrossSlash_State(player, stateMachine, "CrossSlash");
         powerSkillState = new Player_PowerSkill_State(player, stateMachine, "Power");
+        bladestormState = new Player_Bladestorm_State(player, stateMachine, "Bladestorm");
     }
 
     private void Start()
@@ -56,5 +58,6 @@ public class StateController : MonoBehaviour
     }
 
     public void AnimFinishEvent() => stateMachine.currentState.AnimFinishEvent();
-    public void CanNextComboEvent() => attackState.canNextCombo = true;   
+    public void CanNextComboEvent() => attackState.canNextCombo = true;
+    private void MoveEvent(float force) => player.rigid.AddForce(player.transform.forward * force,ForceMode.Impulse);
 }

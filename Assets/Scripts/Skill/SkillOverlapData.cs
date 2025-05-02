@@ -55,4 +55,17 @@ public class SkillOverlapData
             }
         }
     }
+    public void DealDamageToTargets(Transform curEffect, Vector3 distance, SkillVector skillVec, float skillPower, int damage)
+    {
+        foreach (var hit in GetTarget(curEffect.transform, distance, radius, skillVec))
+        {
+            if (hit.TryGetComponent<IDamagable>(out IDamagable target))
+            {
+                if (targetMask.value == 6)
+                    target.TakeDamage(skillPower * damage);
+                else
+                    target.TakeDamage((int)(skillPower));
+            }
+        }
+    }
 }

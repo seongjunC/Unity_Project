@@ -9,36 +9,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09fc1ccfa0b52184b8e9abbda24345b3, type: 3}
-  m_Name: CrossSlashSkill
+  m_Script: {fileID: 11500000, guid: d86748c1848b8534ab02d6ac9b9f7100, type: 3}
+  m_Name: BladstormSkill
   m_EditorClassIdentifier: 
   metaData:
     icon: {fileID: 0}
     skillDescription: 
-    needLevel: 1
-  skillName: CrossSlash
+    needLevel: 0
+  skillName: Bladstorm
   overlap:
     overlapType: 0
     targetMask:
       serializedVersion: 2
       m_Bits: 64
-    boxSize: {x: 2.2, y: 1.5, z: 2}
+    boxSize: {x: 4, y: 1.5, z: 3}
     height: 0
     radius: 2
-    distance: {x: 0, y: 1.5, z: 1.7}
-  effectPrefab: {fileID: 1919708242137258, guid: e60d36cff17a1ce4db49ef54f9e72f61, type: 3}
+    distance: {x: 0, y: 1.4, z: 3}
+  effectPrefab: {fileID: 1996079926692674, guid: fb101b1453aec9747a5ed7244075b1a2, type: 3}
   effectRotations:
-  - {x: 0, y: 0, z: 140}
-  - {x: 0, y: 0, z: 40}
+  - {x: 0, y: 0, z: 0}
   effectDistances:
-  - {x: 0, y: 1, z: 0}
-  - {x: 0, y: 1, z: 0}
-  isTick: 0
-  tickDelay: 0
+  - {x: 0, y: 2, z: 0}
+  isTick: 1
+  tickDelay: 0.1
   isMove: 0
   skillSpeed: 0
   dir: {x: 0, y: 0, z: 0}
-  delay: 0.5
+  delay: 0.7
   skillPower: 1
   coolTime: 2
-  skillDuration: 1
+  skillDuration: 1.5
+  bladestormOffset: {x: 0, y: 0, z: 9}
+  bladestormWait: 0.4

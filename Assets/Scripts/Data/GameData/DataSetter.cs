@@ -180,7 +180,7 @@ public class DataSetter : MonoBehaviour
             string[] columns = row[i].Split('\t');
 
             string skillName = columns[0];
-            SkillData skillData = new SkillData {skillName = skillName, skillPower = int.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
+            SkillData skillData = new SkillData {skillName = skillName, skillPower = float.Parse(columns[1]), coolTime = float.Parse(columns[2]) };
 
             skillDataBase.AddSkillData(skillName, skillData);
         }
