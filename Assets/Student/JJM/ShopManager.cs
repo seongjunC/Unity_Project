@@ -22,6 +22,10 @@ public class ShopManager : MonoBehaviour
     public Button confirmButton; // 확인 버튼
     public Button cancelButton; // 취소 버튼
 
+    [Header("Failure Message")]
+    public GameObject failureMessage; // 구매 실패 메시지 UI
+    public float failureMessageDuration = 2f; // 실패 메시지 표시 시간
+
     private ShopItem selectedItem; // 현재 선택된 아이템
     private void Start()
     {
@@ -100,12 +104,31 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("골드가 부족합니다!");
+            ShowFailureMessage("골드가 부족합니다!");
         }
 
         ClosePopup(); // 팝업 닫기
     }
+    private void ShowFailureMessage(string message)
+    {
+        if (failureMessage != null)
+        {
+            Text failureText = failureMessage.GetComponent<Text>();
+            if (failureText != null)
+            {
+                failureText.text = message;
+            }
 
+            failureMessage.SetActive(true); // 실패 메시지 활성화
+            StartCoroutine(HideFailureMessageAfterDelay());
+        }
+    }
+
+    private IEnumerator HideFailureMessageAfterDelay()
+    {
+        yield return new WaitForSeconds(failureMessageDuration);
+        failureMessage.SetActive(false); // 실패 메시지 비활성화
+    }
     private void ClosePopup()
     {
         purchasePopup.SetActive(false); // 팝업 비활성화
