@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class OpenDogam : MonoBehaviour
 {
     [Header("Dogam UI")]
-    public Canvas dogamCanvas; // ?꾧컧 UI濡??ъ슜??罹붾쾭??
-    public GameObject itemUIPrefab; // ?꾩씠??UI ?꾨━??(?꾩씠???대쫫, ?꾩씠肄??쒖떆)
-    public Transform itemListParent; // ?꾩씠??紐⑸줉???쒖떆??遺紐?媛앹껜
-    public Text itemDetailText; // ?꾩씠???곸꽭 ?뺣낫瑜??쒖떆???띿뒪??
-    public Image itemDetailIcon; // ?꾩씠???곸꽭 ?뺣낫???꾩씠肄??쒖떆
+    public Canvas dogamCanvas; // 도감 UI로 사용할 캔버스
+    public GameObject itemUIPrefab; // 아이템 UI 프리팹 (아이템 이름, 아이콘 표시)
+    public Transform itemListParent; // 아이템 목록을 표시할 부모 객체
+    public Text itemDetailText; // 아이템 상세 정보를 표시할 텍스트
+    public Image itemDetailIcon; // 아이템 상세 정보의 아이콘 표시
 
     [Header("Item Data")]
     public List<ItemData> itemDatabase; // 아이템 데이터베이스
@@ -55,11 +55,11 @@ public class OpenDogam : MonoBehaviour
         if (dogamCanvas != null)
         {
             dogamCanvas.gameObject.SetActive(!dogamCanvas.gameObject.activeSelf);
-            Debug.Log($"Dogam Canvas ?곹깭: {dogamCanvas.gameObject.activeSelf}");
+            Debug.Log($"Dogam Canvas 상태: {dogamCanvas.gameObject.activeSelf}");
         }
         else
         {
-            Debug.LogWarning("Dogam Canvas媛 ?ㅼ젙?섏? ?딆븯?듬땲??");
+            Debug.LogWarning("Dogam Canvas가 설정되지 않았습니다.");
         }
     }
 
@@ -76,23 +76,21 @@ public class OpenDogam : MonoBehaviour
         {
             if (item == null)
             {
-                Debug.LogError("itemDatabase??null ??ぉ???덉뒿?덈떎.");
+                Debug.LogError("itemDatabase에 null 항목이 있습니다.");
                 continue;
             }
-
-            Debug.Log($"?꾩씠??異붽?: {item.itemName}");
 
             GameObject itemUI = Instantiate(itemUIPrefab, itemListParent);
             if (itemUI == null)
             {
-                Debug.LogError("itemUIPrefab?먯꽌 ?앹꽦??itemUI媛 null?낅땲??");
+                Debug.LogError("itemUIPrefab에서 생성된 itemUI가 null입니다.");
                 continue;
             }
 
             Text textComponent = itemUI.GetComponentInChildren<Text>();
             if (textComponent == null)
             {
-                Debug.LogError("itemUIPrefab??Text 而댄룷?뚰듃媛 ?놁뒿?덈떎.");
+                Debug.LogError("itemUIPrefab에 Text 컴포넌트가 없습니다.");
                 continue;
             }
             textComponent.text = item.itemName;
@@ -100,7 +98,7 @@ public class OpenDogam : MonoBehaviour
             Image imageComponent = itemUI.GetComponentInChildren<Image>();
             if (imageComponent == null)
             {
-                Debug.LogError("itemUIPrefab??Image 而댄룷?뚰듃媛 ?놁뒿?덈떎.");
+                Debug.LogError("itemUIPrefab에 Image 컴포넌트가 없습니다.");
                 continue;
             }
             imageComponent.sprite = item.icon;
@@ -108,25 +106,22 @@ public class OpenDogam : MonoBehaviour
             Button itemButton = itemUI.GetComponent<Button>();
             if (itemButton == null)
             {
-                Debug.LogError("itemUIPrefab??Button 而댄룷?뚰듃媛 ?놁뒿?덈떎.");
+                Debug.LogError("itemUIPrefab에 Button 컴포넌트가 없습니다.");
                 continue;
             }
-
-            Debug.Log($"Button 而댄룷?뚰듃媛 ?ㅼ젙?섏뿀?듬땲?? {item.itemName}");
-
             itemButton.onClick.AddListener(() => ShowItemDetails(item));
         }
     }
 
     private void ShowItemDetails(ItemData item)
     {
-        Debug.Log($"?꾩씠???곸꽭 ?뺣낫 ?쒖떆: {item.itemName}");
-        // ?꾩씠???곸꽭 ?뺣낫 ?쒖떆
+        Debug.Log($"아이템 상세 정보 표시: {item.itemName}");
+        // 아이템 상세 정보 표시
         itemDetailText.text = $"Name: {item.itemName}\n" +
                               $"Grade: {item.itemGrade}\n" +
                               $"Description: {item.description}";
         itemDetailIcon.sprite = item.icon;
-        itemDetailIcon.color = item.GetItemGradeColor(); // ?깃툒???곕Ⅸ ?됱긽 ?ㅼ젙
+        itemDetailIcon.color = item.GetItemGradeColor(); // 등급에 따른 색상 설정
     }
     private void OnSearchValueChanged(string searchText)
     {
