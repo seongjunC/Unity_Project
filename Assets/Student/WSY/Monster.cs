@@ -114,7 +114,7 @@ public class Monster : MonoBehaviour, IDamagable
             animator.SetTrigger("Die");
 
             // 플레이어의 골드 증가시키기
-            Manager.Game.AddGold(gold * Random.Range(0.8f, 1.1f));
+            Manager.Game.AddGold((int)(gold * Random.Range(0.8f, 1.1f)));
 
             // 플레이어의 경험치 증가시키기 (데이터 매니저 통해서)
             Manager.Data.playerStatus.AddExp(exp);
