@@ -11,6 +11,7 @@ public static class Manager
     public static DataManager Data => DataManager.GetInstance();
     public static SceneChangeManager SceneChanger => SceneChangeManager.GetInstance();
 
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Initialize()
     {

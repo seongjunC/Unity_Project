@@ -215,8 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd46f0ae544c1d4eb822f67deb3c83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSpawnPointId: Dungeon2F
-  sceneName: 3
+  targetSpawnPointId: 3
+  sceneName: Dungeon2F
 --- !u!1 &4972976635032333810
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   socketGroup_obsolete: -1
   doorPrefabs_obsolete: []
   blockerPrefabs_obsolete: []
-  socket: {fileID: -2071731128158374647, guid: b02da408c0d9a48448e065b064c8b33f, type: 2}
+  socket: {fileID: 7409863246905600908, guid: 3be966e0f9a9ac046b1c0406e5c4953f, type: 2}
   doorPrefabInstance: {fileID: 0}
   doorComponent: {fileID: 0}
   tile: {fileID: 0}
@@ -533,7 +533,7 @@ Transform:
   m_GameObject: {fileID: 8753678733671742010}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.6399987, y: 0.7, z: -4.4300003}
+  m_LocalPosition: {x: -0.6399987, y: 0.8, z: -4.4300003}
   m_LocalScale: {x: 0.5, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []

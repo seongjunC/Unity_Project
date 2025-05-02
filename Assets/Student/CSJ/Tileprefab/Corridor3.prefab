@@ -1181,6 +1181,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorPos2
       objectReference: {fileID: 0}
+    - target: {fileID: 4142770649549263827, guid: 9181cd76d9cd0d3449f1682f05f7affe, type: 3}
+      propertyPath: socket
+      value: 
+      objectReference: {fileID: 7409863246905600908, guid: 3be966e0f9a9ac046b1c0406e5c4953f, type: 2}
     - target: {fileID: 5164581402146744553, guid: 9181cd76d9cd0d3449f1682f05f7affe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.5
@@ -2127,6 +2131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorPos3
       objectReference: {fileID: 0}
+    - target: {fileID: 4142770649549263827, guid: 9181cd76d9cd0d3449f1682f05f7affe, type: 3}
+      propertyPath: socket
+      value: 
+      objectReference: {fileID: 7409863246905600908, guid: 3be966e0f9a9ac046b1c0406e5c4953f, type: 2}
     - target: {fileID: 5164581402146744553, guid: 9181cd76d9cd0d3449f1682f05f7affe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.5
@@ -3627,6 +3635,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorPos1
       objectReference: {fileID: 0}
+    - target: {fileID: 4142770649549263827, guid: 9181cd76d9cd0d3449f1682f05f7affe, type: 3}
+      propertyPath: socket
+      value: 
+      objectReference: {fileID: 7409863246905600908, guid: 3be966e0f9a9ac046b1c0406e5c4953f, type: 2}
     - target: {fileID: 5164581402146744553, guid: 9181cd76d9cd0d3449f1682f05f7affe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15

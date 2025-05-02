@@ -16,12 +16,15 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 
         wft = new WaitForSeconds(0.3f);
     }
+    public void ChangeToScene(string targetSceneName, string spawnPointId){
+        StartCoroutine(CheckScene(targetSceneName,spawnPointId));
+    }
 
     public void ChangeToScene(string targetSceneName, string spawnPointId, GameObject player){
         StartCoroutine(CheckScene(targetSceneName,spawnPointId, player));
     }
 
-    IEnumerator CheckScene(string targetSceneName,string spawnPointId, GameObject player){
+    IEnumerator CheckScene(string targetSceneName,string spawnPointId, GameObject player = null){
         if(!loadedScenes.Contains(targetSceneName)){
             yield return SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Additive);
             loadedScenes.Add(targetSceneName);
@@ -33,11 +36,12 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
         yield return wft;
 
         SpawnPoint[] spawnPoints = GameObject.FindObjectsOfType<SpawnPoint>();
-
-        Debug.Log($"{spawnPoints.Length}, spLength");
+        
+        if(player ==null){
+            Debug.Log($"{targetSceneName}, player null");
+            yield break;
+        }
         foreach(SpawnPoint spawnPoint in spawnPoints){
-            Debug.Log(spawnPoint.name);
-            Debug.Log(spawnPoint.spawnId);
             if(spawnPoint.spawnId == spawnPointId){
                 player.transform.position = spawnPoint.transform.position;
                 player.transform.rotation = spawnPoint.transform.rotation;
