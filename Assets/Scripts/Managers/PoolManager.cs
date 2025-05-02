@@ -19,14 +19,14 @@ public class PoolManager : Singleton<PoolManager>
 
     public PoolData poolData;
 
-    private void Awake()
+    public void Init()
     {
         poolDic = new Dictionary<string, IObjectPool<GameObject>>();
         poolParent = new Dictionary<string, Transform>();
         lastUsedTime = new Dictionary<string, float>();
 
         parent = new GameObject("Pool Parent").transform;
-        poolData = new();
+        poolData = Manager.Data.poolData;
     }
 
     private void Start()

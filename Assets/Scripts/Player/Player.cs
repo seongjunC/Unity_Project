@@ -19,6 +19,9 @@ public class Player : MonoBehaviour, ISkillOwner
 
     public Vector3 moveDir {  get; private set; }
     public Vector3 camDir {  get; private set; }
+    private bool _isSkillActive;
+    public bool isSkillActive { get; set; }
+
     public Vector3 lastMoveDir;
     public float[] attackMoveForce;
     public float[] attackForce;

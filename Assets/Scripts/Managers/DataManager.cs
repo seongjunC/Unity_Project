@@ -9,6 +9,7 @@ public class DataManager : Singleton<DataManager>
     public MonsterDataBase monsterData;
     public PlayerStatusData playerStatus;
     public SkillDataBase skillData;
+    public PoolData poolData;
 
     public Inventory inventory;
 
@@ -17,6 +18,7 @@ public class DataManager : Singleton<DataManager>
         monsterData = new();
         skillData = new();
         playerStatus = new();
+        poolData = new();
 
         dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
         dataSetter.transform.parent = transform;          
@@ -31,6 +33,7 @@ public class DataManager : Singleton<DataManager>
 
             inventory = new GameObject("Inventory").AddComponent<Inventory>();
             Manager.Audio.Init();
+            Manager.Pool.Init();
 
             playerStatus.critChance.SetBaseStat(10);
             playerStatus.critDamage.SetBaseStat(150);

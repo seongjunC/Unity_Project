@@ -19,7 +19,7 @@ public class PlayerMoveState : PlayerState
     {
         base.Update();
 
-        //player.transform.Translate(player.camDir * player.moveSpeed * Time.deltaTime);
+        player.transform.Translate(player.camDir * player.moveSpeed * Time.deltaTime, Space.World);
 
         if (player.camDir.sqrMagnitude > 0.2f)
         {
@@ -53,14 +53,13 @@ public class PlayerMoveState : PlayerState
         }
     }
 
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
+    //public override void FixedUpdate()
+    //{
+    //    base.FixedUpdate();
 
-        targetVelocity = player.camDir * player.moveSpeed;
-        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
-        rb.velocity = currentVelocity;
-    }
+    //   Vector3 targetPosition = rb.position + player.camDir * player.moveSpeed * Time.fixedDeltaTime;
+    //   rb.MovePosition(targetPosition);
+    //}
 
     private void Rotate()
     {

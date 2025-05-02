@@ -11,13 +11,13 @@ public class TestSkill : Skill
 
         CreateEffect(effectPrefab);
 
-        DamageToTargets();
+        DamageToTargets(1);
         yield return new WaitForSeconds(.3f);
 
-        DamageToTargets();
+        DamageToTargets(1);
         yield return new WaitForSeconds(.3f);
 
-        DamageToTargets();
+        DamageToTargets(1);
         yield return new WaitForSeconds(.3f);
     }
 
