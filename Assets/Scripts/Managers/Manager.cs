@@ -9,6 +9,8 @@ public static class Manager
     public static ResourcesManager Resources => ResourcesManager.GetInstance();
     public static AudioManager Audio => AudioManager.GetInstance();
     public static DataManager Data => DataManager.GetInstance();
+    public static SceneChangeManager SceneChanger => SceneChangeManager.GetInstance();
+
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Initialize()
@@ -18,5 +20,6 @@ public static class Manager
         ResourcesManager.CreateManager();
         AudioManager.CreateManager();
         DataManager.CreateManager();
+        SceneChangeManager.CreateManager();
     }
 }

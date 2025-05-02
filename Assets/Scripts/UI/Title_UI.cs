@@ -5,7 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Title_UI : MonoBehaviour
 {
-    [SerializeField] private FadeScreen fadeScreen;
+    [SerializeField] 
+    private FadeScreen fadeScreen;
+    [SerializeField]
+    private string spawnId;
+    [SerializeField]
+    private string sceneName;
+    private WaitForSeconds wft = new WaitForSeconds(1f);
+    private WaitForSeconds wft2 = new WaitForSeconds(0.5f);
 
     public void StartGame()
     {
@@ -19,8 +26,15 @@ public class Title_UI : MonoBehaviour
     IEnumerator StartGameRoutine()
     {
         fadeScreen.gameObject.SetActive(true);
+        yield return wft;
 
-        yield return new WaitForSeconds(2);
+        Manager.SceneChanger.ChangeToScene(sceneName, spawnId);
+
+        yield return wft2;
+
+        fadeScreen.gameObject.SetActive(false);
+        SceneManager.UnloadSceneAsync("TitleScene");
+
         //SceneManager.LoadSceneAsync("InGame1");
     }
 }

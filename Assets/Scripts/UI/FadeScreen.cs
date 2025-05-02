@@ -25,6 +25,7 @@ public class FadeScreen : MonoBehaviour
 
             yield return null;
         }
+        
 
         yield return null;
     }
