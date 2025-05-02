@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-// »óÅÂÀÇ ÀüÀÌ, »ı¼ºÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+// ìƒíƒœì˜ ì „ì´, ìƒì„±ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
 public class StateMachine
 {
     public PlayerState currentState;
 
     /// <summary>
-    /// »óÅÂ ÃÊ±âÈ­ ÇÔ¼ö
+    /// ìƒíƒœ ì´ˆê¸°í™” í•¨ìˆ˜
     /// </summary>
     /// <param name="newState"></param>
     public void InitState(PlayerState newState)
@@ -19,7 +19,7 @@ public class StateMachine
     }
 
     /// <summary>
-    /// »óÅÂ º¯°æ ÇÔ¼ö
+    /// ìƒíƒœ ë³€ê²½ í•¨ìˆ˜
     /// </summary>
     /// <param name="newState"></param>
     public void ChangeState(PlayerState newState)
@@ -30,7 +30,7 @@ public class StateMachine
     }
 
     /// <summary>
-    /// ÇÁ·¹ÀÓ ¸¶´Ù ¾÷µ¥ÀÌÆ® µÉ ÇÔ¼öÀÎ stateÀÇ Update¿Í TransitionÀ» È£Ãâ½ÃÅ°´Â ÇÔ¼ö
+    /// í”„ë ˆì„ ë§ˆë‹¤ ì—…ë°ì´íŠ¸ ë  í•¨ìˆ˜ì¸ stateì˜ Updateì™€ Transitionì„ í˜¸ì¶œì‹œí‚¤ëŠ” í•¨ìˆ˜
     /// </summary>
     public void UpdateStateMachine()
     {

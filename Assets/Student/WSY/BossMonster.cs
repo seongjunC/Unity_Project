@@ -9,13 +9,12 @@ public class BossMonster : Monster, ISkillOwner
         Move();
         Attack();
         BossAttack();
-        Die();
     }
 
     private void BossAttack()
     {
         // 콜라이더로 원형 추적 범위에 들어온 것을 감지하고, (감지 범위 내 물체들은 배열로 저장됨, 2배 넓은 범위 감지)
-        Collider[] others = Physics.OverlapSphere(transform.position, detectRadius * 2, playerLayer);
+        Collider[] others = Physics.OverlapSphere(transform.position, statusCon.status.range * 2, playerLayer);
 
         foreach (var other in others)
         {
@@ -27,16 +26,11 @@ public class BossMonster : Monster, ISkillOwner
                 // 플레이어의 체력을 감소시키기(아래는 직접 수정, 활성화 코드는 IDamagable 사용)
                 // Manager.Data.playerStatus.curHP -= damage;
                 IDamagable target = other.GetComponent<IDamagable>();
-                target.TakeDamage(damage*2);
+                target.TakeDamage(statusCon.status.damage*2);
 
                 break;
             }
         }
-    }
-
-    protected override void Die()
-    {
-        base.Die();
     }
 
     public Transform GetTransform()
@@ -46,6 +40,6 @@ public class BossMonster : Monster, ISkillOwner
 
     public int GetDamage()
     {
-        return damage;
+        return statusCon.status.damage;
     }
 }
