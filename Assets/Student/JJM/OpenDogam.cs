@@ -8,30 +8,30 @@ using UnityEngine.UI;
 public class OpenDogam : MonoBehaviour
 {
     [Header("Dogam UI")]
-    public Canvas dogamCanvas; // µµ°¨ UI·Î »ç¿ëÇÒ Äµ¹ö½º
-    public GameObject itemUIPrefab; // ¾ÆÀÌÅÛ UI ÇÁ¸®ÆÕ (¾ÆÀÌÅÛ ÀÌ¸§, ¾ÆÀÌÄÜ Ç¥½Ã)
-    public Transform itemListParent; // ¾ÆÀÌÅÛ ¸ñ·ÏÀ» Ç¥½ÃÇÒ ºÎ¸ğ °´Ã¼
-    public Text itemDetailText; // ¾ÆÀÌÅÛ »ó¼¼ Á¤º¸¸¦ Ç¥½ÃÇÒ ÅØ½ºÆ®
-    public Image itemDetailIcon; // ¾ÆÀÌÅÛ »ó¼¼ Á¤º¸ÀÇ ¾ÆÀÌÄÜ Ç¥½Ã
+    public Canvas dogamCanvas; // ë„ê° UIë¡œ ì‚¬ìš©í•  ìº”ë²„ìŠ¤
+    public GameObject itemUIPrefab; // ì•„ì´í…œ UI í”„ë¦¬íŒ¹ (ì•„ì´í…œ ì´ë¦„, ì•„ì´ì½˜ í‘œì‹œ)
+    public Transform itemListParent; // ì•„ì´í…œ ëª©ë¡ì„ í‘œì‹œí•  ë¶€ëª¨ ê°ì²´
+    public Text itemDetailText; // ì•„ì´í…œ ìƒì„¸ ì •ë³´ë¥¼ í‘œì‹œí•  í…ìŠ¤íŠ¸
+    public Image itemDetailIcon; // ì•„ì´í…œ ìƒì„¸ ì •ë³´ì˜ ì•„ì´ì½˜ í‘œì‹œ
 
     [Header("Item Data")]
-    public List<ItemData> itemDatabase; // ¾ÆÀÌÅÛ µ¥ÀÌÅÍº£ÀÌ½º
-    private List<ItemData> originalOrder; // ÃÊ±â ¼ø¼­¸¦ ÀúÀåÇÒ ¸®½ºÆ®
+    public List<ItemData> itemDatabase; // ì•„ì´í…œ ë°ì´í„°ë² ì´ìŠ¤
+    private List<ItemData> originalOrder; // ì´ˆê¸° ìˆœì„œë¥¼ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
 
     [Header("Search")]
-    public TMP_InputField searchInputField; // °Ë»ö ÀÔ·Â ÇÊµå
+    public TMP_InputField searchInputField; // ê²€ìƒ‰ ì…ë ¥ í•„ë“œ
 
     [Header("Sorting")]
-    public Dropdown sortDropdown; // Á¤·Ä ±âÁØ ¼±ÅÃ Dropdown
+    public Dropdown sortDropdown; // ì •ë ¬ ê¸°ì¤€ ì„ íƒ Dropdown
     private void Start()
     {
-        // ÃÊ±â ¼ø¼­ ÀúÀå
+        // ì´ˆê¸° ìˆœì„œ ì €ì¥
         originalOrder = new List<ItemData>(itemDatabase);
 
         PopulateDogam();
-        // °Ë»ö ÀÔ·Â ÇÊµå °ª º¯°æ ½Ã °Ë»ö ¸Ş¼­µå È£Ãâ
+        // ê²€ìƒ‰ ì…ë ¥ í•„ë“œ ê°’ ë³€ê²½ ì‹œ ê²€ìƒ‰ ë©”ì„œë“œ í˜¸ì¶œ
         searchInputField.onValueChanged.AddListener(OnSearchValueChanged);
-        // Dropdown °ª º¯°æ ½Ã Á¤·Ä ¸Ş¼­µå È£Ãâ
+        // Dropdown ê°’ ë³€ê²½ ì‹œ ì •ë ¬ ë©”ì„œë“œ í˜¸ì¶œ
         sortDropdown.onValueChanged.AddListener(OnSortChanged);
     }
 
@@ -55,42 +55,42 @@ public class OpenDogam : MonoBehaviour
         if (dogamCanvas != null)
         {
             dogamCanvas.gameObject.SetActive(!dogamCanvas.gameObject.activeSelf);
-            Debug.Log($"Dogam Canvas »óÅÂ: {dogamCanvas.gameObject.activeSelf}");
+            Debug.Log($"Dogam Canvas ìƒíƒœ: {dogamCanvas.gameObject.activeSelf}");
         }
         else
         {
-            Debug.LogWarning("Dogam Canvas°¡ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("Dogam Canvasê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 
     private void PopulateDogam()
     {
-        // ±âÁ¸ UI Á¦°Å
+        // ê¸°ì¡´ UI ì œê±°
         foreach (Transform child in itemListParent)
         {
             Destroy(child.gameObject);
         }
 
-        // ¾ÆÀÌÅÛ ¸ñ·Ï »ı¼º
+        // ì•„ì´í…œ ëª©ë¡ ìƒì„±
         foreach (var item in itemDatabase)
         {
             if (item == null)
             {
-                Debug.LogError("itemDatabase¿¡ null Ç×¸ñÀÌ ÀÖ½À´Ï´Ù.");
+                Debug.LogError("itemDatabaseì— null í•­ëª©ì´ ìˆìŠµë‹ˆë‹¤.");
                 continue;
             }
 
             GameObject itemUI = Instantiate(itemUIPrefab, itemListParent);
             if (itemUI == null)
             {
-                Debug.LogError("itemUIPrefab¿¡¼­ »ı¼ºµÈ itemUI°¡ nullÀÔ´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì—ì„œ ìƒì„±ëœ itemUIê°€ nullì…ë‹ˆë‹¤.");
                 continue;
             }
 
             Text textComponent = itemUI.GetComponentInChildren<Text>();
             if (textComponent == null)
             {
-                Debug.LogError("itemUIPrefab¿¡ Text ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì— Text ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
             textComponent.text = item.itemName;
@@ -98,7 +98,7 @@ public class OpenDogam : MonoBehaviour
             Image imageComponent = itemUI.GetComponentInChildren<Image>();
             if (imageComponent == null)
             {
-                Debug.LogError("itemUIPrefab¿¡ Image ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì— Image ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
             imageComponent.sprite = item.icon;
@@ -106,7 +106,7 @@ public class OpenDogam : MonoBehaviour
             Button itemButton = itemUI.GetComponent<Button>();
             if (itemButton == null)
             {
-                Debug.LogError("itemUIPrefab¿¡ Button ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("itemUIPrefabì— Button ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
             itemButton.onClick.AddListener(() => ShowItemDetails(item));
@@ -115,30 +115,30 @@ public class OpenDogam : MonoBehaviour
 
     private void ShowItemDetails(ItemData item)
     {
-        Debug.Log($"¾ÆÀÌÅÛ »ó¼¼ Á¤º¸ Ç¥½Ã: {item.itemName}");
-        // ¾ÆÀÌÅÛ »ó¼¼ Á¤º¸ Ç¥½Ã
+        Debug.Log($"ì•„ì´í…œ ìƒì„¸ ì •ë³´ í‘œì‹œ: {item.itemName}");
+        // ì•„ì´í…œ ìƒì„¸ ì •ë³´ í‘œì‹œ
         itemDetailText.text = $"Name: {item.itemName}\n" +
                               $"Grade: {item.itemGrade}\n" +
                               $"Description: {item.description}";
         itemDetailIcon.sprite = item.icon;
-        itemDetailIcon.color = item.GetItemGradeColor(); // µî±Ş¿¡ µû¸¥ »ö»ó ¼³Á¤
+        itemDetailIcon.color = item.GetItemGradeColor(); // ë“±ê¸‰ì— ë”°ë¥¸ ìƒ‰ìƒ ì„¤ì •
     }
     private void OnSearchValueChanged(string searchText)
     {
-        // °Ë»ö¾î°¡ ºñ¾î ÀÖÀ¸¸é ÀüÃ¼ ¸ñ·Ï Ç¥½Ã
+        // ê²€ìƒ‰ì–´ê°€ ë¹„ì–´ ìˆìœ¼ë©´ ì „ì²´ ëª©ë¡ í‘œì‹œ
         if (string.IsNullOrEmpty(searchText))
         {
             PopulateDogam();
             return;
         }
 
-        // ±âÁ¸ UI Á¦°Å
+        // ê¸°ì¡´ UI ì œê±°
         foreach (Transform child in itemListParent)
         {
             Destroy(child.gameObject);
         }
 
-        // °Ë»ö °á°ú¿¡ ÇØ´çÇÏ´Â ¾ÆÀÌÅÛ¸¸ Ç¥½Ã
+        // ê²€ìƒ‰ ê²°ê³¼ì— í•´ë‹¹í•˜ëŠ” ì•„ì´í…œë§Œ í‘œì‹œ
         var searchResults = itemDatabase.Where(item => item.itemName.ToLower().Contains(searchText.ToLower())).ToList();
         foreach (var item in searchResults)
         {
@@ -154,21 +154,21 @@ public class OpenDogam : MonoBehaviour
     {
         switch (selectedIndex)
         {
-            case 0: // ±âº» ¼ø¼­
+            case 0: // ê¸°ë³¸ ìˆœì„œ
                 itemDatabase = new List<ItemData>(originalOrder);
                 break;
-            case 1: // ÀÌ¸§¼ø Á¤·Ä
+            case 1: // ì´ë¦„ìˆœ ì •ë ¬
                 itemDatabase = itemDatabase.OrderBy(item => item.itemName).ToList();
                 break;
-            case 2: // µî±Ş¼ø Á¤·Ä
+            case 2: // ë“±ê¸‰ìˆœ ì •ë ¬
                 itemDatabase = itemDatabase.OrderBy(item => item.itemGrade).ToList();
                 break;
             default:
-                Debug.LogWarning("¾Ë ¼ö ¾ø´Â Á¤·Ä ±âÁØÀÔ´Ï´Ù.");
+                Debug.LogWarning("ì•Œ ìˆ˜ ì—†ëŠ” ì •ë ¬ ê¸°ì¤€ì…ë‹ˆë‹¤.");
                 return;
         }
 
-        Debug.Log($"Á¤·Ä ±âÁØ º¯°æ: {sortDropdown.options[selectedIndex].text}");
-        PopulateDogam(); // Á¤·ÄµÈ µ¥ÀÌÅÍ·Î UI °»½Å
+        Debug.Log($"ì •ë ¬ ê¸°ì¤€ ë³€ê²½: {sortDropdown.options[selectedIndex].text}");
+        PopulateDogam(); // ì •ë ¬ëœ ë°ì´í„°ë¡œ UI ê°±ì‹ 
     }
 }

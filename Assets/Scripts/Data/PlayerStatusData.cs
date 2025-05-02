@@ -5,16 +5,13 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[Serializable]
 public class PlayerStatusData
 {
-    public int baseDamage;
-    public int baseMaxHP;
-
-    public int damage { get { int totalValue = baseDamage; foreach (int i in damageModifier) { totalValue += i; } return totalValue; } }
-    private List<int> damageModifier = new List<int>();
-
-    public int maxHP { get { int totalValue = 0; foreach (int i in hpModifier) { totalValue += i; } return totalValue; } }
-    private List<int> hpModifier = new List<int>();
+    public Stat maxHP = new Stat();
+    public Stat damage = new Stat();
+    public Stat critChance = new Stat();
+    public Stat critDamage = new Stat();
 
     private int _curHP;
     public int curHP { get => _curHP; private set { _curHP = value; OnHPChanged?.Invoke(_curHP); } }
@@ -35,34 +32,25 @@ public class PlayerStatusData
     public Skill[] playerSkills {  get; private set; }
     public bool[] skillUnlock {  get; private set; }
 
-    public void AddModifier(int amount, StatType type)
-    {
-        switch(type)
-        {
-            case StatType.Damage:
-                damageModifier.Add(amount); break;
-            case StatType.MaxHP:
-                hpModifier.Add(amount); break;
-        }
-    }
-    public void RemoveModifier(int amount, StatType type)
-    {
-        switch (type)
-        {
-            case StatType.Damage:
-                damageModifier.Remove(amount); break;
-            case StatType.MaxHP:
-                hpModifier.Remove(amount); break;
-        }
-    }
-
     public void IncreaseHealth(int amount)
     {
         curHP += amount;
 
-        if(curHP > maxHP)
-            curHP = maxHP;
+        if(curHP > maxHP.GetValue())
+            curHP = maxHP.GetValue();
     }
+    public bool DecreaseHealth(float amount)
+    {
+        curHP -= (int)amount;
+
+        if (curHP <= 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void AddExp(int amount)
     {
         curExp += Mathf.RoundToInt((UnityEngine.Random.Range(amount * 0.8f, amount * 1.2f)));
@@ -93,11 +81,11 @@ public class PlayerStatusData
     {
         PlayerStatData data = playerStatData.GetStatData(level);
 
-        baseDamage = data.damage;
+        damage.SetBaseStat(data.damage);
 
         int _maxHP = playerStatData.GetStatData(level).hp;
-        int amount = _maxHP - baseMaxHP;
-        baseMaxHP = _maxHP;
+        int amount = _maxHP - maxHP.baseStat;
+        maxHP.SetBaseStat(_maxHP);
 
         IncreaseHealth(amount);
     }

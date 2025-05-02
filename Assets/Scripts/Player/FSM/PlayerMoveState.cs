@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// »ı¼ºµÈ state
+// ìƒì„±ëœ state
 public class PlayerMoveState : PlayerState
 {
+    Vector3 currentVelocity;
+    Vector3 targetVelocity;
+    float acceleration = 10;
+
     public PlayerMoveState(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
@@ -16,7 +18,16 @@ public class PlayerMoveState : PlayerState
     public override void Update()
     {
         base.Update();
-        Move();
+
+        //player.transform.Translate(player.camDir * player.moveSpeed * Time.deltaTime);
+
+        if (player.camDir.sqrMagnitude > 0.2f)
+        {
+            player.lastMoveDir = player.camDir;
+        }
+
+        if (player.camDir.sqrMagnitude > 0)
+            Rotate();
     }
 
     public override void Exit()
@@ -27,24 +38,34 @@ public class PlayerMoveState : PlayerState
     {
         base.Transition();
 
-        // ex) ½ºÆäÀÌ½º¹Ù¸¦ ´©¸£¸é »óÅÂ ÀüÀÌ
+        // ex) ìŠ¤í˜ì´ìŠ¤ë°”ë¥¼ ëˆ„ë¥´ë©´ ìƒíƒœ ì „ì´
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            stateMachine.ChangeState(player.stateCon.jumpState);
+            stateMachine.ChangeState(stateCon.jumpState);
         }
-        else if (player.moveDir.sqrMagnitude == 0)
+        else if (player.moveDir.sqrMagnitude < .1f)
         {
-            stateMachine.ChangeState(player.stateCon.idleState);
+            stateMachine.ChangeState(stateCon.stopState);
         }
         else if (Input.GetMouseButtonDown(0))
         {
-            stateMachine.ChangeState(player.stateCon.attackState);
+            stateMachine.ChangeState(stateCon.attackState);
         }
     }
 
-    // ¿òÁ÷ÀÓ
-    private void Move()
+    public override void FixedUpdate()
     {
-        player.transform.Translate(player.moveDir*player.moveSpeed*Time.deltaTime);
+        base.FixedUpdate();
+
+        targetVelocity = player.camDir * player.moveSpeed;
+        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+        rb.velocity = currentVelocity;
+    }
+
+    private void Rotate()
+    {
+        if (player.camDir.sqrMagnitude == 0) return;
+        Quaternion targetRot = Quaternion.LookRotation(player.camDir);
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRot, player.rotateSpeed * Time.deltaTime);
     }
 }

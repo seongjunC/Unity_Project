@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerAttackState : PlayerState
 {
-    private float attackDuration = 0.5f; // °ø°Ý Áö¼Ó½Ã°£
-    private float attackTimer;
+    private int comboCount = 1;
+    public bool canNextCombo;
+    private float lastAttackTime;
+    private float resetTime = 3;
 
     public PlayerAttackState(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -13,39 +16,69 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        attackTimer = attackDuration;
 
-        // °ø°ÝÇÏ¸é °ø°Ý È÷Æ® ¹Ú½º ÄÑ±â
+        SetupCombo();
+
+        Collider[] cols = Physics.OverlapSphere(player.transform.position, 10);
+        
+        foreach (var c in cols)
+        {
+            Debug.Log(c.name);
+            if (!c.CompareTag("Monster")) return;
+
+            if (c.TryGetComponent<IDamagable>(out IDamagable damagable))
+            {
+                Debug.Log("1");
+                damagable.TakeDamage(player.attackForce[comboCount-1]);
+            }
+        }
+
+        // ê³µê²©í•˜ë©´ ê³µê²© ížˆíŠ¸ ë°•ìŠ¤ ì¼œê¸°
         if (player.attackHitbox != null)
             player.attackHitbox.SetActive(true);
     }
 
     public override void Update()
     {
-        attackTimer -= Time.deltaTime;
-
-        if (attackTimer <= 0)
-        {
-            if (player.moveDir.sqrMagnitude > 0)
-            {
-                stateMachine.ChangeState(player.stateCon.moveState);
-            }
-            else
-            {
-                stateMachine.ChangeState(player.stateCon.idleState);
-            }
-
-        }
+        
     }
 
     public override void Exit()
     {
         base.Exit();
+        comboCount++;
+        lastAttackTime = Time.time;
 
-        // °ø°Ý È÷Æ®¹Ú½º ²ô±â
+        // ê³µê²© ížˆíŠ¸ë°•ìŠ¤ ë„ê¸°
         if (player.attackHitbox != null)
         {
             player.attackHitbox.SetActive(false);
         }
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+
+        if(isFinishAnim)
+            stateMachine.ChangeState(stateCon.idleState);
+
+        if(Input.GetKeyDown(KeyCode.Mouse0) && canNextCombo)
+        {
+            canNextCombo = false;
+            comboCount++;
+            SetupCombo();
+        }
+    }
+
+    private void SetupCombo()
+    {
+        if (comboCount > 3 || Time.time >= lastAttackTime + resetTime)
+            comboCount = 1;
+
+        anim.SetInteger("ComboCount", comboCount);
+        rb.AddForce(player.transform.forward * player.attackMoveForce[comboCount - 1], ForceMode.Impulse);
+
+        lastAttackTime = Time.time;
     }
 }

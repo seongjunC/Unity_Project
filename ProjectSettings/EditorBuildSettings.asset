@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Student/HSD/LoadScene.unity
+    guid: 1f64a88f6af96bf41aef68e6718c5b48
+  - enabled: 1
+    path: Assets/Student/HSD/HSDTestScene.unity
+    guid: 8ae9ef09394c0404fb3b5a901d0d25ef
   m_configObjects: {}
