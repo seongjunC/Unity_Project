@@ -44,7 +44,8 @@ public class PlayerState
 
     public virtual void Transition()
     {
-        
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            stateMachine.ChangeState(stateCon.rollState);
     }
 
     public void OnAnimatorMove()
