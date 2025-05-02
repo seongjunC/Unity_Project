@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestSkill 1
   m_EditorClassIdentifier: 
   metaData:
-    icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    icon: {fileID: 21300000, guid: 9396731a3beccb14f96ea062849c324b, type: 3}
     skillDescription: 1313
     needLevel: 0
   skillName: Test
@@ -21,7 +21,7 @@ MonoBehaviour:
     overlapType: 0
     targetMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
     boxSize: {x: 2, y: 1.1, z: 2.3}
     height: 0
     radius: 2
@@ -36,5 +36,5 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   delay: 0.1
   skillPower: 1
-  coolTime: 10
+  coolTime: 2
   skillDuration: 2

@@ -21,10 +21,9 @@ public class AudioManager : Singleton<AudioManager>
     private void Awake()
     {
         effectCached = new Dictionary<string, AudioClip>();
-        Init();
     }
 
-    private void Init()
+    public void Init()
     {
         audioMixer = Manager.Resources.Load<AudioMixer>("Sound/AudioMixer");
         bgmGroup = audioMixer.FindMatchingGroups("BGM")[0];

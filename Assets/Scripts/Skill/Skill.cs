@@ -92,11 +92,11 @@ public abstract class Skill : ScriptableObject
 
     protected abstract bool SkillCondition();
     
-    public virtual void StartSkill()
+    public virtual void SkillStart()
     {
 
     }
-    public virtual void EndSkill()
+    public virtual void SkillEnd()
     {
         DestroyEffect();
         curEffect = null;

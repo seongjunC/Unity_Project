@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -16,7 +17,6 @@ public class DataManager : Singleton<DataManager>
         monsterData = new();
         skillData = new();
         playerStatus = new();
-        inventory = new GameObject("Inventory").AddComponent<Inventory>();
 
         dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
         dataSetter.transform.parent = transform;          
@@ -25,7 +25,15 @@ public class DataManager : Singleton<DataManager>
     {
         dataSetter.OnDataSetupCompleted = () =>
         {
+            SceneManager.LoadSceneAsync("HSDTestScene");
+
             playerStatus.SetupPlayerStat();
+
+            inventory = new GameObject("Inventory").AddComponent<Inventory>();
+            Manager.Audio.Init();
+
+            playerStatus.critChance.SetBaseStat(10);
+            playerStatus.critDamage.SetBaseStat(150);
             Destroy(dataSetter.gameObject);
         };
 
