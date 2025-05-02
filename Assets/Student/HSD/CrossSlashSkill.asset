@@ -38,7 +38,7 @@ MonoBehaviour:
   isMove: 0
   skillSpeed: 0
   dir: {x: 0, y: 0, z: 0}
-  delay: 0.3
+  delay: 0.5
   skillPower: 1
   coolTime: 2
   skillDuration: 1

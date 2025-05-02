@@ -8,12 +8,10 @@ public class CrossSlashSkill : Skill
     {
         yield return waitDelay;
 
-        CreateEffect(effectPrefab);
         DamageToTargets(skillPower);
 
         yield return new WaitForSeconds(.35f);
 
-        CreateEffect(effectPrefab);
         DamageToTargets(skillPower);
     }
 

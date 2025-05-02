@@ -8,7 +8,6 @@ public class PowerSkill : Skill
     {
         yield return waitDelay;
 
-        CreateEffect(effectPrefab);
         DamageToTargets(skillPower);
     }
 

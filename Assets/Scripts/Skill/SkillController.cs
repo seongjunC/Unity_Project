@@ -18,7 +18,7 @@ public class SkillController : MonoBehaviour
         owner = GetComponent<ISkillOwner>();   
     }
 
-    public void UseSKill(Skill skill)
+    public bool UseSKill(Skill skill)
     {
         if(skillRoutine == null && skill.CanUse())
         {
@@ -26,7 +26,9 @@ public class SkillController : MonoBehaviour
             curSkill.Init(owner);
             StartCoroutine(curSkill.CoolTimeRoutine());
             StartCoroutine(SkillMainRoutine());
+            return true;
         }
+        return false;
     }
 
     public void CancelSkill()
@@ -44,9 +46,15 @@ public class SkillController : MonoBehaviour
         curSkill.SkillStart();
         skillRoutine ??= StartCoroutine(curSkill.SkillRoutine());
         yield return curSkill.waitSkillEndDelay;
-        curSkill.SkillEnd();
+        StartCoroutine(curSkill.SkillEnd());
         skillRoutine = null;
     }
+
+    private void CreateEffectEvent()
+    {
+        curSkill.CreateEffect(curSkill.effectPrefab);
+    }
+
 
 #if UNITY_EDITOR
 

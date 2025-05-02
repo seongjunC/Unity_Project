@@ -16,25 +16,27 @@ MonoBehaviour:
     icon: {fileID: 0}
     skillDescription: 
     needLevel: 0
-  skillName: 
+  skillName: Power
   overlap:
-    overlapType: 0
+    overlapType: 2
     targetMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
     boxSize: {x: 0, y: 0, z: 0}
     height: 0
-    radius: 0
+    radius: 3
     distance: {x: 0, y: 0, z: 0}
-  effectPrefab: {fileID: 0}
-  effectRotations: []
-  effectDistances: []
+  effectPrefab: {fileID: 1210069404974878, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+  effectRotations:
+  - {x: 0, y: 0, z: 0}
+  effectDistances:
+  - {x: 0, y: 0.9, z: 0}
   isTick: 0
   tickDelay: 0
   isMove: 0
   skillSpeed: 0
   dir: {x: 0, y: 0, z: 0}
-  delay: 0
-  skillPower: 0
-  coolTime: 0
-  skillDuration: 0
+  delay: 0.7
+  skillPower: 4
+  coolTime: 3
+  skillDuration: 1

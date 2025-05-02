@@ -18,7 +18,7 @@ public abstract class Skill : ScriptableObject
     public SkillOverlapData overlap;
 
     [Header("Effect Data")]
-    [SerializeField] protected GameObject effectPrefab;
+    public GameObject effectPrefab;
     [Space]
     [SerializeField] private Vector3[] effectRotations;
     [SerializeField] private Vector3[] effectDistances;
@@ -104,17 +104,20 @@ public abstract class Skill : ScriptableObject
 
         effectCount = 0;
     }
-    public virtual void SkillEnd()
+    public IEnumerator SkillEnd()
     {
         owner.isSkillActive = false;
-        effects.Add(curEffect);
-        DestroyEffect();
+        effects.Add(curEffect);  
         curEffect = null;
+
+        yield return waitDelay;
+
+        DestroyEffect();
     }
 
     public abstract IEnumerator SkillRoutine();
 
-    protected void CreateEffect(GameObject effect)
+    public void CreateEffect(GameObject effect)
     {
         if(curEffect != null)
             effects.Add(curEffect);

@@ -24,7 +24,12 @@ public class Player_PowerSkill_State : PlayerState
     public override void Transition()
     {
         if (!player.isSkillActive)
-            stateMachine.ChangeState(stateCon.idleState);
+        {
+            if(player.moveDir.sqrMagnitude > 0)
+                stateMachine.ChangeState(stateCon.moveState);
+            else
+                stateMachine.ChangeState(stateCon.idleState);
+        }
     }
 
     public override void Update()
