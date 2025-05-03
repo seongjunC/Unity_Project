@@ -8,7 +8,7 @@ public class InGame_UI : MonoBehaviour
     private GameObject curUI;
     [SerializeField] private GameObject inventoryPenal;
     [SerializeField] private GameObject inGamePanel;
-
+    [SerializeField] private GameObject optionPanel;
     private void Start()
     {
         AllUIClose();

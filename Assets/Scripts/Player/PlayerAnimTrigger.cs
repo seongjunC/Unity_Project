@@ -1,3 +1,4 @@
+using EnumType;
 using System.Collections;
 using UnityEngine;
 
@@ -53,6 +54,7 @@ public class PlayerAnimTrigger : MonoBehaviour
 
     private void SlowMotion(float scale, float duration) => Manager.Game.SlowMotion(scale, duration);
     private void SlowMotionHalf(float duration) => Manager.Game.SlowMotion(.5f, duration);
+    private void SoundEffect(string name) => Manager.Audio.PlaySound(name, SoundType.Effect, Random.Range(0.7f, 1)); 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
