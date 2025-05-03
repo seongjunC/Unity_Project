@@ -4,7 +4,7 @@ using System.ComponentModel.Design.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player_Roll_State : PlayerState
+public class Player_Roll_State : Player_AttackBase_State
 {
     private float invincibilityTime = 0.15f;
     private YieldInstruction rollDelay = new WaitForSeconds(.1f);

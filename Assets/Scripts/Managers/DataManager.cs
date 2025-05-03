@@ -71,6 +71,7 @@ public class DataManager : Singleton<DataManager>
 
         Manager.Audio.Init();
         Manager.Pool.Init();
+        Manager.Game.Init();
     }
 
 }

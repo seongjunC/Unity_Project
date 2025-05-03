@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerState
+public class PlayerAttackState : Player_AttackBase_State
 {
     public int comboCount = 1;
     public bool canNextCombo;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player_PowerSkill_State : PlayerState
+public class Player_PowerSkill_State : Player_AttackBase_State
 {
     public Player_PowerSkill_State(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {

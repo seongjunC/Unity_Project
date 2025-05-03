@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Ultimate_State : PlayerState
+public class Player_Ultimate_State : Player_AttackBase_State
 {
     public Player_Ultimate_State(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -26,8 +26,6 @@ public class Player_Ultimate_State : PlayerState
 
     public override void Transition()
     {
-        base.Transition();
-
         if (!player.isSkillActive)
             stateMachine.ChangeState(stateCon.idleState);
     }
