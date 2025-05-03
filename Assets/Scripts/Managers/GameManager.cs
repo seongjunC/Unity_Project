@@ -18,6 +18,7 @@ public class GameManager : Singleton<GameManager>
 
         gold -= amount;
     }
+    public void SetGold(int amount) => gold = amount;   
 
     public void SlowMotion(float scale, float duration) => StartCoroutine(SlowMotionRoutine(scale, duration));
 

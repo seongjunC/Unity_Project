@@ -12,6 +12,7 @@ public class Equipment_ItemData : ItemData
     public int critDamage;
 
     public GameObject effect;
+    public GameObject lastEffect;
 
     StringBuilder sb = new StringBuilder();
 

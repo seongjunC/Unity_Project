@@ -11,6 +11,7 @@ public class Title_UI : MonoBehaviour
     private string spawnId;
     [SerializeField]
     private string sceneName;
+
     private WaitForSeconds wft = new WaitForSeconds(1f);
     private WaitForSeconds wft2 = new WaitForSeconds(0.5f);
 
@@ -29,7 +30,6 @@ public class Title_UI : MonoBehaviour
         yield return wft;
 
         Manager.SceneChanger.ChangeToScene(sceneName, spawnId);
-
         yield return wft2;
 
         fadeScreen.gameObject.SetActive(false);

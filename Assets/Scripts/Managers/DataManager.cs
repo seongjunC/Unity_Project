@@ -24,36 +24,53 @@ public class DataManager : Singleton<DataManager>
         dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
         dataSetter.transform.parent = transform;          
     }
-    private void Start()
+    
+    public IEnumerator SetupGameDataWithProgress(System.Action<float> onProgress)
     {
-        dataSetter.OnDataSetupCompleted = () =>
-        {
-            SceneManager.LoadSceneAsync("HSDTestScene");
+        monsterData = new();
+        skillData = new();
+        playerStatus = new();
+        poolData = new();
 
-            playerStatus.SetupPlayerStat();
+        dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
+        dataSetter.transform.parent = transform;
 
-            StartCoroutine(Init());
+        yield return null;
+        onProgress?.Invoke(0.2f);
 
-            playerStatus.critChance.SetBaseStat(10);
-            playerStatus.critDamage.SetBaseStat(150);
-            Destroy(dataSetter.gameObject);
-        };
-
+        bool dataSetupDone = false;
+        dataSetter.OnDataSetupCompleted = () => dataSetupDone = true;
         dataSetter.Init();
+
+        float currentProgress = 0.2f;
+        float targetProgress = 0.6f;
+
+        while (!dataSetupDone)
+        {
+            yield return null;
+
+            currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.2f);
+            onProgress?.Invoke(currentProgress);
+        }
+
+        playerStatus.SetupPlayerStat();
+        playerStatus.critChance.SetBaseStat(10);
+        playerStatus.critDamage.SetBaseStat(150);
+        Destroy(dataSetter.gameObject);
+
+        onProgress?.Invoke(0.7f);
     }
 
-    IEnumerator Init()
+    public void PostSceneInit()
     {
-        yield return null;
-
         inventory = new GameObject("Inventory").AddComponent<Inventory>();
         inventory.transform.SetParent(transform, false);
 
         equip = new GameObject("Equipment").AddComponent<Equipment>();
         equip.transform.SetParent(transform, false);
 
-        yield return null;
         Manager.Audio.Init();
         Manager.Pool.Init();
     }
+
 }

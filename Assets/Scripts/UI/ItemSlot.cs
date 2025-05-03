@@ -9,10 +9,10 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     [SerializeField] private TextMeshProUGUI stackSize;
     [SerializeField] protected InventoryPanel invPanel;
 
-    protected InventoryItem _invItem;
+    [SerializeField] protected InventoryItem _invItem;
     public virtual InventoryItem invItem
     {
-        get => _invItem; set => _invItem = value;
+        get => _invItem; set { _invItem = value; }
     }
 
     public int slotNum;

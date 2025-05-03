@@ -35,7 +35,7 @@ public class PlayerAnimTrigger : MonoBehaviour
         {
             if(count == 3)
             {
-
+                effect = Manager.Resources.Instantiate(player.curWeapon.lastEffect, t.position, t.rotation, true);
             }
             else
                 effect = Manager.Resources.Instantiate(player.curWeapon.effect, t.position, t.rotation, true);
