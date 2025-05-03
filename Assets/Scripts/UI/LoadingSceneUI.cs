@@ -30,6 +30,9 @@ public class LoadingSceneUI : MonoBehaviour
 
         loadingSlider.value = 1f;
 
+        Manager.SceneChanger.FadeIn();
+        yield return new WaitForSeconds(1f);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         op.allowSceneActivation = true;
     }
@@ -40,6 +43,7 @@ public class LoadingSceneUI : MonoBehaviour
         {
             Manager.Data.PostSceneInit();
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            Manager.SceneChanger.FadeOut();
         }
     }
 }

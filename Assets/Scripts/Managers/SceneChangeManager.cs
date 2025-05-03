@@ -7,6 +7,9 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 {
     private List<string> loadedScenes = new List<string>();
     private WaitForSeconds wft;
+    private GameObject fade_UI;
+    private Animator fadeAnim;
+
     void Awake()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -15,7 +18,16 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
         }
 
         wft = new WaitForSeconds(0.3f);
+
+        fade_UI = Manager.Resources.Instantiate<GameObject>("Fade", transform.position);
+        fade_UI.transform.SetParent(transform, false);
+
+        fadeAnim = fade_UI.GetComponentInChildren<Animator>();
     }
+
+    public void FadeIn() => fadeAnim.SetTrigger("In");
+    public void FadeOut() => fadeAnim.SetTrigger("Out");
+
     public void ChangeToScene(string targetSceneName, string spawnPointId){
         StartCoroutine(CheckScene(targetSceneName,spawnPointId));
     }

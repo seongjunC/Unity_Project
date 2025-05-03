@@ -53,7 +53,6 @@ public class PlayerAttackState : PlayerState
             comboCount = 1;
 
         anim.SetInteger("ComboCount", comboCount);
-        rb.AddForce(player.transform.forward * player.attackMoveForce[comboCount - 1], ForceMode.Impulse);
 
         lastAttackTime = Time.time;
     }

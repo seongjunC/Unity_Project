@@ -15894,10 +15894,6 @@ MonoBehaviour:
   defaultAttackEffect: {fileID: 1789270911803724, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
   lastAttackEffect: {fileID: 1942681157837952, guid: 5153725f7adb4cf47952f6201f4ee095, type: 3}
   attackRaius: 1
-  attackMoveForce:
-  - 2
-  - 3
-  - 4
   attackForce:
   - 0.8
   - 1
