@@ -10436,7 +10436,7 @@ Transform:
   m_GameObject: {fileID: 1394684530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.18, z: 1.23}
+  m_LocalPosition: {x: 0, y: 1.18, z: 1.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17178,7 +17178,7 @@ MonoBehaviour:
   - {fileID: 250700735}
   defaultAttackEffect: {fileID: 1789270911803724, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}
   lastAttackEffect: {fileID: 1942681157837952, guid: 5153725f7adb4cf47952f6201f4ee095, type: 3}
-  attackRaius: 1
+  attackRaius: 1.5
   attackForce:
   - 0.8
   - 1
