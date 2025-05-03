@@ -63,7 +63,8 @@ public class AudioManager : Singleton<AudioManager>
                 bgmSource.Play();
                 break;
             case SoundType.Effect:
-                effectSource.PlayOneShot(clip, pitch);
+                effectSource.pitch = pitch;
+                effectSource.PlayOneShot(clip);
                 break;
         }
     }

@@ -14,6 +14,8 @@ public class PlayerAttackState : Player_AttackBase_State
     {
         base.Enter();
 
+        canNextCombo = false;
+
         SetupCombo();
     }
 

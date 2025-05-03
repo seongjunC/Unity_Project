@@ -69,7 +69,10 @@ public class PoolManager : Singleton<PoolManager>
             foreach (var value in removePoolKeys)
             {
                 poolDic.Remove(value);
-                Manager.Resources.Destroy(poolParent[value].gameObject);
+
+                if(poolParent[value].gameObject != null)
+                    Manager.Resources.Destroy(poolParent[value].gameObject);
+
                 poolParent.Remove(value);
                 lastUsedTime.Remove(value);
             }
