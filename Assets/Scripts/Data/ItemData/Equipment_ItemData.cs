@@ -10,7 +10,9 @@ public class Equipment_ItemData : ItemData
     public int maxHP;
     public int critChance;
     public int critDamage;
-    
+
+    public GameObject effect;
+
     StringBuilder sb = new StringBuilder();
 
     public void AddStat()

@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStopState : PlayerState
+public class Player_Ultimate_State : PlayerState
 {
-    public PlayerStopState(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public Player_Ultimate_State(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
+        player.cutSceneCon.PlayUltimateCutScnen();
     }
 
     public override void Exit()
@@ -21,22 +22,18 @@ public class PlayerStopState : PlayerState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        player.rigid.velocity = input.lastMoveDir * (player.moveSpeed / 2);
     }
 
     public override void Transition()
     {
         base.Transition();
 
-        if (isFinishAnim)
+        if (!player.isSkillActive)
             stateMachine.ChangeState(stateCon.idleState);
-
-        if (input.camDir.sqrMagnitude > 0)
-            stateMachine.ChangeState(stateCon.moveState);
     }
 
     public override void Update()
     {
-        base.Update();    
+        base.Update();
     }
 }

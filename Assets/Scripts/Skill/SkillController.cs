@@ -55,6 +55,15 @@ public class SkillController : MonoBehaviour
         curSkill.CreateEffect(curSkill.effectPrefab);
     }
 
+    private void CurrentEffectDamageToTargets()
+    {
+        curSkill.DamageToTargets();
+    }
+
+    private void IndexEffectDamageToTargets(int index)
+    {
+        curSkill.DamageToTargets(index);
+    }
 
 #if UNITY_EDITOR
 

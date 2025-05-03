@@ -83,7 +83,6 @@ public class Monster : MonoBehaviour
             }
         }
     }
-
     IEnumerator ResetAttackState(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -95,6 +94,7 @@ public class Monster : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
     }
+
 
     private void Die()
     {

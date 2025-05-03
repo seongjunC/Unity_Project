@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerSkillController : SkillController
 {
     [SerializeField] private Skill[] skills;
-    private StateController player;
+    private Player player;
 
     protected override void Awake()
     {
         base.Awake();
 
         SetupPlayerSkill();
-        player = GetComponent<StateController>();
+        player = GetComponent<Player>();
         ownerSkills = Manager.Data.playerStatus.playerSkills;
     }
 
@@ -21,25 +21,25 @@ public class PlayerSkillController : SkillController
         if (Input.GetKeyDown(KeyCode.Q) && Manager.Data.playerStatus.skillUnlock[0])
         {
             if(UseSKill(ownerSkills[0]))
-                player.stateMachine.ChangeState(player.crossSlashState);
+                player.stateCon.stateMachine.ChangeState(player.stateCon.crossSlashState);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && Manager.Data.playerStatus.skillUnlock[1])
         {
             if(UseSKill(ownerSkills[1]))
-                player.stateMachine.ChangeState(player.powerSkillState);
+                player.stateCon.stateMachine.ChangeState(player.stateCon.powerSkillState);
         }
 
         if (Input.GetKeyDown(KeyCode.R) && Manager.Data.playerStatus.skillUnlock[2])
         {
             if(UseSKill(ownerSkills[2]))
-                player.stateMachine.ChangeState(player.bladestormState);
+                player.stateCon.stateMachine.ChangeState(player.stateCon.bladestormState);
         }
 
         if (Input.GetKeyDown(KeyCode.V) && Manager.Data.playerStatus.skillUnlock[3])
         {
             if (UseSKill(ownerSkills[3]))
-                Debug.Log("Play Ult");
+                player.stateCon.stateMachine.ChangeState(player.stateCon.ultimateState);
         }
     }
 

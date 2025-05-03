@@ -25,7 +25,7 @@ public class Player_PowerSkill_State : PlayerState
     {
         if (!player.isSkillActive)
         {
-            if(player.moveDir.sqrMagnitude > 0)
+            if(input.moveDir.sqrMagnitude > 0)
                 stateMachine.ChangeState(stateCon.moveState);
             else
                 stateMachine.ChangeState(stateCon.idleState);

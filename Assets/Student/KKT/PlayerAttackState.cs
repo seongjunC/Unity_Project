@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerState
 {
-    private int comboCount = 1;
+    public int comboCount = 1;
     public bool canNextCombo;
     private float lastAttackTime;
     private float resetTime = 3;
@@ -18,24 +18,6 @@ public class PlayerAttackState : PlayerState
         base.Enter();
 
         SetupCombo();
-
-        Collider[] cols = Physics.OverlapSphere(player.transform.position, 10);
-        
-        foreach (var c in cols)
-        {
-            Debug.Log(c.name);
-            if (!c.CompareTag("Monster")) return;
-
-            if (c.TryGetComponent<IDamagable>(out IDamagable damagable))
-            {
-                Debug.Log("1");
-                damagable.TakeDamage(player.attackForce[comboCount-1]);
-            }
-        }
-
-        // 공격하면 공격 히트 박스 켜기
-        if (player.attackHitbox != null)
-            player.attackHitbox.SetActive(true);
     }
 
     public override void Update()
@@ -48,12 +30,6 @@ public class PlayerAttackState : PlayerState
         base.Exit();
         comboCount++;
         lastAttackTime = Time.time;
-
-        // 공격 히트박스 끄기
-        if (player.attackHitbox != null)
-        {
-            player.attackHitbox.SetActive(false);
-        }
     }
 
     public override void Transition()

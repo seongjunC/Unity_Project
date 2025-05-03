@@ -27,15 +27,12 @@ public class PlayerIdleState : PlayerState
     {
         base.Transition();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            stateMachine.ChangeState(stateCon.jumpState);
-        }
-        else if (player.moveDir.sqrMagnitude > 0)
+        if (input.moveDir.sqrMagnitude > 0)
         {
             stateMachine.ChangeState(stateCon.moveState);
         }
-        else if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(0))
         {
             stateMachine.ChangeState(stateCon.attackState);
         }
