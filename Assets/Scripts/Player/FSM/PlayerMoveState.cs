@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// 생성된 state
+
 public class PlayerMoveState : PlayerState
 {
 
@@ -44,14 +44,6 @@ public class PlayerMoveState : PlayerState
             stateMachine.ChangeState(stateCon.attackState);
         }
     }
-
-    //public override void FixedUpdate()
-    //{
-    //    base.FixedUpdate();
-
-    //   Vector3 targetPosition = rb.position + player.camDir * player.moveSpeed * Time.fixedDeltaTime;
-    //   rb.MovePosition(targetPosition);
-    //}
 
     private void Rotate()
     {
