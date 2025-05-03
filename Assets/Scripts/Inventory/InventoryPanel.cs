@@ -2,33 +2,53 @@ using UnityEngine;
 
 public class InventoryPanel : MonoBehaviour
 {
+    [SerializeField] private ItemToolTip toolTip;
     public ItemSlot[] itemSlots;
+    public EquipSlot equipSlot;
     public ItemData data;
 
     private void Awake()
+    {
+        Setup();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            AddItem(data);
+    }
+
+    private void Setup()
     {
         for (int i = 0; i < itemSlots.Length; i++)
         {
             itemSlots[i].slotNum = i;
         }
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-            AddItem(data);
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            itemSlots[i].ClearSlotUI();
+        }
+
+        equipSlot.ClearSlotUI();
     }
 
     private void OnEnable()
     {
         UpdateAll();
         Manager.Data.inventory.OnItemChanged += UpdateSlotUI;
+
+        Manager.Data.equip.OnEquipmentChanged += UpdateAll;
+        Manager.Data.equip.OnEquipmentChanged += UpdateEquipSlot;
     }
 
 
     private void OnDisable()
     {
         Manager.Data.inventory.OnItemChanged -= UpdateSlotUI;
+
+        Manager.Data.equip.OnEquipmentChanged -= UpdateAll;
+        Manager.Data.equip.OnEquipmentChanged -= UpdateEquipSlot;
     }
     private void UpdateAll()
     {
@@ -43,6 +63,11 @@ public class InventoryPanel : MonoBehaviour
         if (itemSlots.Length < index) return;
             
         itemSlots[index].UpdateSlot(item);
+    }
+
+    public void UpdateEquipSlot()
+    {
+        equipSlot.UpdateSlot();
     }
 
     public void AddItem(ItemData data)
@@ -70,8 +95,25 @@ public class InventoryPanel : MonoBehaviour
         }
     }
 
+    public int? FindEmptySlotIndex()
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].invItem == null || itemSlots[i].invItem.itemData == null)
+                return i;
+        }
+        return null;
+    }
+
+    public void OpenToolTip(ItemData data)
+    {
+        toolTip.gameObject.SetActive(true);
+        toolTip.SetupToolTip(data);
+    }
+    public void CloseToolTip() => toolTip.gameObject.SetActive(false);
+
     public bool CanAddItem()
     {
-        return Manager.Data.inventory.inventory.Count < itemSlots.Length;
+        return Manager.Data.inventory.CanAdd();
     }
 }

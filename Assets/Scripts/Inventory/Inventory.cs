@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
     public InventoryItem equipment;
     private Dictionary<Equipment_ItemData, InventoryItem> equipmentDic = new Dictionary<Equipment_ItemData, InventoryItem>();
 
-    public event Action<int, ItemData> OnItemChanged;
+    public Action<int, ItemData> OnItemChanged;
 
     public void AddItem(int index ,ItemData data)
     {
@@ -54,6 +54,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool CanAdd()
+    {
+        return inventory.Count < 30;
+    }
+
     public Equipment_ItemData GetCurrentWeapon()
     {
         foreach (var item in equipmentDic.Keys)
@@ -61,5 +66,14 @@ public class Inventory : MonoBehaviour
             return item;
         }
         return null;
+    }
+
+    public void AddEquipmentDic(Equipment_ItemData equip, InventoryItem item)
+    {
+        equipmentDic.Add(equip, item);
+    }
+    public void RemoveEquipmentDic(Equipment_ItemData equip)
+    {
+        equipmentDic.Remove(equip);
     }
 }

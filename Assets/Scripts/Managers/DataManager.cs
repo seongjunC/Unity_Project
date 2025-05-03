@@ -12,6 +12,7 @@ public class DataManager : Singleton<DataManager>
     public PoolData poolData;
 
     public Inventory inventory;
+    public Equipment equip;
 
     private void Awake()
     {
@@ -31,9 +32,7 @@ public class DataManager : Singleton<DataManager>
 
             playerStatus.SetupPlayerStat();
 
-            inventory = new GameObject("Inventory").AddComponent<Inventory>();
-            Manager.Audio.Init();
-            Manager.Pool.Init();
+            StartCoroutine(Init());
 
             playerStatus.critChance.SetBaseStat(10);
             playerStatus.critDamage.SetBaseStat(150);
@@ -41,5 +40,20 @@ public class DataManager : Singleton<DataManager>
         };
 
         dataSetter.Init();
+    }
+
+    IEnumerator Init()
+    {
+        yield return null;
+
+        inventory = new GameObject("Inventory").AddComponent<Inventory>();
+        inventory.transform.SetParent(transform, false);
+
+        equip = new GameObject("Equipment").AddComponent<Equipment>();
+        equip.transform.SetParent(transform, false);
+
+        yield return null;
+        Manager.Audio.Init();
+        Manager.Pool.Init();
     }
 }

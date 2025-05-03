@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PowerSkill
   m_EditorClassIdentifier: 
   metaData:
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 5ce70622ec781d44bb75c94eb37f002f, type: 3}
     skillDescription: 
     needLevel: 0
   skillName: Power

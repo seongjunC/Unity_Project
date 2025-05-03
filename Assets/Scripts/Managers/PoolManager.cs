@@ -19,7 +19,8 @@ public class PoolManager : Singleton<PoolManager>
     const float poolCleanupDelay = 30;
 
     public PoolData poolData;
-    public Canvas UI;
+    public Transform UI;
+
     public void Init()
     {
         poolDic = new Dictionary<string, IObjectPool<GameObject>>();
@@ -30,7 +31,7 @@ public class PoolManager : Singleton<PoolManager>
         poolData = Manager.Data.poolData;
 
         GameObject canvasObj = GameObject.FindWithTag("UI");
-        UI = canvasObj.GetComponent<Canvas>();
+        UI = canvasObj.transform;
 
         popUpParent = new GameObject("PopUpParent").transform;
         popUpParent.parent = UI.transform;

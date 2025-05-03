@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97a1928bca685794a9e99b900bbae2fe, type: 3}
-  m_Name: EquipItemData
+  m_Name: EquipItemData 1
   m_EditorClassIdentifier: 
-  itemGrade: 5
-  icon: {fileID: 21300000, guid: 0fc0a810bad4b6441beaf8b5e885ff22, type: 3}
-  itemName: 31321
-  description: 21454512
+  itemGrade: 3
+  icon: {fileID: 21300000, guid: 4efea8687ff16a2438c241ec9b81aae4, type: 3}
+  itemName: gfdgrss
+  description: sssssadgfwfawd
   itemMeshData:
     mesh: {fileID: 0}
     material: {fileID: 0}
   type: 0
   damage: 12
-  maxHP: 1
+  maxHP: 35
   critChance: 3
   critDamage: 4
   effect: {fileID: 0}

@@ -23,7 +23,7 @@ public class BossMonster : Monster, ISkillOwner
             if (other.CompareTag("Player"))
             {
                 // 보스만의 공격 애니메이션 (예: "BossAttack"이라는 트리거)
-                animator.SetTrigger("BossAttack");
+                anim.SetTrigger("BossAttack");
 
                 // 플레이어의 체력을 감소시키기(아래는 직접 수정, 활성화 코드는 IDamagable 사용)
                 // Manager.Data.playerStatus.curHP -= damage;
