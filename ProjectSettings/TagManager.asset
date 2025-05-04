@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - UI
+  - Collector
   layers:
   - Default
   - TransparentFX

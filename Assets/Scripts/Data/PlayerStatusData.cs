@@ -17,7 +17,7 @@ public class PlayerStatusData
     public int curHP { get => _curHP; private set { _curHP = value; OnHPChanged?.Invoke(_curHP); } }
 
     private int _curExp;
-    public int curExp { get => curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
+    public int curExp { get => _curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
 
     private int _level = 1;
     public int level { get => _level; private set { _level = value; OnLevelUp?.Invoke(_level); } }

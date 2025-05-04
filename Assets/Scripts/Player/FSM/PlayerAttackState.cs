@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerState
+public class PlayerAttackState : Player_AttackBase_State
 {
     public int comboCount = 1;
     public bool canNextCombo;
@@ -16,6 +13,8 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        canNextCombo = false;
 
         SetupCombo();
     }
@@ -53,7 +52,6 @@ public class PlayerAttackState : PlayerState
             comboCount = 1;
 
         anim.SetInteger("ComboCount", comboCount);
-        rb.AddForce(player.transform.forward * player.attackMoveForce[comboCount - 1], ForceMode.Impulse);
 
         lastAttackTime = Time.time;
     }

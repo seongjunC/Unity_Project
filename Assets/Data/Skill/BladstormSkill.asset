@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BladstormSkill
   m_EditorClassIdentifier: 
   metaData:
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6009269492536184da8537291d0146ea, type: 3}
     skillDescription: 
     needLevel: 0
   skillName: Bladstorm

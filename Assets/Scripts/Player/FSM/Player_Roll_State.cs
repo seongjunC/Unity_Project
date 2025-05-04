@@ -1,10 +1,11 @@
+using EnumType;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player_Roll_State : PlayerState
+public class Player_Roll_State : Player_AttackBase_State
 {
     private float invincibilityTime = 0.15f;
     private YieldInstruction rollDelay = new WaitForSeconds(.1f);
@@ -18,6 +19,7 @@ public class Player_Roll_State : PlayerState
     public override void Enter()
     {
         base.Enter();
+
         timer = duration;
 
         player.invincibility = true;
@@ -75,7 +77,7 @@ public class Player_Roll_State : PlayerState
     IEnumerator DelayRoll(Vector3 inputDir)
     {
         yield return rollDelay;
-
+        Manager.Audio.PlaySound("Roll1", SoundType.Effect, Random.Range(0.3f, 0.6f));
         rb.AddForce(inputDir * player.rollForce, ForceMode.Impulse);
     }
 }

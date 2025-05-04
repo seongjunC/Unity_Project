@@ -89,11 +89,11 @@ public class Monster : MonoBehaviour
         isAttacking = false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.cyan;
+    //    Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
+    //}
 
 
     private void Die()

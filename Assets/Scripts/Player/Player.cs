@@ -24,7 +24,6 @@ public class Player : MonoBehaviour, ISkillOwner
     public GameObject defaultAttackEffect;
     public GameObject lastAttackEffect;
     public float attackRaius;
-    public float[] attackMoveForce;
     public float[] attackForce;
     public bool invincibility;
 

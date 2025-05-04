@@ -6,7 +6,22 @@ using UnityEngine;
 public class InGame_UI : MonoBehaviour
 {
     private GameObject curUI;
-    [SerializeField] private ItemToolTip toolTip;
+    [SerializeField] private GameObject inventoryPenal;
+    [SerializeField] private GameObject inGamePanel;
+    [SerializeField] private GameObject optionPanel;
+    private void Start()
+    {
+        AllUIClose();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            SwitchUI(inventoryPenal);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            SwitchUI(inGamePanel);
+        
+    }
 
     public void SwitchUI(GameObject ui)
     {
@@ -27,10 +42,9 @@ public class InGame_UI : MonoBehaviour
         }
     }
 
-    public void OpenToolTip(ItemData data)
+    private void AllUIClose()
     {
-        toolTip.gameObject.SetActive(true);
-        toolTip.SetupToolTip(data);
+        inGamePanel.SetActive(true);
+        inventoryPenal.SetActive(false);
     }
-    public void CloseToolTip() => toolTip.gameObject.SetActive(false);
 }
