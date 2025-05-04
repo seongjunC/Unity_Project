@@ -18,7 +18,7 @@ public class DataSetter : MonoBehaviour
     const string monsterRange = "A2:G5";
     const string levelDataRange = "A2:B18";
     const string playerStatDataRange = "C2:E22";
-    const string skillDataRange = "A2:C5";
+    const string skillDataRange = "A2:C7";
 
     public Action OnDataSetupCompleted;
 

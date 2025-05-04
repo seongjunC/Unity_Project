@@ -11,7 +11,6 @@ public class Player_Ultimate_State : Player_AttackBase_State
     public override void Enter()
     {
         base.Enter();
-        player.cutSceneCon.PlayUltimateCutScnen();
     }
 
     public override void Exit()

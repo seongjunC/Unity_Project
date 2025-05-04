@@ -7,7 +7,6 @@ public class Player : MonoBehaviour, ISkillOwner
     public StateController stateCon;
     public PlayerStatusController statusCon;
     public PlayerInput input;
-    public PlayerCutSceneController cutSceneCon;
     public Equipment_ItemData curWeapon => Manager.Data.inventory.GetCurrentWeapon();
     public PlayerStatusData status => Manager.Data.playerStatus;
 
@@ -25,9 +24,6 @@ public class Player : MonoBehaviour, ISkillOwner
     public GameObject lastAttackEffect;
     public float attackRaius;
     public float[] attackForce;
-    public bool invincibility;
-
-    public Transform ultTargetTransform;
 
     private void Awake()
     {
@@ -35,7 +31,7 @@ public class Player : MonoBehaviour, ISkillOwner
         rigid       = GetComponent<Rigidbody>();
         stateCon    = GetComponent<StateController>();
         input       = GetComponent<PlayerInput>();
-        cutSceneCon = GetComponent<PlayerCutSceneController>();
+        statusCon   = GetComponent<PlayerStatusController>();
     }
 
     public Transform GetTransform()

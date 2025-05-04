@@ -3,9 +3,14 @@ using UnityEngine;
 
 public class PlayerHealthBar : HealthBar
 {
-    private PlayerStatusData playerStatusData => Manager.Data.playerStatus;
+    private PlayerStatusData playerStatusData;
 
     Coroutine easeRoutine;
+
+    private void Awake()
+    {
+        playerStatusData = Manager.Data.playerStatus;
+    }
 
     private void OnEnable()
     {
@@ -19,7 +24,7 @@ public class PlayerHealthBar : HealthBar
 
     protected override void Update()
     {
-        base.Update();
+        
     }
 
     private void UpdateHealthBar(int hp)

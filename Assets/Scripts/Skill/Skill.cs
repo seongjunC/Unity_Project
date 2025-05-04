@@ -34,7 +34,7 @@ public abstract class Skill : ScriptableObject
     [SerializeField] protected Vector3 dir;
 
     [Header("Skill Data")]
-    [Tooltip("스킬실행 후 몇초 후 데미지 판단을 시작할지")]
+    [Tooltip("스킬실행 후 몇초 후 이펙트가 사라질지")]
     [SerializeField] private float delay;
 
     [Tooltip("스킬 계수")] [SerializeField] protected float skillPower;

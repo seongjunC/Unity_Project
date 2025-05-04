@@ -1,7 +1,5 @@
 using EnumType;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class SkillController : MonoBehaviour
@@ -9,7 +7,7 @@ public class SkillController : MonoBehaviour
     public Skill curSkill;
     public ISkillOwner owner;
 
-    protected Skill[] ownerSkills;
+    [SerializeField] protected Skill[] ownerSkills;
     private Coroutine skillRoutine;
     [SerializeField] private float test;
 

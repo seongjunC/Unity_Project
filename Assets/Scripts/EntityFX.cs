@@ -3,7 +3,7 @@ using UnityEngine;
 public class EntityFX : MonoBehaviour
 {
     [SerializeField] private GameObject popUpText;
-
+    [SerializeField] private float offsetY = 2;
     public void CreatePopUpText(int amount, bool isCrit = false)
     {
         if (isCrit)
@@ -15,7 +15,7 @@ public class EntityFX : MonoBehaviour
     private void CreatePopUp(int amount, Color color)
     {
         Vector3 randOffset = new Vector3(RandomFloat(-1, 1), RandomFloat(-.2f, .2f), RandomFloat(-1, 1));
-        randOffset.y += 2;
+        randOffset.y += offsetY;
         GameObject newPopUpText = Manager.Resources.Instantiate(popUpText, transform.position + randOffset, true);
         newPopUpText.GetComponent<PopUpText>().SetupText(amount.ToString(), color);
     }

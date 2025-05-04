@@ -39,9 +39,10 @@ public class PlayerStatusData
         if(curHP > maxHP.GetValue())
             curHP = maxHP.GetValue();
     }
+
     public bool DecreaseHealth(float amount)
     {
-        curHP -= (int)amount;
+        curHP -= Mathf.RoundToInt(amount);
 
         if (curHP <= 0)
         {

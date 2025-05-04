@@ -7,6 +7,7 @@ public class PlayerAnimTrigger : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private LayerMask target;
     private GameObject effect;
+
     private void Awake()
     {
         player = GetComponent<Player>();

@@ -14,7 +14,7 @@ public class MonsterStatusController : StatusController
 
     public Action OnDied;
     public event Action OnSettigEnded;
-    private bool isDead = false;
+    
 
     protected override void Awake()
     {

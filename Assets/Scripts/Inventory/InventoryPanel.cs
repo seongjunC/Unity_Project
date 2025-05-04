@@ -55,10 +55,8 @@ public class InventoryPanel : MonoBehaviour
     }
     private void UpdateAll()
     {
-        Debug.Log("11");
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            Debug.Log("22223");
             itemSlots[i].UpdateSlot();
         }
     }

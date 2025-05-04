@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SkeletonState
@@ -13,7 +14,7 @@ public class SkeletonState
 
     protected bool isFinishAnim;
 
-    private float stateTimer;
+    protected float stateTimer;
 
     public SkeletonState(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName)
     {
@@ -36,7 +37,7 @@ public class SkeletonState
 
     public virtual void Update()
     {
-        if(stateTimer >= 0)
+        if (stateTimer >= 0)
             stateTimer -= Time.deltaTime;
     }
 
@@ -69,8 +70,10 @@ public class Skeleton_Idle : SkeletonState
     {
         base.Transition();
 
-        if (target != null)
+        if (target != null && Vector3.Distance(target.transform.position, monster.transform.position) >= 2f)
             sm.ChangeState(stateCon.chase);
+
+        stateCon.chase.RandomAttack();
     }
 
     public override void Update()
@@ -82,7 +85,8 @@ public class Skeleton_Idle : SkeletonState
 public class Skeleton_Chase : SkeletonState
 {
     private Vector3 dirToTarget;
-
+    private float attackDelay = 5;
+    public float attackTimer;
     public Skeleton_Chase(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
     {
     }
@@ -90,6 +94,10 @@ public class Skeleton_Chase : SkeletonState
     public override void Enter()
     {
         base.Enter();
+
+        attackTimer = attackDelay;
+
+        monster.stateCon.StartCoroutine(AttackDelayRoutine());
     }
 
     public override void Exit()
@@ -101,13 +109,36 @@ public class Skeleton_Chase : SkeletonState
     {
         base.Transition();
 
-        if(target == null)
+        if (target == null || Vector3.Distance(target.transform.position, monster.transform.position) <= 2f)
             sm.ChangeState(stateCon.idle);
 
-        if (Vector3.Distance(target.transform.position, monster.transform.position) <= 6 &&
-            Vector3.Dot(monster.transform.forward, dirToTarget) > Mathf.Cos((monster.fov / 2f) * Mathf.Deg2Rad))
+        RandomAttack();
+    }
+
+    public void RandomAttack()
+    {
+        if (attackTimer <= 0)
         {
-            sm.ChangeState(stateCon.attack);
+            if (Vector3.Distance(target.transform.position, monster.transform.position) <= monster.attackDistance &&
+            Vector3.Dot(monster.transform.forward, dirToTarget) > Mathf.Cos((monster.fov / 2f) * Mathf.Deg2Rad))
+            {
+                int index = Random.Range(1, 4);
+
+                switch (index)
+                {
+                    case 1:
+                        sm.ChangeState(stateCon.attack);
+                        break;
+                    case 2:
+                        sm.ChangeState(stateCon.skill1);
+                        break;
+                    case 3:
+                        sm.ChangeState(stateCon.skill2);
+                        break;
+                }
+
+                attackTimer = attackDelay;
+            }
         }
     }
 
@@ -120,7 +151,7 @@ public class Skeleton_Chase : SkeletonState
 
     private void Chase()
     {
-        if(target != null)
+        if (target != null)
         {
             dirToTarget = (target.transform.position - monster.transform.position).normalized;
             dirToTarget.y = 0;
@@ -132,9 +163,14 @@ public class Skeleton_Chase : SkeletonState
         }
     }
 
-    private void LookAtTarget(Vector3 dir)
+    IEnumerator AttackDelayRoutine()
     {
-        monster.transform.rotation = Quaternion.LookRotation(dir);
+        while (attackTimer >= 0)
+        {
+            Debug.Log(attackTimer);
+            attackTimer -= Time.deltaTime;
+            yield return null;
+        }
     }
 }
 
@@ -158,7 +194,7 @@ public class Skeleton_Attack : SkeletonState
     {
         base.Transition();
 
-        if(isFinishAnim)
+        if (isFinishAnim)
             sm.ChangeState(stateCon.chase);
     }
 
@@ -172,5 +208,116 @@ public class Skeleton_SwordSkill : SkeletonState
 {
     public Skeleton_SwordSkill(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
     {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        monster.skillCon.UseSkills(0);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+
+        if (isFinishAnim)
+            sm.ChangeState(stateCon.chase);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+}
+public class Skeleton_RoarSkill : SkeletonState
+{
+    public Skeleton_RoarSkill(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        monster.skillCon.UseSkills(1);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+
+        if (isFinishAnim)
+            sm.ChangeState(stateCon.chase);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+}
+
+public class Skeleton_Die : SkeletonState
+{
+    public Skeleton_Die(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+}
+
+public class Skeleton_Hit : SkeletonState
+{
+    public Skeleton_Hit(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+
+        if (isFinishAnim)
+            sm.ChangeState(stateCon.idle);
+    }
+
+    public override void Update()
+    {
+        base.Update();
     }
 }

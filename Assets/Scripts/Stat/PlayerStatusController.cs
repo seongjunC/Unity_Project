@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class PlayerStatusController : StatusController
 {
     public PlayerStatusData status;
+    public bool invincibility;
 
     protected override void Awake()
     {
@@ -19,8 +17,12 @@ public class PlayerStatusController : StatusController
 
     public override void TakeDamage(float amount)
     {
+        if (invincibility) return;
+
         if (status.DecreaseHealth(amount))
-            Die();  
+            Die();
+
+        fx.CreatePopUpText(Mathf.RoundToInt(amount));
     }
 
     private void Die()

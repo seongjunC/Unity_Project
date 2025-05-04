@@ -12,7 +12,7 @@ public class Monster : MonoBehaviour
     public LayerMask targetMask;
 
     public float rotationSpeed;
-    bool isAttacking = false;
+    public bool isAttacking = false;
 
     protected virtual void Awake()
     {
