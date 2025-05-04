@@ -560,6 +560,8 @@ MonoBehaviour:
   popupMessageText: {fileID: 216530299}
   confirmButton: {fileID: 2002478705}
   cancelButton: {fileID: 1563850816}
+  failureMessage: {fileID: 0}
+  failureMessageDuration: 2
 --- !u!4 &1133169561
 Transform:
   m_ObjectHideFlags: 0
@@ -792,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939270259798882927, guid: f8afb50d28982c345b393fba393e39ae, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030934807
+      value: 0.0008649584
       objectReference: {fileID: 0}
     - target: {fileID: 5461888693467598180, guid: f8afb50d28982c345b393fba393e39ae, type: 3}
       propertyPath: m_AnchorMax.x

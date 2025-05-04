@@ -1,7 +1,7 @@
 namespace EnumType
 {
     public enum SoundType { BGM, Effect }
-    public enum MonsterType { Goblin, Orc, Slime }
+    public enum MonsterType { Goblin, Orc, Slime, Skeleton }
     public enum DataType { Pool, Monster, Level, Skill, PlayerStat }
     public enum ItemGrade { Common, UnCommon, Rare, Epic, Unique, Legendary }
     public enum EquipmentType { Waepon }

@@ -16,7 +16,7 @@ public class BossMonster : Monster, ISkillOwner
     private void BossAttack()
     {
         // 콜라이더로 원형 추적 범위에 들어온 것을 감지하고, (감지 범위 내 물체들은 배열로 저장됨, 2배 넓은 범위 감지)
-        Collider[] others = Physics.OverlapSphere(transform.position, statusCon.status.range * 2, playerLayer);
+        Collider[] others = Physics.OverlapSphere(transform.position, statusCon.status.range * 2, targetMask);
 
         foreach (var other in others)
         {

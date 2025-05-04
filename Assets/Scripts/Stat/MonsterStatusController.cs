@@ -77,13 +77,4 @@ public class MonsterStatusController : StatusController
         status.maxHP *= 1 + level / 4;
         status.hp = status.maxHP;
     }
-
-    IEnumerator DelayInit() // 테스트 용
-    {
-        yield return new WaitForSeconds(5);
-        int playerLevel = Manager.Data.playerStatus.level;
-        status = Manager.Data.monsterData.GetMonsterData(monsterType);
-        level = Mathf.Clamp(UnityEngine.Random.Range(playerLevel - 2, playerLevel - 1), 1, 20);
-        SetupLevelStat();
-    }
 }

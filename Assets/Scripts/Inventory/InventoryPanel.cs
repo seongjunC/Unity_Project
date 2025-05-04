@@ -16,6 +16,9 @@ public class InventoryPanel : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha3))
             Manager.Data.inventory.AddItem(data);
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            UpdateAll();
     }
 
     private void Setup()
@@ -52,8 +55,10 @@ public class InventoryPanel : MonoBehaviour
     }
     private void UpdateAll()
     {
+        Debug.Log("11");
         for (int i = 0; i < itemSlots.Length; i++)
         {
+            Debug.Log("22223");
             itemSlots[i].UpdateSlot();
         }
     }

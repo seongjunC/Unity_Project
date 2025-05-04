@@ -15,7 +15,7 @@ public class DataSetter : MonoBehaviour
     private PlayerStatDatas playerStatData;
 
     const string poolRange = "A2:B3";
-    const string monsterRange = "A2:G4";
+    const string monsterRange = "A2:G5";
     const string levelDataRange = "A2:B18";
     const string playerStatDataRange = "C2:E22";
     const string skillDataRange = "A2:C5";
