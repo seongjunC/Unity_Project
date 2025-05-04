@@ -23,7 +23,12 @@ public class PlayerAnimTrigger : MonoBehaviour
             {
                 if (c.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
-                    damagable.TakeDamage(player.attackForce[player.stateCon.attackState.comboCount - 1]);
+                    bool isHit = false;
+
+                    if(player.stateCon.attackState.comboCount == 3)
+                        isHit = true;
+
+                    damagable.TakeDamage(player.attackForce[player.stateCon.attackState.comboCount - 1], isHit);
                 }
             }
         }

@@ -12,7 +12,7 @@ public class StatusController : MonoBehaviour, IDamagable
         fx = GetComponent<EntityFX>();
     }
 
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount, bool isHitting = false)
     {
         
     }

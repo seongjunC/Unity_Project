@@ -49,9 +49,9 @@ public class SkillOverlapData
             if (hit.TryGetComponent<IDamagable>(out IDamagable target))
             {
                 if (targetMask.value == 6)
-                    target.TakeDamage(skillPower * damage);
+                    target.TakeDamage(skillPower * damage, true);
                 else
-                    target.TakeDamage((int)(skillPower));
+                    target.TakeDamage(Mathf.RoundToInt(skillPower), true);
             }
         }
     }
@@ -62,9 +62,9 @@ public class SkillOverlapData
             if (hit.TryGetComponent<IDamagable>(out IDamagable target))
             {
                 if (targetMask.value == 6)
-                    target.TakeDamage(skillPower * damage);
+                    target.TakeDamage(skillPower * damage, true);
                 else
-                    target.TakeDamage((int)(skillPower));
+                    target.TakeDamage(Mathf.RoundToInt(skillPower), true);
             }
         }
     }

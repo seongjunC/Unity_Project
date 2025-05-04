@@ -1,6 +1,5 @@
 using EnumType;
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class MonsterStatusController : StatusController
@@ -13,8 +12,8 @@ public class MonsterStatusController : StatusController
     [SerializeField] private MonsterType monsterType;
 
     public Action OnDied;
+    public Action OnHitted;
     public event Action OnSettigEnded;
-    
 
     protected override void Awake()
     {
@@ -36,11 +35,14 @@ public class MonsterStatusController : StatusController
         SetupLevelStat();
     }
 
-    public override void TakeDamage(float amount)
+    public override void TakeDamage(float amount, bool isHitter = false)
     {
         if (isDead) return;
         
         DamageCalulator.PlayerAttackCalculator(Manager.Data.playerStatus, this, amount);
+
+        if (isHitter)
+            OnHitted?.Invoke();
     }
 
     public void DcreaseHealth(int amount, bool isCrit = false)

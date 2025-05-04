@@ -14208,7 +14208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpText: {fileID: 7143703367006742917, guid: 5b0bd2f16785e9545b13acb83eb5bcc2, type: 3}
-  offsetY: 3
+  offsetY: 4
 --- !u!114 &1746463032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19266,7 +19266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpText: {fileID: 7143703367006742917, guid: 5b0bd2f16785e9545b13acb83eb5bcc2, type: 3}
-  offsetY: 0
+  offsetY: 2
 --- !u!114 &2032257483
 MonoBehaviour:
   m_ObjectHideFlags: 0

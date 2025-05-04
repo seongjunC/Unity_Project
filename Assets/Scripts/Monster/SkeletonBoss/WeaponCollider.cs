@@ -5,6 +5,11 @@ public class WeaponCollider : MonoBehaviour
     [SerializeField] private MonsterStatusController statusCon;
     [SerializeField] private BoxCollider bc;
 
+    private void Awake()
+    {
+        ColliderDisable();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))

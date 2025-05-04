@@ -7,6 +7,7 @@ public class SkeletonStateController : MonoBehaviour
     public Skeleton_Idle idle { get; private set; }
     public Skeleton_Chase chase { get; private set; }
     public Skeleton_Attack attack { get; private set; }
+    public Skeleton_Hit hit { get; private set; }
 
     // Skill
     public Skeleton_SwordSkill skill1 { get; private set; }
@@ -23,9 +24,11 @@ public class SkeletonStateController : MonoBehaviour
 
         idle    = new Skeleton_Idle(skeleton, sm, "Idle");
         chase   = new Skeleton_Chase(skeleton, sm, "Chase");
+        hit     = new Skeleton_Hit(skeleton, sm, "Hit");
+
         attack  = new Skeleton_Attack(skeleton, sm, "Attack");
         skill1  = new Skeleton_SwordSkill(skeleton, sm, "Skill1");
-        skill2 = new Skeleton_RoarSkill(skeleton, sm, "Skill2");
+        skill2  = new Skeleton_RoarSkill(skeleton, sm, "Skill2");
     }
 
     private void Start()
@@ -36,11 +39,22 @@ public class SkeletonStateController : MonoBehaviour
     private void Init()
     {
         sm.InitState(idle);
+        skeleton.statusCon.OnHitted += HitState;
     }
 
     private void Update()
     {
         sm.UpdateStateMachine();
+    }
+
+    private void HitState()
+    {
+        sm.ChangeState(hit);
+    }
+
+    private void OnDestroy()
+    {
+        skeleton.statusCon.OnHitted -= HitState;
     }
 
     private void AnimFinishTrigger() => sm.currentState.AnimFinishEvent();

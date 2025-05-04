@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerStatusController : StatusController
@@ -15,7 +16,7 @@ public class PlayerStatusController : StatusController
         status = Manager.Data.playerStatus;
     }
 
-    public override void TakeDamage(float amount)
+    public override void TakeDamage(float amount, bool isHitter = false)
     {
         if (invincibility) return;
 
