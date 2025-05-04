@@ -10,6 +10,8 @@ public class Equipment : MonoBehaviour
     {
         if (item == null) return;
 
+        if (!Manager.Data.inventory.TryGetEmptySlot()) return;
+
         InventoryItem invItem = new InventoryItem(item);
         Inventory inv = Manager.Data.inventory;
 
@@ -24,8 +26,6 @@ public class Equipment : MonoBehaviour
 
         if (oldItem != null)
         {
-            if (!Manager.Data.inventory.CanAdd()) return;
-
             UnEquipItem(index, oldItem);
         }
 
@@ -40,11 +40,11 @@ public class Equipment : MonoBehaviour
     {
         if (equip == null) return;
 
-        if (!Manager.Data.inventory.CanAdd()) return;
+        if (!Manager.Data.inventory.TryGetEmptySlot()) return;
 
+        Manager.Data.inventory.AddItem(index, equip);
         equip.RemoveStat();
         Manager.Data.inventory.equipment = null;
-        Manager.Data.inventory.AddItem(index, equip);
         Manager.Data.inventory.RemoveEquipmentDic(equip);
 
         OnEquipmentChanged?.Invoke();

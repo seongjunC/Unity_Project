@@ -15,7 +15,7 @@ public class InventoryPanel : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha3))
-            AddItem(data);
+            Manager.Data.inventory.AddItem(data);
     }
 
     private void Setup()
@@ -74,8 +74,6 @@ public class InventoryPanel : MonoBehaviour
     {
         if (!CanAddItem()) return;
 
-        int count = Manager.Data.inventory.inventory.Count;
-
         for (int i = 0; i < itemSlots.Length; i++)
         {
             if (itemSlots[i].invItem.itemData == null)
@@ -114,6 +112,6 @@ public class InventoryPanel : MonoBehaviour
 
     public bool CanAddItem()
     {
-        return Manager.Data.inventory.CanAdd();
+        return Manager.Data.inventory.TryGetEmptySlot();
     }
 }

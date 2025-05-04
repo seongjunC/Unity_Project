@@ -34,9 +34,9 @@ public class ItemObject : MonoBehaviour
 
     public void PickupItem()
     {
-        if (Manager.Data.inventory.CanAdd())
+        if (!Manager.Data.inventory.TryGetEmptySlot())
         {
-            Manager.Data.inventory.AddItem(Manager.Data.inventory.inventory.Count, itemData);
+            Manager.Data.inventory.AddItem(itemData);
             Destroy(gameObject);
         }
     }

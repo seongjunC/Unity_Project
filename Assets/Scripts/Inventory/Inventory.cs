@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<InventoryItem> inventory = new List<InventoryItem>();
+    public InventoryItem[] inventory = new InventoryItem[30];
     private Dictionary<ItemData, InventoryItem> inventoryDic = new Dictionary<ItemData, InventoryItem>();
 
     public InventoryItem equipment;
     private Dictionary<Equipment_ItemData, InventoryItem> equipmentDic = new Dictionary<Equipment_ItemData, InventoryItem>();
 
     public Action<int, ItemData> OnItemChanged;
+    private int capecity = 30;
 
     public void AddItem(int index ,ItemData data)
     {
@@ -19,7 +20,7 @@ public class Inventory : MonoBehaviour
             if (item.itemData is Equipment_ItemData)
             {
                 InventoryItem newItem = new InventoryItem(data);
-                inventory.Add(newItem);
+                inventory[index] = newItem;
             }
             else
                 item.AddStack();
@@ -29,10 +30,47 @@ public class Inventory : MonoBehaviour
         else
         {
             InventoryItem newItem = new InventoryItem(data);
-            inventory.Add(newItem);
+            inventory[index] = newItem;
             inventoryDic.Add(data, newItem);
 
             OnItemChanged?.Invoke(index, data);
+        }
+    }
+
+    public void AddItem(ItemData data)
+    {
+        int index = 0;
+        if (data == null)
+            Debug.Log("Data is Null");
+
+        if (inventoryDic.TryGetValue(data, out InventoryItem item))
+        {
+            if (item == null)
+                Debug.Log("Item is Null");
+
+            if (item.itemData is Equipment_ItemData)
+            {
+                if(TryGetEmptySlotIndex(out index))
+                {
+                    InventoryItem newItem = new InventoryItem(data);
+                    inventory[index] = newItem;
+                }                
+            }
+            else
+                item.AddStack();
+
+            OnItemChanged?.Invoke(index, data);
+        }
+        else
+        {
+            if(TryGetEmptySlotIndex(out index))
+            {
+                InventoryItem newItem = new InventoryItem(data);
+                inventory[index] = newItem;
+                inventoryDic.Add(data, newItem);
+
+                OnItemChanged?.Invoke(index, data);
+            }
         }
     }
 
@@ -47,16 +85,38 @@ public class Inventory : MonoBehaviour
                 return;
             }
 
-            inventory.Remove(item);
+            inventory[index] = null;
             inventoryDic.Remove(data);
 
             OnItemChanged?.Invoke(index, null);
         }
     }
 
-    public bool CanAdd()
+    public bool TryGetEmptySlotIndex(out int index)
     {
-        return inventory.Count < 30;
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (inventory[i] == null || inventory[i].itemData == null)
+            {
+                index = i;
+                return true;
+            }
+        }
+
+        index = -1;
+        return false;
+    }
+
+    public bool TryGetEmptySlot()
+    {
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (inventory[i] == null || inventory[i].itemData == null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Equipment_ItemData GetCurrentWeapon()
