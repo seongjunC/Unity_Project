@@ -167,14 +167,46 @@ public class Skeleton_Chase : SkeletonState
     {
         while (attackTimer >= 0)
         {
-            Debug.Log(attackTimer);
             attackTimer -= Time.deltaTime;
             yield return null;
         }
     }
 }
 
-public class Skeleton_Attack : SkeletonState
+public class Skeleton_AttackBase : SkeletonState
+{
+    public Skeleton_AttackBase(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        monster.isAttacking = true;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        monster.isAttacking = false;
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+
+        if (isFinishAnim)
+            sm.ChangeState(stateCon.chase);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+}
+
+public class Skeleton_Attack : Skeleton_AttackBase
 {
     public Skeleton_Attack(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
     {
@@ -194,8 +226,7 @@ public class Skeleton_Attack : SkeletonState
     {
         base.Transition();
 
-        if (isFinishAnim)
-            sm.ChangeState(stateCon.chase);
+        
     }
 
     public override void Update()
@@ -204,7 +235,7 @@ public class Skeleton_Attack : SkeletonState
     }
 }
 
-public class Skeleton_SwordSkill : SkeletonState
+public class Skeleton_SwordSkill : Skeleton_AttackBase
 {
     public Skeleton_SwordSkill(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
     {
@@ -224,9 +255,6 @@ public class Skeleton_SwordSkill : SkeletonState
     public override void Transition()
     {
         base.Transition();
-
-        if (isFinishAnim)
-            sm.ChangeState(stateCon.chase);
     }
 
     public override void Update()
@@ -234,7 +262,7 @@ public class Skeleton_SwordSkill : SkeletonState
         base.Update();
     }
 }
-public class Skeleton_RoarSkill : SkeletonState
+public class Skeleton_RoarSkill : Skeleton_AttackBase
 {
     public Skeleton_RoarSkill(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
     {
@@ -254,9 +282,6 @@ public class Skeleton_RoarSkill : SkeletonState
     public override void Transition()
     {
         base.Transition();
-
-        if (isFinishAnim)
-            sm.ChangeState(stateCon.chase);
     }
 
     public override void Update()

@@ -13,7 +13,7 @@ public class MonsterStatusController : StatusController
 
     public Action OnDied;
     public Action OnHitted;
-    public event Action OnSettigEnded;
+    public Action OnSettingEnded;
 
     protected override void Awake()
     {
@@ -73,7 +73,7 @@ public class MonsterStatusController : StatusController
     private void SetupLevelStat()
     {
         status = Manager.Data.monsterData.GetMonsterData(monsterType);
-        OnSettigEnded?.Invoke();
+        OnSettingEnded?.Invoke();
 
         status.damage *= 1 + level / 4;
         status.maxHP *= 1 + level / 4;

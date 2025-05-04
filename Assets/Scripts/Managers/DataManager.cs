@@ -69,9 +69,9 @@ public class DataManager : Singleton<DataManager>
         equip = new GameObject("Equipment").AddComponent<Equipment>();
         equip.transform.SetParent(transform, false);
 
+        Manager.Game.Init();
         Manager.Audio.Init();
         Manager.Pool.Init();
-        Manager.Game.Init();
     }
 
 }

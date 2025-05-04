@@ -45,6 +45,7 @@ public class SkillController : MonoBehaviour
         skillRoutine ??= StartCoroutine(curSkill.SkillRoutine());
         yield return curSkill.waitSkillEndDelay;
         StartCoroutine(curSkill.SkillEnd());
+        StopCoroutine(skillRoutine);
         skillRoutine = null;
     }
 

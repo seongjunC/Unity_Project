@@ -11,11 +11,13 @@ public class GameManager : Singleton<GameManager>
     public event Action<int> OnGoldChanged;
     private CameraShake camShake;
 
+    public GameObject canvas;
+
     public void Init()
     {
         camShake = new GameObject("CamShack").AddComponent<CameraShake>();
         camShake.transform.SetParent(transform, false);
-
+        canvas = GameObject.FindWithTag("UI");
         camShake.Init();
     }
 
@@ -37,5 +39,26 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = scale;
         yield return new WaitForSeconds(duration);
         Time.timeScale = 1;
+    }
+
+    public void CreateBossBarUI(MonsterStatusController statusCon)
+    {
+        GameObject bossBar = Instantiate(Resources.Load<GameObject>("BossHealthBar"), canvas.transform);
+
+        RectTransform rectTransform = bossBar.GetComponent<RectTransform>();
+
+        rectTransform.anchorMin = new Vector2(0.5f, 0.86829f);
+        rectTransform.anchorMax = new Vector2(0.5f, 0.86829f);
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+        rectTransform.anchoredPosition = new Vector2(0f, 3f);
+        rectTransform.localScale = Vector3.one;
+        rectTransform.localRotation = Quaternion.identity;
+
+        Monster_HealthBar bossHealthBar = bossBar.GetComponentInChildren<Monster_HealthBar>();
+        bossHealthBar.monsterStatusCon = statusCon;
+
+        var controller = bossBar.GetComponent<Monster_HealthBar_Controller>();
+        controller.Init(statusCon);
     }
 }

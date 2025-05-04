@@ -96,12 +96,11 @@ public abstract class Skill : ScriptableObject
     }
 
     public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
+
     public void DamageToTargets(int count) => overlap.DealDamageToTargets(effects[count].transform, skillVectors[count], skillPower, owner.GetDamage());
 
-    public void DamageToTargets(float _skillPower)
-    {
-        overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
-    }
+    public void DamageToTargets(float _skillPower) => overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
+
     public void DamageToTargets(float _skillPower, Vector3 overlapDistance) => overlap.DealDamageToTargets(curEffect.transform, overlapDistance, skillVec, _skillPower, owner.GetDamage());
 
     protected abstract bool SkillCondition();
@@ -133,10 +132,9 @@ public abstract class Skill : ScriptableObject
 
     public void CreateEffect(GameObject effect)
     {
-        if(curEffect != null)
-            effects.Add(curEffect);
-
         curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
+
+        effects.Add(curEffect);
 
         skillVec.forward = curEffect.transform.forward;
         skillVec.right = curEffect.transform.right;
@@ -171,7 +169,7 @@ public abstract class Skill : ScriptableObject
         return temp;
     }
 
-    private Transform EffectPos(Vector3 distance)
+    private Transform EffectTransform(Vector3 distance)
     {
         Transform temp = curEffect.transform;
         temp.position = curEffect.transform.position +

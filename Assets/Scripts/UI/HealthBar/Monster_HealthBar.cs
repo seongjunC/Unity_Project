@@ -10,15 +10,17 @@ public class Monster_HealthBar : HealthBar
 
     private float timer;
     [SerializeField] private float duration = 5;
+    [SerializeField] private bool isBoss;
 
     private void Awake()
     {
-        monsterStatusCon = GetComponentInParent<MonsterStatusController>();
+        monsterStatusCon ??= GetComponentInParent<MonsterStatusController>();
     }
 
     protected override void Update()
     {
-        base.Update();
+        if(!isBoss)
+            base.Update();
     }
 
     public void UpdateHealthBar(int hp)
@@ -31,7 +33,7 @@ public class Monster_HealthBar : HealthBar
 
         slider.value = hp;
 
-        if(easeRoutine != null)
+        if (easeRoutine != null)
         {
             StopCoroutine(easeRoutine);
             easeRoutine = null;
@@ -39,7 +41,13 @@ public class Monster_HealthBar : HealthBar
 
         easeRoutine = StartCoroutine(EaseHealthBarRoutine());
 
-        if(healthBarRoutine != null)
+        if(!isBoss)
+            HealthBarActivate();
+    }
+
+    private void HealthBarActivate()
+    {
+        if (healthBarRoutine != null)
         {
             StopCoroutine(healthBarRoutine);
             healthBarRoutine = null;

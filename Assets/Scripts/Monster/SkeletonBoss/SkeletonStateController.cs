@@ -34,12 +34,15 @@ public class SkeletonStateController : MonoBehaviour
     private void Start()
     {
         Init();
+        
     }
 
     private void Init()
     {
         sm.InitState(idle);
         skeleton.statusCon.OnHitted += HitState;
+
+        Manager.Game.CreateBossBarUI(skeleton.statusCon);
     }
 
     private void Update()
@@ -49,6 +52,8 @@ public class SkeletonStateController : MonoBehaviour
 
     private void HitState()
     {
+        if (skeleton.isAttacking) return;
+
         sm.ChangeState(hit);
     }
 

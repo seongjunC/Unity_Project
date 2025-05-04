@@ -16,7 +16,7 @@ public class EntityFX : MonoBehaviour
     {
         Vector3 randOffset = new Vector3(RandomFloat(-1, 1), RandomFloat(-.2f, .2f), RandomFloat(-1, 1));
         randOffset.y += offsetY;
-        GameObject newPopUpText = Manager.Resources.Instantiate(popUpText, transform.position + randOffset, true);
+        GameObject newPopUpText = Manager.Pool.GetPopUp(popUpText, transform.position + randOffset);
         newPopUpText.GetComponent<PopUpText>().SetupText(amount.ToString(), color);
     }
 

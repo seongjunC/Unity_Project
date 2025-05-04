@@ -39,7 +39,7 @@ public class PopUpText : BillbordObejct
             damage.color = color;
 
             if (damage.color.a < 0.01f)
-                Destroy(gameObject);
+                Manager.Pool.ReleasePopUp(gameObject);
         }
     }
 
