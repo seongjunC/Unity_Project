@@ -52,6 +52,50 @@ public class AudioManager : Singleton<AudioManager>
             PlaySound(clip, type, pitch);
     }
 
+    public void PlayEffectAtPoint(string path, Vector3 position, float pitch = 1f, float volume = 1f)
+    {
+        if (string.IsNullOrEmpty(path)) return;
+
+        if (!effectCached.TryGetValue(path, out var clip))
+        {
+            clip = Manager.Resources.Load<AudioClip>($"{SOUND_PATH}{SoundType.Effect}/{path}");
+            if (clip != null)
+                effectCached[path] = clip;
+            else
+            {
+                Debug.LogWarning($"[AudioManager] 경로에서 사운드를 찾을 수 없습니다.: {path}");
+                return;
+            }
+        }
+
+        GameObject tempAudio = Manager.Resources.Instantiate<GameObject>("Effect_Sound", position, true);
+
+        AudioSource tempSource = tempAudio.GetComponent<AudioSource>();
+        tempSource.clip = clip;
+        tempSource.pitch = pitch;
+        tempSource.volume = volume;
+        tempSource.spatialBlend = 1.0f;
+        tempSource.outputAudioMixerGroup = effectGroup;
+
+        tempSource.Play();
+        Manager.Resources.Destroy(tempAudio, clip.length / pitch);
+    }
+
+    public void PlayEffectAtPoint(AudioClip clip, Vector3 position, float pitch = 1f, float volume = 1f)
+    {
+        GameObject tempAudio = Manager.Resources.Instantiate<GameObject>("Effect_Sound", position, true);
+
+        AudioSource tempSource = tempAudio.GetComponent<AudioSource>();
+        tempSource.clip = clip;
+        tempSource.pitch = pitch;
+        tempSource.volume = volume;
+        tempSource.spatialBlend = 1.0f;
+        tempSource.outputAudioMixerGroup = effectGroup;
+
+        tempSource.Play();
+        Manager.Resources.Destroy(tempAudio, clip.length / pitch);
+    }
+
     public void PlaySound(AudioClip clip, SoundType type, float pitch = 1)
     {
         switch (type)

@@ -20,6 +20,8 @@ public class MonsterStatusController : StatusController
     public Action OnHitted;
     public Action OnSettingEnded;
 
+    [SerializeField] private string hitSoundName;
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,6 +39,8 @@ public class MonsterStatusController : StatusController
         if (isDead) return;
         
         DamageCalulator.PlayerAttackCalculator(Manager.Data.playerStatus, this, amount);
+
+        Manager.Audio.PlayEffectAtPoint(hitSoundName, transform.position, UnityEngine.Random.Range(0.8f, 1));
 
         if (isHitter)
             OnHitted?.Invoke();

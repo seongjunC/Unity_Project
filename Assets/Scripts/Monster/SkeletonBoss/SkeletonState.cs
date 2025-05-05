@@ -185,13 +185,14 @@ public class Skeleton_AttackBase : SkeletonState
     public override void Enter()
     {
         base.Enter();
-
+        anim.SetBool("Idle", true);
         monster.isUnhittable = true;
     }
 
     public override void Exit()
     {
         base.Exit();
+        anim.SetBool("Idle", false);
         monster.isUnhittable = false;
     }
 
