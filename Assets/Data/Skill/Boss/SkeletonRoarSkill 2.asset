@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b05eeb4e6b06f142a18e7b80c9cbb52, type: 3}
+  m_Name: SkeletonRoarSkill 2
+  m_EditorClassIdentifier: 
+  metaData:
+    icon: {fileID: 0}
+    skillDescription: 
+    needLevel: 0
+  skillName: SkeletonRoar
+  overlap:
+    overlapType: 2
+    targetMask:
+      serializedVersion: 2
+      m_Bits: 128
+    boxSize: {x: 0, y: 0, z: 0}
+    height: 0
+    radius: 5
+    distance: {x: 0, y: 0, z: 0}
+  effectPrefab: {fileID: 1294101409476956, guid: 28dfa6fee77a2fd418c58d702daf99de, type: 3}
+  effectRotations:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  effectDistances:
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  isTick: 0
+  tickDelay: 0
+  isMove: 0
+  skillSpeed: 0
+  dir: {x: 0, y: 0, z: 0}
+  delay: 3
+  skillPower: 1
+  coolTime: 0
+  skillDuration: 2

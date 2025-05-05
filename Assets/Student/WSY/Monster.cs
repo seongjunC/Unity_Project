@@ -12,7 +12,7 @@ public class Monster : MonoBehaviour
     public LayerMask targetMask;
 
     public float rotationSpeed;
-    public bool isAttacking = false;
+    public bool isUnhittable = false;
 
     protected virtual void Awake()
     {
@@ -37,7 +37,7 @@ public class Monster : MonoBehaviour
     {
         FindTarget();
 
-        if (!isAttacking)
+        if (!isUnhittable)
         {
             //Move();
         }
@@ -71,9 +71,9 @@ public class Monster : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                if (!isAttacking)
+                if (!isUnhittable)
                 {
-                    isAttacking = true;
+                    isUnhittable = true;
                     anim.SetTrigger("Attack");
 
                     IDamagable target = other.GetComponent<IDamagable>();
@@ -89,7 +89,7 @@ public class Monster : MonoBehaviour
     IEnumerator ResetAttackState(float delay)
     {
         yield return new WaitForSeconds(delay);
-        isAttacking = false;
+        isUnhittable = false;
     }
 
     //private void OnDrawGizmos()

@@ -13,6 +13,7 @@ public class SkeletonSkillController : SkillController
 
     public void UseSkills(int index)
     {
+        Debug.Log(index);
         UseSKill(ownerSkills[index]);
     }
 }

@@ -91,6 +91,8 @@ public class ResourcesManager : Singleton<ResourcesManager>
 
     public void Destroy(GameObject obj)
     {
+        if (obj == null || !obj.activeSelf) return;
+
         if(Manager.Pool.ContainsKey(obj.name))
             Manager.Pool.Release(obj);
         else

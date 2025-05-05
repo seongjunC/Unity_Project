@@ -51,14 +51,14 @@ public class SkeletonStateController : MonoBehaviour
 
     private void HitState()
     {
-        if (skeleton.isAttacking) return;
+        if (skeleton.isUnhittable) return;
 
         sm.ChangeState(hit);
     }
 
     private void StunState(float value)
     {
-        if(value >= 0)
+        if(value <= 0)
         {
             sm.ChangeState(stun);
         }
@@ -70,5 +70,5 @@ public class SkeletonStateController : MonoBehaviour
     }
 
     private void AnimFinishTrigger() => sm.currentState.AnimFinishEvent();
-    private void MoveEvent(float force) => skeleton.rigid.AddForce(skeleton.transform.forward * force, ForceMode.Impulse);
+    private void MobMoveEvent(float force) => skeleton.rigid.AddForce(skeleton.transform.forward * force, ForceMode.Impulse);
 }

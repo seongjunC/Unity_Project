@@ -7,6 +7,7 @@ public class PlayerAnimTrigger : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private LayerMask target;
     private GameObject effect;
+    private int attackCount;
 
     private void Awake()
     {
@@ -25,14 +26,19 @@ public class PlayerAnimTrigger : MonoBehaviour
                 {
                     bool isHit = false;
 
-                    if(player.stateCon.attackState.comboCount == 3)
+                    if (attackCount > 3)
+                        attackCount = 3;
+
+                    if (attackCount == 3)
                         isHit = true;
 
-                    damagable.TakeDamage(player.attackForce[player.stateCon.attackState.comboCount - 1], isHit);
+                    damagable.TakeDamage(player.attackForce[attackCount-1], isHit);
                 }
             }
         }
     }
+
+    private void CountSetting() => attackCount = player.stateCon.attackState.comboCount;
 
     private void AttackEffect(int count)
     {

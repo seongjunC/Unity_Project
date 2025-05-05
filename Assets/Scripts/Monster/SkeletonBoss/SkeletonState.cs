@@ -85,8 +85,11 @@ public class Skeleton_Idle : SkeletonState
 public class Skeleton_Chase : SkeletonState
 {
     private Vector3 dirToTarget;
-    private float attackDelay = 5;
+    private float attackDelay = 4;
+    private float idleDistance = 2.5f;
     public float attackTimer;
+
+
     public Skeleton_Chase(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
     {
     }
@@ -109,7 +112,7 @@ public class Skeleton_Chase : SkeletonState
     {
         base.Transition();
 
-        if (target == null || Vector3.Distance(target.transform.position, monster.transform.position) <= 2f)
+        if (target == null || Vector3.Distance(target.transform.position, monster.transform.position) <= idleDistance)
             sm.ChangeState(stateCon.idle);
 
         RandomAttack();
@@ -183,13 +186,13 @@ public class Skeleton_AttackBase : SkeletonState
     {
         base.Enter();
 
-        monster.isAttacking = true;
+        monster.isUnhittable = true;
     }
 
     public override void Exit()
     {
         base.Exit();
-        monster.isAttacking = false;
+        monster.isUnhittable = false;
     }
 
     public override void Transition()
@@ -244,7 +247,7 @@ public class Skeleton_SwordSkill : Skeleton_AttackBase
     public override void Enter()
     {
         base.Enter();
-        monster.skillCon.UseSkills(0);
+        monster.skillCon.UseSkills(1);
     }
 
     public override void Exit()
@@ -271,7 +274,7 @@ public class Skeleton_RoarSkill : Skeleton_AttackBase
     public override void Enter()
     {
         base.Enter();
-        monster.skillCon.UseSkills(1);
+        monster.skillCon.UseSkills(0);
     }
 
     public override void Exit()
@@ -299,11 +302,13 @@ public class Skeleton_Die : SkeletonState
     public override void Enter()
     {
         base.Enter();
+        monster.isUnhittable = true;
     }
 
     public override void Exit()
     {
         base.Exit();
+        monster.isUnhittable = false;
     }
 
     public override void Transition()
@@ -356,12 +361,15 @@ public class Skeleton_Stun : SkeletonState
     public override void Enter()
     {
         base.Enter();
-        stateTimer = 3f;
+        monster.isUnhittable = true;
+        stateTimer = 5f;
     }
 
     public override void Exit()
     {
         base.Exit();
+        monster.statusCon.stunGauge = 1;
+        monster.isUnhittable = false;
     }
 
     public override void Transition()

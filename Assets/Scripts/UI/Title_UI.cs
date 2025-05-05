@@ -11,9 +11,13 @@ public class Title_UI : MonoBehaviour
     private WaitForSeconds wft = new WaitForSeconds(1f);
     private WaitForSeconds wft2 = new WaitForSeconds(.5f);
 
+    private Coroutine gameStartRoutine;
+
     public void StartGame()
     {
-        StartCoroutine(StartGameRoutine());
+        if (gameStartRoutine != null) return;
+
+        gameStartRoutine = StartCoroutine(StartGameRoutine());
     }
     public void OutGame()
     {
