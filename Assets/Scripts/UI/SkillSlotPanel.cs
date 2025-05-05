@@ -18,14 +18,14 @@ public class SkillSlotPanel : MonoBehaviour
     }
     private void OnDisable()
     {
-        Manager.Data.playerStatus.OnLevelUp -= UnlockSkill;
+        Manager.Data.playerStatus.OnLevelUp -= UnlockSkill;        
     }
 
     public void SetupSkillSlot()
     {
         for (int i = 0; i < skillSlots.Length; i++)
         {
-            skillSlots[i].SetupSkillSlot(Manager.Data.playerStatus.playerSkills[i]);
+            skillSlots[i].SetupSkillSlot(Manager.Data.playerStatus.playerSkills[i]);    
         }
     }
 

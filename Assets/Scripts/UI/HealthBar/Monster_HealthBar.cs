@@ -10,7 +10,6 @@ public class Monster_HealthBar : HealthBar
 
     private float timer;
     [SerializeField] private float duration = 5;
-    [SerializeField] private bool isBoss;
 
     private void Awake()
     {
@@ -19,8 +18,7 @@ public class Monster_HealthBar : HealthBar
 
     protected override void Update()
     {
-        if(!isBoss)
-            base.Update();
+        base.Update();
     }
 
     public void UpdateHealthBar(int hp)
@@ -41,8 +39,7 @@ public class Monster_HealthBar : HealthBar
 
         easeRoutine = StartCoroutine(EaseHealthBarRoutine());
 
-        if(!isBoss)
-            HealthBarActivate();
+        HealthBarActivate();
     }
 
     private void HealthBarActivate()

@@ -117,7 +117,7 @@ public class Skeleton_Chase : SkeletonState
 
     public void RandomAttack()
     {
-        if (attackTimer <= 0)
+        if (attackTimer <= 0 && target != null)
         {
             if (Vector3.Distance(target.transform.position, monster.transform.position) <= monster.attackDistance &&
             Vector3.Dot(monster.transform.forward, dirToTarget) > Mathf.Cos((monster.fov / 2f) * Mathf.Deg2Rad))
@@ -344,5 +344,39 @@ public class Skeleton_Hit : SkeletonState
     public override void Update()
     {
         base.Update();
+    }
+}
+
+public class Skeleton_Stun : SkeletonState
+{
+    public Skeleton_Stun(SkeletonBoss _monster, SkeletonStateMachine _stateMachine, string _animBoolName) : base(_monster, _stateMachine, _animBoolName)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        stateTimer = 3f;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Transition()
+    {
+        base.Transition();
+
+        if(stateTimer <= 0)
+            sm.ChangeState(stateCon.idle);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (stateTimer >= 0)
+            stateTimer -= Time.deltaTime;
     }
 }

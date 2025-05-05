@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Threading;
+using System;
 using UnityEngine;
 
 public class SkeletonBoss : Monster, ISkillOwner
@@ -9,7 +8,7 @@ public class SkeletonBoss : Monster, ISkillOwner
 
     public float attackDistance;
     public bool isSkillActive { get; set; }
-    
+
     public int GetDamage()
     {
         return statusCon.status.damage;

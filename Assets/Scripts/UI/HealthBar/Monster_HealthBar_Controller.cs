@@ -18,15 +18,6 @@ public class Monster_HealthBar_Controller : MonoBehaviour
         monster_HealthBar.gameObject.SetActive(false);
     }
 
-    public void Init(MonsterStatusController statusCon)
-    {
-        monster_HealthBar.monsterStatusCon = statusCon;
-
-        monster_HealthBar.monsterStatusCon.status.OnHealthChanged += monster_HealthBar.UpdateHealthBar;
-
-        monster_HealthBar.UpdateHealthBar(statusCon.status.maxHP);
-    }
-
     private void OnDisable()
     {
         monster_HealthBar.monsterStatusCon.status.OnHealthChanged -= _ => ActiveHealthBar();

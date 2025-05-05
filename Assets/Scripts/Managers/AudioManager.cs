@@ -102,7 +102,14 @@ public class AudioManager : Singleton<AudioManager>
         return -80;
     }
 
-    public void SliderValue(string parameter, float _value, float multiplier) => audioMixer.SetFloat(parameter, Mathf.Log10(_value) * multiplier);
+    public void SliderValue(string parameter, float _value, float multiplier)
+    {
+        Debug.Log(_value);
+        if (_value <= 0.0001f)
+            audioMixer.SetFloat(parameter, -80f);
+        else
+            audioMixer.SetFloat(parameter, Mathf.Log10(_value) * multiplier);
+    }
 
     public void ClearEffectCached() => effectCached.Clear();
 }

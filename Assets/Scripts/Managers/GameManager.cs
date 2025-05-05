@@ -55,10 +55,10 @@ public class GameManager : Singleton<GameManager>
         rectTransform.localScale = Vector3.one;
         rectTransform.localRotation = Quaternion.identity;
 
-        Monster_HealthBar bossHealthBar = bossBar.GetComponentInChildren<Monster_HealthBar>();
+        BossHealthBar bossHealthBar = bossBar.GetComponentInChildren<BossHealthBar>();
         bossHealthBar.monsterStatusCon = statusCon;
 
-        var controller = bossBar.GetComponent<Monster_HealthBar_Controller>();
+        var controller = bossBar.GetComponent<BossBarController>();
         controller.Init(statusCon);
     }
 }
