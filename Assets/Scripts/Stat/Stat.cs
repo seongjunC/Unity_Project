@@ -22,11 +22,11 @@ public class Stat
         return totalValue;
     }
 
-    public void AddModifiers(int value)
+    public void AddModifier(int value)
     {
         modifiers.Add(value);
     }
-    public void RemoveModifiers(int value)
+    public void RemoveModifier(int value)
     {
         modifiers.Remove(value);
     }

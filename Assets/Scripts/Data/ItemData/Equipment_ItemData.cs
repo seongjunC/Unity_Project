@@ -18,18 +18,18 @@ public class Equipment_ItemData : ItemData
 
     public void AddStat()
     {
-        Manager.Data.playerStatus.damage.AddModifiers(damage);
-        Manager.Data.playerStatus.maxHP.AddModifiers(maxHP);
-        Manager.Data.playerStatus.critChance.AddModifiers(critChance);
-        Manager.Data.playerStatus.critDamage.AddModifiers(critDamage);
+        Manager.Data.playerStatus.damage.AddModifier(damage);
+        Manager.Data.playerStatus.maxHP.AddModifier(maxHP);
+        Manager.Data.playerStatus.critChance.AddModifier(critChance);
+        Manager.Data.playerStatus.critDamage.AddModifier(critDamage);
     }
 
     public void RemoveStat()
     {
-        Manager.Data.playerStatus.damage.RemoveModifiers(damage);
-        Manager.Data.playerStatus.maxHP.RemoveModifiers(maxHP);
-        Manager.Data.playerStatus.critChance.RemoveModifiers(critChance);
-        Manager.Data.playerStatus.critDamage.RemoveModifiers(critDamage);
+        Manager.Data.playerStatus.damage.RemoveModifier(damage);
+        Manager.Data.playerStatus.maxHP.RemoveModifier(maxHP);
+        Manager.Data.playerStatus.critChance.RemoveModifier(critChance);
+        Manager.Data.playerStatus.critDamage.RemoveModifier(critDamage);
     }
 
     public string GetStatDescription()

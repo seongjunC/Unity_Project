@@ -8,7 +8,7 @@ public class SkeletonBoss : Monster, ISkillOwner
 
     public float attackDistance;
     public bool isSkillActive { get; set; }
-
+    public bool isStun;
     public int GetDamage()
     {
         return statusCon.status.damage;

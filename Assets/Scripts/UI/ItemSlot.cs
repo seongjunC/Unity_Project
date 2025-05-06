@@ -30,7 +30,15 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         {
             icon.sprite = invItem.itemData.icon;
             icon.color = Color.white;
+
             stackSize.text = invItem.stack.ToString();
+
+            if(invItem.itemData is Equipment_ItemData)
+            {
+                stackSize.gameObject.SetActive(false);
+            }
+            else
+                stackSize.gameObject.SetActive(true);
         }
         else
         {
@@ -84,6 +92,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         else if(invItem.itemData is Use_ItemData item)
         {
             item.Use();
+            Manager.Data.inventory.RemoveItem(slotNum, invItem.itemData);
         }
 
         invPanel.CloseToolTip();

@@ -1,8 +1,7 @@
 using EnumType;
 using StructType;
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Collections;
 using UnityEngine;
 
 [Serializable]
@@ -16,7 +15,7 @@ public class PlayerStatusData
     private int _curHP;
     public int curHP { get => _curHP; private set { _curHP = value; OnHPChanged?.Invoke(_curHP); } }
 
-    private int _curExp;
+    [SerializeField] private int _curExp;
     public int curExp { get => _curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
 
     private int _level = 1;
@@ -55,7 +54,7 @@ public class PlayerStatusData
     public void AddExp(int amount)
     {
         curExp += Mathf.RoundToInt((UnityEngine.Random.Range(amount * 0.8f, amount * 1.2f)));
-
+        Debug.Log("경헙치 획득");
         CheckLevelUp();
     }
 
@@ -73,7 +72,9 @@ public class PlayerStatusData
     }
     private void LevelUp()
     {
-        level = _level++;
+        Debug.Log("레벨 업");
+        curExp -= GetLevelExp();
+        level++;
         SetupPlayerStat();
     }
 
@@ -92,8 +93,28 @@ public class PlayerStatusData
         int _maxHP = playerStatData.GetStatData(level).hp;
         int amount = _maxHP - maxHP.baseStat;
         maxHP.SetBaseStat(_maxHP);
-        curExp = 0;
+
+        curExp = curExp;
 
         IncreaseHealth(amount);
+    }
+
+    public IEnumerator BuffRoutine(StatType type, int amount, float duration)
+    {
+        GetStat(type).AddModifier(amount);
+        yield return new WaitForSeconds(duration);
+        GetStat(type).RemoveModifier(amount);
+    }
+
+    private Stat GetStat(StatType type)
+    {
+        return (type) switch
+        {
+            StatType.Damage => damage,
+            StatType.MaxHP => maxHP,
+            StatType.CritDamage => critDamage,
+            StatType.CritChance => critChance,
+            _ => throw new NotSupportedException()
+        };
     }
 }

@@ -51,15 +51,17 @@ public class SkeletonStateController : MonoBehaviour
 
     private void HitState()
     {
-        if (skeleton.isUnhittable) return;
-
-        sm.ChangeState(hit);
+        if (!skeleton.isUnhittable && !(sm.currentState == stun))
+        {
+            sm.ChangeState(hit);
+        }
     }
 
     private void StunState(float value)
     {
-        if(value <= 0)
+        if(value <= 0 && !skeleton.isStun)
         {
+            skeleton.isStun = true;
             sm.ChangeState(stun);
         }
     }

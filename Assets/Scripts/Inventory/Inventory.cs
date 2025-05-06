@@ -91,6 +91,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool IsHaveItem(ItemData data)
+    {
+        return inventoryDic[data] != null;
+    }
     public bool TryGetEmptySlotIndex(out int index)
     {
         for (int i = 0; i < inventory.Length; i++)
