@@ -9,6 +9,8 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private GameObject inventoryPenal;
     [SerializeField] private GameObject inGamePanel;
     [SerializeField] private GameObject optionPanel;
+    [SerializeField] private GameObject dogamPanel;
+
     private void Start()
     {
         AllUIClose();
@@ -18,9 +20,12 @@ public class InGame_UI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
             SwitchUI(inventoryPenal);
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
-            SwitchUI(inGamePanel);
-        
+            SwitchUI(optionPanel);
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            SwitchUI(dogamPanel);
     }
 
     public void SwitchUI(GameObject ui)

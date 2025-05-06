@@ -13,7 +13,7 @@ public class Monster_HealthBar : HealthBar
 
     private void Awake()
     {
-        monsterStatusCon = GetComponentInParent<MonsterStatusController>();
+        monsterStatusCon ??= GetComponentInParent<MonsterStatusController>();
     }
 
     protected override void Update()
@@ -31,7 +31,7 @@ public class Monster_HealthBar : HealthBar
 
         slider.value = hp;
 
-        if(easeRoutine != null)
+        if (easeRoutine != null)
         {
             StopCoroutine(easeRoutine);
             easeRoutine = null;
@@ -39,7 +39,12 @@ public class Monster_HealthBar : HealthBar
 
         easeRoutine = StartCoroutine(EaseHealthBarRoutine());
 
-        if(healthBarRoutine != null)
+        HealthBarActivate();
+    }
+
+    private void HealthBarActivate()
+    {
+        if (healthBarRoutine != null)
         {
             StopCoroutine(healthBarRoutine);
             healthBarRoutine = null;

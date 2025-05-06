@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class PlayerStatusController : StatusController
 {
     public PlayerStatusData status;
+    public bool invincibility;
+    [SerializeField] private AudioClip[] hitSound;
 
     protected override void Awake()
     {
@@ -17,10 +17,16 @@ public class PlayerStatusController : StatusController
         status = Manager.Data.playerStatus;
     }
 
-    public override void TakeDamage(float amount)
+    public override void TakeDamage(float amount, bool isHitter = false)
     {
+        if (invincibility) return;
+
+        Manager.Audio.PlayEffectAtPoint(hitSound[UnityEngine.Random.Range(0,hitSound.Length)], transform.position, UnityEngine.Random.Range(.8f,1));
+
         if (status.DecreaseHealth(amount))
-            Die();  
+            Die();
+
+        fx.CreatePopUpText(Mathf.RoundToInt(amount));
     }
 
     private void Die()

@@ -11,7 +11,6 @@ public class Inventory : MonoBehaviour
     private Dictionary<Equipment_ItemData, InventoryItem> equipmentDic = new Dictionary<Equipment_ItemData, InventoryItem>();
 
     public Action<int, ItemData> OnItemChanged;
-    private int capecity = 30;
 
     public void AddItem(int index ,ItemData data)
     {

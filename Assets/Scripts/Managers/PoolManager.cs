@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,6 +8,7 @@ public class PoolManager : Singleton<PoolManager>
     private Dictionary<string, IObjectPool<GameObject>> poolDic;
     private Dictionary<string, Transform> poolParent;
     private Dictionary<string, float> lastUsedTime;
+    private ObjectPool<GameObject> popUpPool;
 
     private Transform parent;
     private Transform popUpParent;
@@ -30,11 +30,55 @@ public class PoolManager : Singleton<PoolManager>
         parent = new GameObject("Pool Parent").transform;
         poolData = Manager.Data.poolData;
 
-        GameObject canvasObj = GameObject.FindWithTag("UI");
+        GameObject canvasObj = Manager.Game.canvas;
         UI = canvasObj.transform;
 
         popUpParent = new GameObject("PopUpParent").transform;
         popUpParent.parent = UI.transform;
+    }
+
+    private void CreatePopUpTextPool(GameObject popUp)
+    {
+        popUpPool = new ObjectPool<GameObject>(
+            () =>
+            {
+                var obj = Instantiate(popUp, popUpParent);
+                obj.name = popUp.name;
+                return obj;
+            },
+            obj =>
+            {
+                obj.SetActive(true);
+                obj.transform.SetParent(null);
+            },
+            obj =>
+            {
+                obj.SetActive(false);
+                obj.transform.SetParent(popUpParent);
+            },
+            obj =>
+            {
+                Destroy(obj);
+            },
+            maxSize: 15
+        );
+    }
+
+    public GameObject GetPopUp (GameObject popUp, Vector3 position)
+    {
+        if (popUpPool == null)
+            CreatePopUpTextPool(popUp);
+
+        GameObject obj = popUpPool.Get();
+        obj.transform.position = position;
+
+        return obj;
+    }
+
+    public void ReleasePopUp(GameObject popUp)
+    {
+        if (popUpPool != null)
+            popUpPool.Release(popUp);
     }
 
     private void Start()
@@ -90,14 +134,9 @@ public class PoolManager : Singleton<PoolManager>
         if(poolDic.ContainsKey(name))
             return poolDic[name];
 
-        Transform root = null;
-
-        if (name != "PopUpText")
-        {
-            root = new GameObject($"{name} Pool").transform;
-            root.transform.SetParent(parent, false);
-            poolParent.Add(name, root);
-        }
+        Transform root = new GameObject($"{name} Pool").transform;
+        root.transform.SetParent(parent, false);
+        poolParent.Add(name, root);
             
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>
         (
@@ -105,10 +144,7 @@ public class PoolManager : Singleton<PoolManager>
             {
                 GameObject obj = Instantiate(go);
                 obj.name = name;
-
-                if (name != "PopUpText")
-                    obj.transform.SetParent(root, false);
-
+                obj.transform.SetParent(root, false);
                 lastUsedTime[name] = Time.time;
                 return obj;
             },
@@ -121,11 +157,7 @@ public class PoolManager : Singleton<PoolManager>
             actionOnRelease: (GameObject obj) =>
             {
                 obj.SetActive(false);
-
-                if (name == "PopUpText")
-                    obj.transform.SetParent(popUpParent.transform, false);
-                else
-                    obj.transform.SetParent(root, false);
+                obj.transform.SetParent(root, false);
             },
             actionOnDestroy: (GameObject obj) =>
             {

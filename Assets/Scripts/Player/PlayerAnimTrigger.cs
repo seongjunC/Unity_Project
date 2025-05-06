@@ -7,6 +7,8 @@ public class PlayerAnimTrigger : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private LayerMask target;
     private GameObject effect;
+    private int attackCount;
+
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -22,11 +24,21 @@ public class PlayerAnimTrigger : MonoBehaviour
             {
                 if (c.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
-                    damagable.TakeDamage(player.attackForce[player.stateCon.attackState.comboCount - 1]);
+                    bool isHit = false;
+
+                    if (attackCount > 3)
+                        attackCount = 3;
+
+                    if (attackCount == 3)
+                        isHit = true;
+
+                    damagable.TakeDamage(player.attackForce[attackCount-1], isHit);
                 }
             }
         }
     }
+
+    private void CountSetting() => attackCount = player.stateCon.attackState.comboCount;
 
     private void AttackEffect(int count)
     {

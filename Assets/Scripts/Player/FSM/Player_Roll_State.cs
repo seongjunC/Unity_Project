@@ -1,13 +1,10 @@
 using EnumType;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Roll_State : Player_AttackBase_State
 {
-    private float invincibilityTime = 0.15f;
+    private float invincibilityTime = .25f;
     private YieldInstruction rollDelay = new WaitForSeconds(.1f);
     private float timer;
     private float duration = .8f;
@@ -22,7 +19,7 @@ public class Player_Roll_State : Player_AttackBase_State
 
         timer = duration;
 
-        player.invincibility = true;
+        player.statusCon.invincibility = true;
 
         stateTimer = invincibilityTime;
 
@@ -42,7 +39,7 @@ public class Player_Roll_State : Player_AttackBase_State
     {
         base.Exit();
 
-        player.invincibility = false;
+        player.statusCon.invincibility = false;
 
         rb.velocity = Vector3.zero;
     }
@@ -68,7 +65,7 @@ public class Player_Roll_State : Player_AttackBase_State
         base.Update();
 
         if (stateTimer <= 0)
-            player.invincibility = false;
+            player.statusCon.invincibility = false;
 
         if (timer >= 0)
             timer -= Time.deltaTime;

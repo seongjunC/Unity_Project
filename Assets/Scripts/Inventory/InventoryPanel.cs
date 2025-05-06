@@ -16,6 +16,9 @@ public class InventoryPanel : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha3))
             Manager.Data.inventory.AddItem(data);
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            UpdateAll();
     }
 
     private void Setup()

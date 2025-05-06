@@ -2,9 +2,7 @@ using EnumType;
 using StructType;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public abstract class Skill : ScriptableObject
 {
@@ -34,7 +32,7 @@ public abstract class Skill : ScriptableObject
     [SerializeField] protected Vector3 dir;
 
     [Header("Skill Data")]
-    [Tooltip("스킬실행 후 몇초 후 데미지 판단을 시작할지")]
+    [Tooltip("스킬실행 후 몇초 후 이펙트가 사라질지")]
     [SerializeField] private float delay;
 
     [Tooltip("스킬 계수")] [SerializeField] protected float skillPower;
@@ -96,12 +94,11 @@ public abstract class Skill : ScriptableObject
     }
 
     public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
+
     public void DamageToTargets(int count) => overlap.DealDamageToTargets(effects[count].transform, skillVectors[count], skillPower, owner.GetDamage());
 
-    public void DamageToTargets(float _skillPower)
-    {
-        overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
-    }
+    public void DamageToTargets(float _skillPower) => overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
+
     public void DamageToTargets(float _skillPower, Vector3 overlapDistance) => overlap.DealDamageToTargets(curEffect.transform, overlapDistance, skillVec, _skillPower, owner.GetDamage());
 
     protected abstract bool SkillCondition();
@@ -133,10 +130,9 @@ public abstract class Skill : ScriptableObject
 
     public void CreateEffect(GameObject effect)
     {
-        if(curEffect != null)
-            effects.Add(curEffect);
-
         curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
+
+        effects.Add(curEffect);
 
         skillVec.forward = curEffect.transform.forward;
         skillVec.right = curEffect.transform.right;
@@ -171,7 +167,7 @@ public abstract class Skill : ScriptableObject
         return temp;
     }
 
-    private Transform EffectPos(Vector3 distance)
+    private Transform EffectTransform(Vector3 distance)
     {
         Transform temp = curEffect.transform;
         temp.position = curEffect.transform.position +

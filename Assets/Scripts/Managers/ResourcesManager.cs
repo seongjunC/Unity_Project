@@ -25,7 +25,7 @@ public class ResourcesManager : Singleton<ResourcesManager>
         lastLoadTime[key] = Time.time;
 
         if (resources.ContainsKey(key))
-            return resources[path] as T;
+            return resources[key] as T;
         
         T resource = Resources.Load<T>(path);
 
@@ -91,6 +91,8 @@ public class ResourcesManager : Singleton<ResourcesManager>
 
     public void Destroy(GameObject obj)
     {
+        if (obj == null || !obj.activeSelf) return;
+
         if(Manager.Pool.ContainsKey(obj.name))
             Manager.Pool.Release(obj);
         else

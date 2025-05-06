@@ -3,24 +3,24 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-
-    [SerializeField] public Rigidbody rigid;
-    [SerializeField] protected LayerMask playerLayer;
-    [SerializeField] public Animator anim;
-    [SerializeField] private float rotationSpeed;
-
-    GameObject player;
-    bool isAttacking = false;
-
+    public Rigidbody rigid;
+    public GameObject target;
+    public Animator anim;
     public MonsterStatusController statusCon;
+    public float fov = 60;
 
+    public LayerMask targetMask;
 
-    private void Awake()
+    public float rotationSpeed;
+    public bool isUnhittable = false;
+
+    protected virtual void Awake()
     {
-        player = GameObject.FindWithTag("Player");
-        statusCon = GetComponent<MonsterStatusController>();
-        anim = GetComponent<Animator>();
+        statusCon   ??= GetComponent<MonsterStatusController>();
+        anim        ??= GetComponent<Animator>();
+        rigid       ??= GetComponent<Rigidbody>();
 
+        targetMask = (1 << LayerMask.NameToLayer("Player"));
     }
 
     private void OnEnable()
@@ -35,11 +35,13 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        if (!isAttacking)
+        FindTarget();
+
+        if (!isUnhittable)
         {
-            Move();
+            //Move();
         }
-        Attack();
+        //Attack();
 
     }
 
@@ -47,13 +49,13 @@ public class Monster : MonoBehaviour
     {
         rigid.velocity = Vector3.zero;
 
-        if (player != null)
+        if (target != null)
         {
             // 몬스터랑 플레이어의 직선거리를 보아서, 아직 도달 전이면 (0.1보다 크면?)
-            bool isMoving = Vector3.Distance(transform.position, player.transform.position) > 0.1f;
+            bool isMoving = Vector3.Distance(transform.position, target.transform.position) > 0.1f;
             anim.SetBool("IsMoving", isMoving);
 
-            Vector3 newPos = player.transform.position;
+            Vector3 newPos = target.transform.position;
             newPos.y = 0;
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(newPos), rotationSpeed * Time.deltaTime);
@@ -63,15 +65,15 @@ public class Monster : MonoBehaviour
 
     protected void Attack()
     {
-        Collider[] others = Physics.OverlapSphere(transform.position, statusCon.status.range, playerLayer);
+        Collider[] others = Physics.OverlapSphere(transform.position, statusCon.status.range, targetMask);
 
         foreach (var other in others)
         {
             if (other.CompareTag("Player"))
             {
-                if (!isAttacking)
+                if (!isUnhittable)
                 {
-                    isAttacking = true;
+                    isUnhittable = true;
                     anim.SetTrigger("Attack");
 
                     IDamagable target = other.GetComponent<IDamagable>();
@@ -83,10 +85,11 @@ public class Monster : MonoBehaviour
             }
         }
     }
+
     IEnumerator ResetAttackState(float delay)
     {
         yield return new WaitForSeconds(delay);
-        isAttacking = false;
+        isUnhittable = false;
     }
 
     //private void OnDrawGizmos()
@@ -95,6 +98,17 @@ public class Monster : MonoBehaviour
     //    Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
     //}
 
+    public void FindTarget()
+    {
+        if (target != null) return;
+
+        Collider[] targets = Physics.OverlapSphere(transform.position, statusCon.status.range, targetMask); 
+
+        if (targets.Length > 0)
+        {
+            target = targets[0].gameObject;
+        }
+    }
 
     private void Die()
     {

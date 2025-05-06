@@ -4,10 +4,17 @@ public class Monster_HealthBar_Controller : MonoBehaviour
 {
     [SerializeField] private Monster_HealthBar monster_HealthBar;
 
+    private void Awake()
+    {
+        monster_HealthBar ??= GetComponentInChildren<Monster_HealthBar>();
+    }
+
     private void OnEnable()
     {
+        if (monster_HealthBar == null) return;
+
         monster_HealthBar.monsterStatusCon.status.OnHealthChanged += _ => ActiveHealthBar();
-        monster_HealthBar.monsterStatusCon.OnSettigEnded += AddEvent;
+        monster_HealthBar.monsterStatusCon.OnSettingEnded += AddEvent;
         monster_HealthBar.gameObject.SetActive(false);
     }
 

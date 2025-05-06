@@ -81,7 +81,11 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         {
             Manager.Data.equip.EquipItem(slotNum, invItem.itemData as Equipment_ItemData);
         }
-        ClearSlotUI();
+        else if(invItem.itemData is Use_ItemData item)
+        {
+            item.Use();
+        }
+
         invPanel.CloseToolTip();
     }
 

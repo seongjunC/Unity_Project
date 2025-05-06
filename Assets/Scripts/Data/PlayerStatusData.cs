@@ -29,8 +29,8 @@ public class PlayerStatusData
     public PlayerLevelDatas levelExpData = new();
     public PlayerStatDatas playerStatData = new();
 
-    public Skill[] playerSkills {  get; private set; }
-    public bool[] skillUnlock {  get; private set; }
+    public Skill[] playerSkills {  get; private set; } = new Skill[4];
+    public bool[] skillUnlock {  get; private set; } = new bool[4];
 
     public void IncreaseHealth(int amount)
     {
@@ -39,9 +39,10 @@ public class PlayerStatusData
         if(curHP > maxHP.GetValue())
             curHP = maxHP.GetValue();
     }
+
     public bool DecreaseHealth(float amount)
     {
-        curHP -= (int)amount;
+        curHP -= Mathf.RoundToInt(amount);
 
         if (curHP <= 0)
         {
@@ -58,12 +59,17 @@ public class PlayerStatusData
         CheckLevelUp();
     }
 
-    private void CheckLevelUp() // 임시로 여기 두었음 바꿀 수도 있음.
+    private void CheckLevelUp()
     {
-        if(curExp >= levelExpData.GetLevelExp(level))
+        if(curExp >= GetLevelExp())
         {
             LevelUp();    
         }
+    }
+
+    public int GetLevelExp()
+    {
+        return levelExpData.GetLevelExp(level);
     }
     private void LevelUp()
     {
@@ -86,6 +92,7 @@ public class PlayerStatusData
         int _maxHP = playerStatData.GetStatData(level).hp;
         int amount = _maxHP - maxHP.baseStat;
         maxHP.SetBaseStat(_maxHP);
+        curExp = 0;
 
         IncreaseHealth(amount);
     }

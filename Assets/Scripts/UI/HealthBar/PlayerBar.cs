@@ -1,31 +1,40 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerHealthBar : HealthBar
+public class PlayerBar : HealthBar
 {
-    private PlayerStatusData playerStatusData => Manager.Data.playerStatus;
+    [SerializeField] private Slider expSlider;
+    private PlayerStatusData playerStatus;
 
     Coroutine easeRoutine;
 
+    private void Awake()
+    {
+        playerStatus = Manager.Data.playerStatus;
+    }
+
     private void OnEnable()
     {
-        playerStatusData.OnHPChanged += UpdateHealthBar;
+        playerStatus.OnHPChanged += UpdateHealthBar;
+        playerStatus.OnExpChanged += UpdateExpBar;
     }
 
     private void OnDisable()
     {
-        playerStatusData.OnHPChanged -= UpdateHealthBar;
+        playerStatus.OnHPChanged -= UpdateHealthBar;
+        playerStatus.OnExpChanged -= UpdateExpBar;
     }
 
     protected override void Update()
     {
-        base.Update();
+        
     }
 
     private void UpdateHealthBar(int hp)
     {
-        slider.maxValue = playerStatusData.maxHP.GetValue();
-        easeSlider.maxValue = playerStatusData.maxHP.GetValue();
+        slider.maxValue = playerStatus.maxHP.GetValue();
+        easeSlider.maxValue = playerStatus.maxHP.GetValue();
 
         slider.value = hp;
 
@@ -38,6 +47,11 @@ public class PlayerHealthBar : HealthBar
         easeRoutine = StartCoroutine(EaseHealthBarRoutine());
     }
 
+    private void UpdateExpBar(int exp)
+    {
+        slider.maxValue = playerStatus.GetLevelExp();
+        slider.value = playerStatus.curExp;
+    }
     IEnumerator EaseHealthBarRoutine()
     {
         while (easeSlider.value > slider.value + 0.1f)
