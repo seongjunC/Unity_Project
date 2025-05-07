@@ -9,13 +9,16 @@ public class MonsterFactory : MonoBehaviour
     [Header("Monster Factory Fields")]
     [SerializeField] private int spawnNum;
     [SerializeField] private float spawnTime;
-    [SerializeField] private int initialMonsterNum;
+    // [SerializeField] private int initialMonsterNum;
     [SerializeField] private int cumulativeMonsterNum;
     [SerializeField] private int targetcumMonsterNum;
-    [SerializeField] private GameObject spawnPoint;
+    [SerializeField] private List<GameObject> spawnPoints;
+
     [Header("Prefabs")]
     // 어떤 프리팹을 끌어다 놓냐에 따라서 어떤 씬에서 어떤 몬스터가 생성되는지가 결정되니까 하나만 있어도 됨.
     [SerializeField] private GameObject monsterPrefab;
+
+    private GameObject spawnPoint;
     private float spawnTimer;
     private bool isWaitingToSpawn;
     void Start()
@@ -23,7 +26,9 @@ public class MonsterFactory : MonoBehaviour
         // 오브젝트 풀 매니저에서 프리팹을 오브젝트 풀에 등록해주기. 
         Manager.Resources.Instantiate(monsterPrefab, Vector3.zero, true);
         // 초기 맵에 있는 몬스터의 갯수 (예시: 2마리)
-        cumulativeMonsterNum = 2;
+        // 0마리로 수정
+        cumulativeMonsterNum = 0;
+        spawnPoint = spawnPoints[0];
     }
     void Update()
     {
@@ -32,7 +37,7 @@ public class MonsterFactory : MonoBehaviour
     public void Create()
     {
         // 현재까지의 누적 몬스터수가 목표 몬스터수보다 적다면 
-        if (cumulativeMonsterNum < targetcumMonsterNum + 1)
+        if (cumulativeMonsterNum < targetcumMonsterNum)
         {
             // 몬스터 태그를 가진 게임 오브젝트 찾기
             GameObject detectedMonster = GameObject.FindWithTag("Monster");
@@ -71,6 +76,7 @@ public class MonsterFactory : MonoBehaviour
 
         // 누적 몬스터 생성 갯수 증가시켜주기 
         cumulativeMonsterNum++;
+        spawnPoint = spawnPoints[cumulativeMonsterNum];
     }
 
 }

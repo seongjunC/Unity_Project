@@ -10,6 +10,7 @@ public class doorRotate : MonoBehaviour
     
     [SerializeField]
     private GameObject door;
+    private bool IsLock = false;
 
     private Door doorComponent;
     private float openAngle = 90f;
@@ -28,6 +29,8 @@ public class doorRotate : MonoBehaviour
             return;
         }
 
+        if(IsLock) return;
+
         doorComponent.IsOpen = true;
         Vector3 Location = transform.position - other.transform.position;
         float dot = Vector3.Dot(Location, transform.forward);
@@ -39,6 +42,8 @@ public class doorRotate : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if (other.transform.tag != "Player"){ return; }
+
+        if(IsLock) return;
 
         doorComponent.IsOpen = false;
         Close();
@@ -57,6 +62,14 @@ public class doorRotate : MonoBehaviour
         }
 
         rotateCoroutine = StartCoroutine(RotateCoroutine(targetAngle));
+    }
+    
+    public void LockDoor(){
+        IsLock = true;
+    }
+
+    public void UnLockDoor(){
+        IsLock = false;
     }
 
 
@@ -79,4 +92,8 @@ public class doorRotate : MonoBehaviour
 
         rotateCoroutine = null;
     }
+
+
+
+
 }
