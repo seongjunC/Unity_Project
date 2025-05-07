@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Player : MonoBehaviour, ISkillOwner
@@ -16,6 +19,7 @@ public class Player : MonoBehaviour, ISkillOwner
     public float moveSpeed;
     public float rotateSpeed;
     public float rollForce = 10;
+
 
     [Header("Combat info")]
     public Transform attackTransform;
@@ -42,5 +46,17 @@ public class Player : MonoBehaviour, ISkillOwner
     public int GetDamage()
     {
         return status.damage.GetValue();
+    }
+    public void TakeDamage(int amount)
+    {
+        hp = Mathf.Max(0, status.curHP - amount);
+
+        var hpProp = typeof(PlayerStatusData).GetProperty("curHP", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        hpProp?.SetValue(status, hp);
+
+        if (status.curHP <= 0)
+        {
+            stateCon.stateMachine.ChangeState(stateCon.dieState);
+        }
     }
 }
