@@ -12,7 +12,9 @@ public class PlayerDieState : PlayerState
     {
         base.Enter();
 
-        player.rigid.velocity = Vector3.zero; // 속도 초기화
-        player.rigid.isKinematic = true; // 물리 비활성화
+        player.rigid.velocity = Vector3.zero;
+        player.rigid.isKinematic = true;
+
+        Manager.Game.GameOver();
     }
 }

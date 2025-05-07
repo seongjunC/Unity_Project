@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Runtime.Versioning;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -65,6 +66,13 @@ public class GameManager : Singleton<GameManager>
 
     public void GameClear()
     {
+        GameObject clearUI = Instantiate(Resources.Load<GameObject>("GameClear"), canvas.transform);
+        clearUI.transform.SetAsLastSibling();
+    }
 
+    public void GameOver()
+    {
+        GameObject clearUI = Instantiate(Resources.Load<GameObject>("GameOver"), canvas.transform);
+        clearUI.transform.SetAsLastSibling();
     }
 }

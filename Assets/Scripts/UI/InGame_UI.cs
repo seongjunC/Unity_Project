@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class InGame_UI : MonoBehaviour
@@ -34,6 +31,7 @@ public class InGame_UI : MonoBehaviour
         {
             ui.SetActive(false);
             curUI = null;
+            Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 1f;
         }
         else
@@ -45,6 +43,7 @@ public class InGame_UI : MonoBehaviour
 
             ui.SetActive(true);
             curUI = ui;
+            Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 0f;
         }
     }

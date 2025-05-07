@@ -27,18 +27,18 @@ public class ItemToolTip : MonoBehaviour
 
     public void SetupToolTip(ItemData data)
     {
-        itemName.text = data.name;
+        itemName.text = data.itemName;
         itemName.color = data.GetItemGradeColor();
 
         if(data is Use_ItemData)
         {
-            type.text = "»ç¿ë";
+            type.text = "ì‚¬ìš©";
             stat.gameObject.SetActive(false);
             stat.text = "";
         }
         else
         {
-            type.text = "Àåºñ";
+            type.text = "ìž¥ë¹„";
             stat.gameObject.SetActive(true);
             Equipment_ItemData equip = data as Equipment_ItemData;
             stat.text = equip.GetStatDescription();

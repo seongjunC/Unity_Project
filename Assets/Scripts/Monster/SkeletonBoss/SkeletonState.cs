@@ -304,6 +304,7 @@ public class Skeleton_Die : SkeletonState
     {
         base.Enter();
         monster.isUnhittable = true;
+        stateTimer = 4;
     }
 
     public override void Exit()
@@ -320,6 +321,12 @@ public class Skeleton_Die : SkeletonState
     public override void Update()
     {
         base.Update();
+
+        if (stateTimer >= 0)
+            stateTimer -= Time.deltaTime;
+
+        if (stateTimer <= 0)
+            Manager.Game.GameClear();
     }
 }
 

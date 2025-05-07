@@ -67,7 +67,7 @@ public class MonsterStatusController : StatusController
 
         Manager.Data.playerStatus.AddExp(status.dropExp);
 
-        Manager.Resources.Destroy(gameObject, 2f);
+        Manager.Resources.Destroy(gameObject, 5f);
 
         dropTable.DropItem();
     }

@@ -75,7 +75,20 @@ public class Player_Roll_State : Player_AttackBase_State
     IEnumerator DelayRoll(Vector3 inputDir)
     {
         yield return rollDelay;
+
         Manager.Audio.PlaySound("Roll1", SoundType.Effect, Random.Range(0.3f, 0.6f));
-        rb.AddForce(inputDir * player.rollForce, ForceMode.Impulse);
+
+        float rollDuration = 0.6f;
+        float elapsed = 0f;
+
+        Vector3 movePerSecond = inputDir.normalized * player.rollForce;
+
+        while (elapsed < rollDuration)
+        {
+            float delta = Time.deltaTime;
+            player.transform.Translate(movePerSecond * delta, Space.World);
+            elapsed += delta;
+            yield return null;
+        }
     }
 }

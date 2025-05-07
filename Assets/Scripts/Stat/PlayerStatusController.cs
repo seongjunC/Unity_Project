@@ -7,6 +7,8 @@ public class PlayerStatusController : StatusController
     public bool invincibility;
     [SerializeField] private AudioClip[] hitSound;
 
+    public event Action OnDied;
+
     protected override void Awake()
     {
         base.Awake();
@@ -35,6 +37,6 @@ public class PlayerStatusController : StatusController
 
     private void Die()
     {
-        
+        OnDied?.Invoke();
     }
 }

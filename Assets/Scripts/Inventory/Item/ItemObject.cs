@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    private ItemData itemData;
+    [SerializeField] private ItemData itemData;
     private MeshFilter filter;
     private MeshRenderer itemRenderer;
     private MeshCollider mc;
@@ -15,6 +15,11 @@ public class ItemObject : MonoBehaviour
 
         mc = GetComponent<MeshCollider>();
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+
     }
 
     private void Start()
@@ -34,7 +39,7 @@ public class ItemObject : MonoBehaviour
 
     public void PickupItem()
     {
-        if (!Manager.Data.inventory.TryGetEmptySlot())
+        if (Manager.Data.inventory.TryGetEmptySlot())
         {
             Manager.Data.inventory.AddItem(itemData);
             Destroy(gameObject);

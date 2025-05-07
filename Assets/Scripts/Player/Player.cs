@@ -47,16 +47,4 @@ public class Player : MonoBehaviour, ISkillOwner
     {
         return status.damage.GetValue();
     }
-    public void TakeDamage(int amount)
-    {
-        hp = Mathf.Max(0, status.curHP - amount);
-
-        var hpProp = typeof(PlayerStatusData).GetProperty("curHP", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-        hpProp?.SetValue(status, hp);
-
-        if (status.curHP <= 0)
-        {
-            stateCon.stateMachine.ChangeState(stateCon.dieState);
-        }
-    }
 }

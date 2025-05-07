@@ -1,21 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemCollectTrigger : MonoBehaviour
 {
-    private ItemObject itemObject => GetComponentInParent<ItemObject>();
+    private ItemObject itemObject;
 
-    private void Start()
+    private void Awake()
     {
-        Invoke("ColliderActive", 1f);
+        itemObject = GetComponentInParent<ItemObject>();
     }
-
-    private void ColliderActive() => GetComponent<SphereCollider>().enabled = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Collector"))
+        if (other.CompareTag("Player"))
         {
             itemObject.PickupItem();
         }
