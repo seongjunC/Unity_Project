@@ -19,7 +19,7 @@ public class LoadingSceneUI : MonoBehaviour
             loadingSlider.value = Mathf.Lerp(0f, 0.7f, p);
         }));
 
-        AsyncOperation op = SceneManager.LoadSceneAsync("HSDTestScene");
+        AsyncOperation op = SceneManager.LoadSceneAsync("Dungeon1F");
         op.allowSceneActivation = false;
 
         while (op.progress < 0.9f)
@@ -39,7 +39,7 @@ public class LoadingSceneUI : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "HSDTestScene")
+        if (scene.name == "Dungeon1F")
         {
             Manager.Data.PostSceneInit();
             SceneManager.sceneLoaded -= OnSceneLoaded;
