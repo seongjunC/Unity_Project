@@ -19,6 +19,7 @@ public class ItemData : ScriptableObject
     public ItemGrade itemGrade;
     public Sprite icon;
     public string itemName;
+    public int price; // 아이템 가격
 
     [TextArea]
     public string description;

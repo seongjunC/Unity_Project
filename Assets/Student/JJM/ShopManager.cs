@@ -6,46 +6,62 @@ using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
     [Header("Shop UI")]
-    public Transform itemListParent; // ¾ÆÀÌÅÛ ¸ñ·ÏÀ» Ç¥½ÃÇÒ ºÎ¸ğ °´Ã¼
-    public GameObject shopItemPrefab; // »óÁ¡ ¾ÆÀÌÅÛ UI ÇÁ¸®ÆÕ
-    public Text playerGoldText; // ÇÃ·¹ÀÌ¾îÀÇ °ñµå¸¦ Ç¥½ÃÇÒ ÅØ½ºÆ®
+    public GameObject shopUI; // ìƒì  UI íŒ¨ë„
+    public Transform itemListParent; // ì•„ì´í…œ ëª©ë¡ì„ í‘œì‹œí•  ë¶€ëª¨ ê°ì²´
+    public GameObject shopItemPrefab; // ìƒì  ì•„ì´í…œ UI í”„ë¦¬íŒ¹
+    public Text playerGoldText; // í”Œë ˆì´ì–´ì˜ ê³¨ë“œë¥¼ í‘œì‹œí•  í…ìŠ¤íŠ¸
 
     [Header("Shop Data")]
-    public List<ShopItem> shopItems; // »óÁ¡¿¡ µî·ÏµÈ ¾ÆÀÌÅÛ ¸®½ºÆ®
+    public List<ItemData> shopItems; // ìƒì ì— ë“±ë¡ëœ ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸
 
     [Header("Player Data")]
-    public PlayerData playerData; // ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ
+   // public PlayerData playerData; // í”Œë ˆì´ì–´ ë°ì´í„°
+    public Inventory playerInventory; // í”Œë ˆì´ì–´ ì¸ë²¤í† ë¦¬
 
     [Header("Purchase Popup")]
-    public GameObject purchasePopup; // ±¸¸Å È®ÀÎ ÆË¾÷
-    public Text popupMessageText; // ÆË¾÷ ¸Ş½ÃÁö ÅØ½ºÆ®
-    public Button confirmButton; // È®ÀÎ ¹öÆ°
-    public Button cancelButton; // Ãë¼Ò ¹öÆ°
+    public GameObject purchasePopup; // êµ¬ë§¤ í™•ì¸ íŒì—…
+    public Text popupMessageText; // íŒì—… ë©”ì‹œì§€ í…ìŠ¤íŠ¸
+    public Button confirmButton; // í™•ì¸ ë²„íŠ¼
+    public Button cancelButton; // ì·¨ì†Œ ë²„íŠ¼
 
     [Header("Failure Message")]
-    public GameObject failureMessage; // ±¸¸Å ½ÇÆĞ ¸Ş½ÃÁö UI
-    public float failureMessageDuration = 2f; // ½ÇÆĞ ¸Ş½ÃÁö Ç¥½Ã ½Ã°£
+    public GameObject failureMessage; // êµ¬ë§¤ ì‹¤íŒ¨ ë©”ì‹œì§€ UI
+    public float failureMessageDuration = 2f; // ì‹¤íŒ¨ ë©”ì‹œì§€ í‘œì‹œ ì‹œê°„
 
-    private ShopItem selectedItem; // ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÛ
+    private ItemData selectedItem; // í˜„ì¬ ì„ íƒëœ ì•„ì´í…œ
     private void Start()
     {
         PopulateShop();
         UpdatePlayerGoldUI();
 
-        // ÆË¾÷ ¹öÆ° ÀÌº¥Æ® ¼³Á¤
+        // íŒì—… ë²„íŠ¼ ì´ë²¤íŠ¸ ì„¤ì •
         confirmButton.onClick.AddListener(ConfirmPurchase);
         cancelButton.onClick.AddListener(ClosePopup);
+
+        
+    }
+    
+    public void OpenShop()
+    {
+        shopUI.SetActive(true); // ìƒì  UI í™œì„±í™”
+        Debug.Log("ìƒì  ì—´ë¦¼");
+    }
+
+    public void CloseShop()
+    {
+        shopUI.SetActive(false); // ìƒì  UI ë¹„í™œì„±í™”
+        Debug.Log("ìƒì  ë‹«í˜");
     }
 
     private void PopulateShop()
     {
-        // ±âÁ¸ UI Á¦°Å
+        // ê¸°ì¡´ UI ì œê±°
         foreach (Transform child in itemListParent)
         {
             Destroy(child.gameObject);
         }
 
-        // »óÁ¡ ¾ÆÀÌÅÛ UI »ı¼º
+        // ìƒì  ì•„ì´í…œ UI ìƒì„±
         foreach (var item in shopItems)
         {
             GameObject itemUI = Instantiate(shopItemPrefab, itemListParent);
@@ -57,57 +73,38 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void BuyItem(ShopItem item)
+    
+    private void ShowPurchasePopup(ItemData item)
     {
-        if (playerData.CanAfford(item.price))
-        {
-            playerData.SubGold(item.price);
-            playerData.AddItem(item);
-            Debug.Log($"¾ÆÀÌÅÛ ±¸¸Å: {item.itemName}, °¡°İ: {item.price}");
-            UpdatePlayerGoldUI();
-        }
-        else
-        {
-            Debug.LogWarning("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù!");
-        }
-    }
-
-    private void SellItem(ShopItem item)
-    {
-        if (playerData.inventory.Contains(item))
-        {
-            playerData.RemoveItem(item);
-            playerData.AddGold(item.price / 2); // ÆÇ¸Å °¡°İÀº ±¸¸Å °¡°İÀÇ Àı¹İÀ¸·Î ¼³Á¤
-            Debug.Log($"¾ÆÀÌÅÛ ÆÇ¸Å: {item.itemName}, °¡°İ: {item.price / 2}");
-            UpdatePlayerGoldUI();
-        }
-        else
-        {
-            Debug.LogWarning("ÀÎº¥Åä¸®¿¡ ÇØ´ç ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù!");
-        }
-    }
-    private void ShowPurchasePopup(ShopItem item)
-    {
-        selectedItem = item; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ÀúÀå
-        popupMessageText.text = $"'{item.itemName}'À»(¸¦) {item.price} °ñµå¿¡ ±¸¸ÅÇÏ½Ã°Ú½À´Ï±î?";
-        purchasePopup.SetActive(true); // ÆË¾÷ È°¼ºÈ­
+        selectedItem = item; // ì„ íƒëœ ì•„ì´í…œ ì €ì¥
+        popupMessageText.text = $"'{item.itemName}'ì„(ë¥¼) {item.price} ê³¨ë“œì— êµ¬ë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+        purchasePopup.SetActive(true); // íŒì—… í™œì„±í™”
     }
 
     private void ConfirmPurchase()
     {
-        if (selectedItem != null && playerData.CanAfford(selectedItem.price))
+        if (selectedItem != null && GameManager.GetInstance().gold >= selectedItem.price)
         {
-            playerData.SubGold(selectedItem.price);
-            playerData.AddItem(selectedItem);
-            Debug.Log($"¾ÆÀÌÅÛ ±¸¸Å: {selectedItem.itemName}, °¡°İ: {selectedItem.price}");
-            UpdatePlayerGoldUI();
+            // ê³¨ë“œ ì°¨ê°
+            GameManager.GetInstance().RemoveGold(selectedItem.price);
+
+            // ì¸ë²¤í† ë¦¬ì— ì•„ì´í…œ ì¶”ê°€
+            if (playerInventory.TryGetEmptySlotIndex(out int index))
+            {
+                playerInventory.AddItem(index, selectedItem);
+                Debug.Log($"ì•„ì´í…œ êµ¬ë§¤: {selectedItem.itemName}");
+            }
+            else
+            {
+                ShowFailureMessage("ì¸ë²¤í† ë¦¬ì— ë¹ˆ ê³µê°„ì´ ì—†ìŠµë‹ˆë‹¤!");
+            }
         }
         else
         {
-            ShowFailureMessage("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù!");
+            ShowFailureMessage("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤!");
         }
 
-        ClosePopup(); // ÆË¾÷ ´İ±â
+        ClosePopup(); // íŒì—… ë‹«ê¸°
     }
     private void ShowFailureMessage(string message)
     {
@@ -119,7 +116,7 @@ public class ShopManager : MonoBehaviour
                 failureText.text = message;
             }
 
-            failureMessage.SetActive(true); // ½ÇÆĞ ¸Ş½ÃÁö È°¼ºÈ­
+            failureMessage.SetActive(true); // ì‹¤íŒ¨ ë©”ì‹œì§€ í™œì„±í™”
             StartCoroutine(HideFailureMessageAfterDelay());
         }
     }
@@ -127,15 +124,15 @@ public class ShopManager : MonoBehaviour
     private IEnumerator HideFailureMessageAfterDelay()
     {
         yield return new WaitForSeconds(failureMessageDuration);
-        failureMessage.SetActive(false); // ½ÇÆĞ ¸Ş½ÃÁö ºñÈ°¼ºÈ­
+        failureMessage.SetActive(false); // ì‹¤íŒ¨ ë©”ì‹œì§€ ë¹„í™œì„±í™”
     }
     private void ClosePopup()
     {
-        purchasePopup.SetActive(false); // ÆË¾÷ ºñÈ°¼ºÈ­
-        selectedItem = null; // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ÃÊ±âÈ­
+        purchasePopup.SetActive(false); // íŒì—… ë¹„í™œì„±í™”
+        selectedItem = null; // ì„ íƒëœ ì•„ì´í…œ ì´ˆê¸°í™”
     }
     private void UpdatePlayerGoldUI()
     {
-        playerGoldText.text = $"Gold: {playerData.gold}";
+        playerGoldText.text = $"Gold: {GameManager.GetInstance().gold}";
     }
 }

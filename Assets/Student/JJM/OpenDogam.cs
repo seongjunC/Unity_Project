@@ -117,9 +117,9 @@ public class OpenDogam : MonoBehaviour
     {
         Debug.Log($"아이템 상세 정보 표시: {item.itemName}");
         // 아이템 상세 정보 표시
-        itemDetailText.text = $"Name: {item.itemName}\n" +
-                              $"Grade: {item.itemGrade}\n" +
-                              $"Description: {item.description}";
+        itemDetailText.text = $"      Name: {item.itemName}\n" +
+                              $"      Grade: {item.itemGrade}\n" +
+                              $"      Description: {item.description}";
         itemDetailIcon.sprite = item.icon;
         itemDetailIcon.color = item.GetItemGradeColor(); // 등급에 따른 색상 설정
     }
