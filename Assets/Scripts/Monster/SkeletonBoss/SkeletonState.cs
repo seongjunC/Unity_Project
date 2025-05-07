@@ -363,14 +363,16 @@ public class Skeleton_Stun : SkeletonState
     {
         base.Enter();
         monster.isUnhittable = true;
+        monster.isStun = true;
         stateTimer = 5f;
     }
 
     public override void Exit()
     {
         base.Exit();
-        monster.statusCon.stunGauge = 1;
+        
         monster.isUnhittable = false;
+        monster.isStun = false;
     }
 
     public override void Transition()
@@ -378,7 +380,10 @@ public class Skeleton_Stun : SkeletonState
         base.Transition();
 
         if(stateTimer <= 0)
+        {
+            monster.statusCon.stunGauge = 1;
             sm.ChangeState(stateCon.idle);
+        }
     }
 
     public override void Update()

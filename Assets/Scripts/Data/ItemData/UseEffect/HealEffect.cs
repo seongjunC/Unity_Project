@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "HealEffect", menuName = "Data/ItemData/Effect/Heal")]
 public class HealEffect : UseEffect
 {
     public override void Excute()
     {
-        // Todo
+        Manager.Data.playerStatus.IncreaseHealth(amount);
     }
 }

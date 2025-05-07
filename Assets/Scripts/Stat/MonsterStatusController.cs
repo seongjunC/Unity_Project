@@ -5,6 +5,7 @@ using UnityEngine;
 public class MonsterStatusController : StatusController
 {
     public MonsterData status;
+    private DropTable dropTable;
 
     [Header("Monster Fields")]
     [SerializeField] private int level;
@@ -25,6 +26,7 @@ public class MonsterStatusController : StatusController
     protected override void Awake()
     {
         base.Awake();
+        dropTable = GetComponent<DropTable>();
         int playerLevel = Manager.Data.playerStatus.level;
         level = Mathf.Clamp(UnityEngine.Random.Range(playerLevel - 2, playerLevel - 1), 1, 20);
     }
@@ -66,6 +68,8 @@ public class MonsterStatusController : StatusController
         Manager.Data.playerStatus.AddExp(status.dropExp);
 
         Manager.Resources.Destroy(gameObject, 2f);
+
+        dropTable.DropItem();
     }
 
     private void SetupLevelStat()

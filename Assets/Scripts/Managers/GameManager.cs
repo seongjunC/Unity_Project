@@ -44,6 +44,7 @@ public class GameManager : Singleton<GameManager>
     public void CreateBossBarUI(MonsterStatusController statusCon)
     {
         GameObject bossBar = Instantiate(Resources.Load<GameObject>("BossHealthBar"), canvas.transform);
+        bossBar.transform.SetAsFirstSibling();
 
         RectTransform rectTransform = bossBar.GetComponent<RectTransform>();
 
@@ -60,5 +61,10 @@ public class GameManager : Singleton<GameManager>
 
         var controller = bossBar.GetComponent<BossBarController>();
         controller.Init(statusCon);
+    }
+
+    public void GameClear()
+    {
+
     }
 }

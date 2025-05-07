@@ -18,6 +18,7 @@ public class PlayerBar : HealthBar
     {
         playerStatus.OnHPChanged += UpdateHealthBar;
         playerStatus.OnExpChanged += UpdateExpBar;
+        UpdateExpBar(playerStatus.curExp);
     }
 
     private void OnDisable()
@@ -28,7 +29,8 @@ public class PlayerBar : HealthBar
 
     protected override void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.X))
+            Manager.Data.playerStatus.AddExp(32);
     }
 
     private void UpdateHealthBar(int hp)
@@ -49,9 +51,10 @@ public class PlayerBar : HealthBar
 
     private void UpdateExpBar(int exp)
     {
-        slider.maxValue = playerStatus.GetLevelExp();
-        slider.value = playerStatus.curExp;
+        expSlider.maxValue = playerStatus.GetLevelExp();
+        expSlider.value = exp;
     }
+
     IEnumerator EaseHealthBarRoutine()
     {
         while (easeSlider.value > slider.value + 0.1f)

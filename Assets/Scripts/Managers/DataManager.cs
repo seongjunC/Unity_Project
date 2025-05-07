@@ -1,3 +1,4 @@
+using EnumType;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -74,4 +75,8 @@ public class DataManager : Singleton<DataManager>
         Manager.Pool.Init();
     }
 
+    public void PlayerBuff(StatType type, int amount, float duration)
+    {
+        playerStatus.BuffRoutine(type, amount, duration);
+    }
 }

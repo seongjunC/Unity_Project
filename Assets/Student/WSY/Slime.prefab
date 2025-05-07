@@ -54,7 +54,7 @@ MonoBehaviour:
   slider: {fileID: 2682636305017310675}
   easeSlider: {fileID: 2767525193038139148}
   easeSpeed: 0.05
-  monsterStatusCon: {fileID: 0}
+  monsterStatusCon: {fileID: 5883491682861737088}
   duration: 5
 --- !u!1 &1142776721312189139
 GameObject:
@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 3204360150646856414}
   - component: {fileID: 1850312491184529171}
   - component: {fileID: 3877364123051335052}
+  - component: {fileID: 6545144166128863299}
   m_Layer: 6
   m_Name: Slime
   m_TagString: Monster
@@ -733,12 +734,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: 1850312491184529171}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  target: {fileID: 0}
   anim: {fileID: 0}
-  rotationSpeed: 90
   statusCon: {fileID: 0}
+  fov: 60
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  rotationSpeed: 90
+  isUnhittable: 0
 --- !u!114 &5883491682861737088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,6 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a234370d40ea2c04ca945bcd3861330d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   status:
     name: 
     _hp: 0
@@ -763,6 +768,8 @@ MonoBehaviour:
   level: 0
   detectRadius: 0
   monsterType: 2
+  isBoss: 0
+  hitSoundName: 
 --- !u!114 &3204360150646856414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,6 +783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpText: {fileID: 7143703367006742917, guid: 5b0bd2f16785e9545b13acb83eb5bcc2, type: 3}
+  offsetY: 2
 --- !u!54 &1850312491184529171
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -824,3 +832,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6545144166128863299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8849124689134227855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e855bde798f8346988ab629b9e2390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drops: []
