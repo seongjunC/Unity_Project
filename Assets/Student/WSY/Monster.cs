@@ -113,5 +113,6 @@ public class Monster : MonoBehaviour
     private void Die()
     {
         anim.SetTrigger("Die");
+        
     }
 }
