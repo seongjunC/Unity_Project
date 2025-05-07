@@ -13,6 +13,7 @@ public class doorRotate : MonoBehaviour
     private bool IsLock = false;
 
     private Door doorComponent;
+    private Doorway thisDoorway;
     private float openAngle = 90f;
     private float closeAngle = 0f;
     private float rotationSpeed = 360f;
@@ -20,7 +21,8 @@ public class doorRotate : MonoBehaviour
 
     void Start()
     {
-        doorComponent = GetComponent<Door>();   
+        doorComponent = GetComponent<Door>();
+        thisDoorway = GetComponentInParent<Doorway>();   
     }
 
     void OnTriggerEnter(Collider other)
@@ -48,7 +50,15 @@ public class doorRotate : MonoBehaviour
         doorComponent.IsOpen = false;
         Close();
     }
+
     void Open(bool IsBack){
+        Doorway connected = thisDoorway.ConnectedDoorway;
+        if(connected != null){
+            Tile nextRoom = connected.Tile;
+            if(nextRoom != null){
+                nextRoom.gameObject.SetActive(true);
+            }
+        }
         RotateDoor(IsBack? -openAngle: openAngle);
     }
 
@@ -63,7 +73,7 @@ public class doorRotate : MonoBehaviour
 
         rotateCoroutine = StartCoroutine(RotateCoroutine(targetAngle));
     }
-    
+
     public void LockDoor(){
         IsLock = true;
     }

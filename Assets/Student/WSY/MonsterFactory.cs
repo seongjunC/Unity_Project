@@ -21,7 +21,7 @@ public class MonsterFactory : MonoBehaviour
     private GameObject spawnPoint;
     private float spawnTimer;
     private bool isWaitingToSpawn;
-    void Start()
+    void OnEnable()
     {
         // 오브젝트 풀 매니저에서 프리팹을 오브젝트 풀에 등록해주기. 
         Manager.Resources.Instantiate(monsterPrefab, Vector3.zero, true);
@@ -30,10 +30,12 @@ public class MonsterFactory : MonoBehaviour
         cumulativeMonsterNum = 0;
         spawnPoint = spawnPoints[0];
     }
+
     void Update()
     {
         Create();
     }
+
     public void Create()
     {
         // 현재까지의 누적 몬스터수가 목표 몬스터수보다 적다면 
