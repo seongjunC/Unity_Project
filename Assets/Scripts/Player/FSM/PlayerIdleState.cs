@@ -16,6 +16,15 @@ public class PlayerIdleState : PlayerState
     public override void Update()
     {
         base.Update();
+
+        if (input.moveDir.sqrMagnitude > 0)
+        {
+            stateMachine.SetupState(stateCon.moveState);
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            stateMachine.SetupState(stateCon.attackState);
+        }
     }
     
     public override void Exit()
@@ -25,16 +34,6 @@ public class PlayerIdleState : PlayerState
 
     public override void Transition()
     {
-        base.Transition();
-
-        if (input.moveDir.sqrMagnitude > 0)
-        {
-            stateMachine.ChangeState(stateCon.moveState);
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            stateMachine.ChangeState(stateCon.attackState);
-        }
+        base.Transition();   
     }
 }

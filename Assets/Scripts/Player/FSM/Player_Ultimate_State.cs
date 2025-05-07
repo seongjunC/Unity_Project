@@ -25,12 +25,12 @@ public class Player_Ultimate_State : Player_AttackBase_State
 
     public override void Transition()
     {
-        if (!player.isSkillActive)
-            stateMachine.ChangeState(stateCon.idleState);
+        base.Transition();
     }
 
     public override void Update()
     {
-        base.Update();
+        if (!player.isSkillActive)
+            stateMachine.SetupState(stateCon.idleState);
     }
 }

@@ -13,12 +13,19 @@ public class Monster : MonoBehaviour
 
     public float rotationSpeed;
     public bool isUnhittable = false;
+    private bool isAttack = false;
+    private bool isMoving = false;
+    private bool isDead = false;
+    [SerializeField] private Transform attackTransform;
+    [SerializeField] private float attackRadius;
+
+    private readonly int move = Animator.StringToHash("IsMoving");
 
     protected virtual void Awake()
     {
-        statusCon   ??= GetComponent<MonsterStatusController>();
-        anim        ??= GetComponent<Animator>();
-        rigid       ??= GetComponent<Rigidbody>();
+        statusCon ??= GetComponent<MonsterStatusController>();
+        anim ??= GetComponent<Animator>();
+        rigid ??= GetComponent<Rigidbody>();
 
         targetMask = (1 << LayerMask.NameToLayer("Player"));
     }
@@ -37,12 +44,27 @@ public class Monster : MonoBehaviour
     {
         FindTarget();
 
-        if (!isUnhittable)
-        {
-            //Move();
-        }
-        //Attack();
+        if (target == null) return;
 
+        if (isMoving)
+        {
+            Move();
+        }
+        else if (!isAttack)
+        {
+            Attack();
+        }
+
+        if (target != null && Vector3.Distance(transform.position, target.transform.position) > 1f)
+        {
+            isMoving = true;
+            anim.SetBool(move, true);
+        }
+        else
+        {
+            isMoving = false;
+            anim.SetBool(move, false);
+        }
     }
 
     protected void Move()
@@ -51,36 +73,39 @@ public class Monster : MonoBehaviour
 
         if (target != null)
         {
-            // 몬스터랑 플레이어의 직선거리를 보아서, 아직 도달 전이면 (0.1보다 크면?)
-            bool isMoving = Vector3.Distance(transform.position, target.transform.position) > 0.1f;
-            anim.SetBool("IsMoving", isMoving);
+            
 
-            Vector3 newPos = target.transform.position;
-            newPos.y = 0;
+            Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(newPos), rotationSpeed * Time.deltaTime);
-            transform.position = Vector3.MoveTowards(transform.position, newPos, statusCon.status.speed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dirToTarget), rotationSpeed * Time.deltaTime);
+            transform.Translate(dirToTarget * statusCon.status.speed * Time.deltaTime, Space.World);
         }
     }
 
     protected void Attack()
     {
-        Collider[] others = Physics.OverlapSphere(transform.position, statusCon.status.range, targetMask);
+        Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+
+        if (!(Vector3.Dot(transform.forward, dirToTarget) > Mathf.Cos(fov / 2 * Mathf.Deg2Rad))) return;
+
+        isMoving = false;
+        isAttack = true;
+        anim.SetTrigger("Attack");
+    }
+
+    private void Attacking()
+    {
+        Collider[] others = Physics.OverlapSphere(attackTransform.position, attackRadius, targetMask);
 
         foreach (var other in others)
         {
             if (other.CompareTag("Player"))
             {
-                if (!isUnhittable)
-                {
-                    isUnhittable = true;
-                    anim.SetTrigger("Attack");
+                IDamagable target = other.GetComponent<IDamagable>();
+                target.TakeDamage(statusCon.status.damage);
 
-                    IDamagable target = other.GetComponent<IDamagable>();
-                    target.TakeDamage(statusCon.status.damage);
+                StartCoroutine(ResetAttackState(1f));
 
-                    StartCoroutine(ResetAttackState(1f));
-                }
                 break;
             }
         }
@@ -89,20 +114,14 @@ public class Monster : MonoBehaviour
     IEnumerator ResetAttackState(float delay)
     {
         yield return new WaitForSeconds(delay);
-        isUnhittable = false;
+        isAttack = false;
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.cyan;
-    //    Gizmos.DrawWireSphere(transform.position, statusCon.status.range);
-    //}
 
     public void FindTarget()
     {
         if (target != null) return;
 
-        Collider[] targets = Physics.OverlapSphere(transform.position, statusCon.status.range, targetMask); 
+        Collider[] targets = Physics.OverlapSphere(transform.position, statusCon.status.range, targetMask);
 
         if (targets.Length > 0)
         {

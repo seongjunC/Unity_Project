@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65971a4b9e7c1145a4890e891b3e2c2, type: 3}
-  m_Name: UseItemData
+  m_Script: {fileID: 11500000, guid: cd896ec9cf80dd24ba629b82419ff3e1, type: 3}
+  m_Name: CritChance_20_30
   m_EditorClassIdentifier: 
-  itemGrade: 0
-  icon: {fileID: 0}
-  itemName: 
-  description: 
-  itemMeshData:
-    mesh: {fileID: 0}
-    material: {fileID: 0}
-  useEffect: {fileID: 0}
+  amount: 20
+  stats:
+  - type: 2
+    duration: 30

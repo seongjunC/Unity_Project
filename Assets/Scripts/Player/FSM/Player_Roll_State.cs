@@ -16,7 +16,7 @@ public class Player_Roll_State : Player_AttackBase_State
     public override void Enter()
     {
         base.Enter();
-
+        Debug.Log($"Roll {anim.GetBool("Roll")}");
         timer = duration;
 
         player.statusCon.invincibility = true;
@@ -29,10 +29,11 @@ public class Player_Roll_State : Player_AttackBase_State
             inputDir = -player.transform.forward;
 
         Vector3 localInput = player.transform.InverseTransformDirection(inputDir);
-        stateCon.StartCoroutine(DelayRoll(inputDir));
 
         anim.SetFloat("RollZ", localInput.z);
         anim.SetFloat("RollX", localInput.x);
+
+        stateCon.StartCoroutine(DelayRoll(inputDir));
     }
 
     public override void Exit()
@@ -51,24 +52,24 @@ public class Player_Roll_State : Player_AttackBase_State
 
     public override void Transition()
     {
-        if (timer <= 0)
-        {
-            if (input.moveDir.sqrMagnitude > 0)
-                stateMachine.ChangeState(stateCon.moveState);
-            else
-                stateMachine.ChangeState(stateCon.idleState);
-        }
+        base.Transition();
     }
 
     public override void Update()
     {
-        base.Update();
-
         if (stateTimer <= 0)
             player.statusCon.invincibility = false;
 
         if (timer >= 0)
             timer -= Time.deltaTime;
+
+        if (timer <= 0)
+        {
+            if (input.moveDir.sqrMagnitude > 0)
+                stateMachine.SetupState(stateCon.moveState);
+            else
+                stateMachine.SetupState(stateCon.idleState);
+        }
     }
 
     IEnumerator DelayRoll(Vector3 inputDir)

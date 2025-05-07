@@ -51,7 +51,12 @@ public class StateController : MonoBehaviour
 
     private void Update()
     {
-        stateMachine.UpdateStateMachine(); // state자체에는 Update를 호출할 수 없어서 Controller에서 실행
+        stateMachine.currentState.Update(); // state자체에는 Update를 호출할 수 없어서 Controller에서 실행
+    }
+
+    private void LateUpdate()
+    {
+        stateMachine.currentState.Transition();
     }
 
     private void FixedUpdate()

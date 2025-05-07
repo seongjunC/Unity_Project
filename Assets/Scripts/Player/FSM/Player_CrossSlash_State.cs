@@ -24,11 +24,9 @@ public class Player_CrossSlash_State : Player_AttackBase_State
     }
 
     public override void Update()
-    {
-        base.Update();
-        
+    {   
         if (!player.isSkillActive)
-            stateMachine.ChangeState(stateCon.idleState);
+            stateMachine.SetupState(stateCon.idleState);
     }
 
     public override void FixedUpdate()
