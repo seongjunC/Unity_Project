@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    public int gold = 10000; // ÇÃ·¹ÀÌ¾îÀÇ ÃÊ±â °ñµå
-    public List<ShopItem> inventory = new List<ShopItem>(); // ÇÃ·¹ÀÌ¾îÀÇ ÀÎº¥Åä¸®
+    public int gold = 10000; // í”Œë ˆì´ì–´ì˜ ì´ˆê¸° ê³¨ë“œ
+    public List<ItemData> inventory = new List<ItemData>(); // í”Œë ˆì´ì–´ì˜ ì¸ë²¤í† ë¦¬
 
     public bool CanAfford(int price)
     {
         return gold >= price;
     }
 
-    public void AddItem(ShopItem item)
+    public void AddItem(ItemData item)
     {
         inventory.Add(item);
     }
 
-    public void RemoveItem(ShopItem item)
+    public void RemoveItem(ItemData item)
     {
         inventory.Remove(item);
     }
