@@ -68,11 +68,15 @@ public class GameManager : Singleton<GameManager>
     {
         GameObject clearUI = Instantiate(Resources.Load<GameObject>("GameClear"), canvas.transform);
         clearUI.transform.SetAsLastSibling();
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
     }
 
     public void GameOver()
     {
         GameObject clearUI = Instantiate(Resources.Load<GameObject>("GameOver"), canvas.transform);
         clearUI.transform.SetAsLastSibling();
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
     }
 }

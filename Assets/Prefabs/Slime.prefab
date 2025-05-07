@@ -747,7 +747,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e855bde798f8346988ab629b9e2390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drops: []
+  drops:
+  - item: {fileID: 11400000, guid: 3d75250374f29694abd3e75045b206a5, type: 2}
+    chance: 79.8
+  - item: {fileID: 11400000, guid: 488064691520e204f9e5d4a80c5bd758, type: 2}
+    chance: 61.5
+  - item: {fileID: 11400000, guid: 61627eb50d32697489120dce2ad814d7, type: 2}
+    chance: 45
+  - item: {fileID: 11400000, guid: a785e63b4251e1845b871bd7204e7664, type: 2}
+    chance: 24.8
+  - item: {fileID: 11400000, guid: 16804d09286b85e44b054d3b28904f24, type: 2}
+    chance: 11
+  - item: {fileID: 11400000, guid: 9d73fa97ca306e44380e2d11ed59d97d, type: 2}
+    chance: 6.4
+  - item: {fileID: 11400000, guid: 248d638db1eae994394466081a255ed6, type: 2}
+    chance: 10.1
+  - item: {fileID: 11400000, guid: 417ea7201f9cc9e4f8e344c3b169d3a1, type: 2}
+    chance: 6.4
+  - item: {fileID: 11400000, guid: aaf4b7a8f2ed68c429a15f8492b88f36, type: 2}
+    chance: 31.2
+  - item: {fileID: 11400000, guid: 10e1fd96cd7d8d748800e6938e0e6e70, type: 2}
+    chance: 13.8
+  - item: {fileID: 11400000, guid: 6ec4586977b1ba442a5b89bbf199642a, type: 2}
+    chance: 1.8
 --- !u!65 &3983771571345295719
 BoxCollider:
   m_ObjectHideFlags: 0
