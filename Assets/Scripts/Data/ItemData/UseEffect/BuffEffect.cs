@@ -11,7 +11,7 @@ public class BuffEffect : UseEffect
     {
         foreach (var stat in stats)
         {
-            Manager.Data.PlayerBuff(stat.type, stat.amount, stat.duration);
+            Manager.Data.PlayerBuff(stat.type, amount, stat.duration);
         }
     }
 }

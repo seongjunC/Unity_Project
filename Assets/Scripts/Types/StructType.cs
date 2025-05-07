@@ -43,7 +43,6 @@ namespace StructType
     public struct BuffData
     {
         public StatType type;
-        public int amount;
         public float duration;
     }
 

@@ -9,7 +9,7 @@ public class PlayerState
     protected StateController stateCon => player.stateCon;
     protected PlayerInput input => player.input;
 
-    private string animBoolName;
+    public string animBoolName;
     protected float stateTimer;
     protected bool isFinishAnim;
 
@@ -22,14 +22,15 @@ public class PlayerState
 
     public virtual void Enter()
     {
+        stateMachine.SetupState(null);
         isFinishAnim = false;
         player.anim.SetBool(animBoolName, true);
     }
 
     public virtual void Update()
     {
-        if(stateTimer >= 0)
-            stateTimer -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            stateMachine.SetupState(stateCon.rollState);
     }
 
     public virtual void FixedUpdate()
@@ -44,18 +45,7 @@ public class PlayerState
 
     public virtual void Transition()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            stateMachine.ChangeState(stateCon.rollState);
-    }
-
-    public void OnAnimatorMove()
-    {
-        if (anim.applyRootMotion)
-        {
-            Vector3 delta = anim.deltaPosition;
-            delta.y = 0f;
-            player.transform.position += delta;
-        }
+        stateMachine.ChangeState();
     }
 
     public void AnimFinishEvent()

@@ -24,17 +24,17 @@ public class Player_Bladestorm_State : Player_AttackBase_State
 
     public override void Transition()
     {
-        if (!player.isSkillActive)
-        {
-            if (input.moveDir.sqrMagnitude > 0)
-                stateMachine.ChangeState(stateCon.moveState);
-            else
-                stateMachine.ChangeState(stateCon.idleState);
-        }
+        base.Transition();
     }
 
     public override void Update()
     {
-        base.Update();
+        if (!player.isSkillActive)
+        {
+            if (input.moveDir.sqrMagnitude > 0)
+                stateMachine.SetupState(stateCon.moveState);
+            else
+                stateMachine.SetupState(stateCon.idleState);
+        }
     }
 }

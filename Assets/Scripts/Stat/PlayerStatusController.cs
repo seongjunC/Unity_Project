@@ -19,7 +19,11 @@ public class PlayerStatusController : StatusController
 
     public override void TakeDamage(float amount, bool isHitter = false)
     {
-        if (invincibility) return;
+        if (invincibility)
+        {
+            Manager.Game.SlowMotion(.2f, .2f);
+            return;
+        }
 
         Manager.Audio.PlayEffectAtPoint(hitSound[UnityEngine.Random.Range(0,hitSound.Length)], transform.position, UnityEngine.Random.Range(.8f,1));
 
@@ -31,6 +35,6 @@ public class PlayerStatusController : StatusController
 
     private void Die()
     {
-        // stateCon.stateMachine.ChangeState()
+        
     }
 }

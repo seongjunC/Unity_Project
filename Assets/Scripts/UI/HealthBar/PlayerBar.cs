@@ -29,8 +29,7 @@ public class PlayerBar : HealthBar
 
     protected override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-            Manager.Data.playerStatus.AddExp(32);
+        
     }
 
     private void UpdateHealthBar(int hp)

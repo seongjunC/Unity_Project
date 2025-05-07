@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a1928bca685794a9e99b900bbae2fe, type: 3}
+  m_Name: Katana
+  m_EditorClassIdentifier: 
+  itemGrade: 4
+  icon: {fileID: 21300000, guid: 08bb284f2022330419e4b812e13efb0e, type: 3}
+  itemName: "\uCE74\uD0C0\uB098"
+  description: "\uC798 \uC7AC\uB828\uB418\uC5B4 \uC788\uB294 \uCE74\uD0C0\uB098\uC774\uB2E4."
+  itemMeshData:
+    mesh: {fileID: 4300000, guid: 2221a18cfc36ca7448f6f50bc66b151b, type: 3}
+    material: {fileID: 2100000, guid: 568bf693920424f5cabdcb56e833091e, type: 2}
+  type: 0
+  damage: 18
+  maxHP: 20
+  critChance: 30
+  critDamage: 75
+  effect: {fileID: 1130446560849736, guid: c4d564b5d4682ad46b8621f0fa6f40d9, type: 3}
+  lastEffect: {fileID: 1645009922904612, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}

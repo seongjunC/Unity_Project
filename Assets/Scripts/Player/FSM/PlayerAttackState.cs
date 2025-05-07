@@ -21,7 +21,17 @@ public class PlayerAttackState : Player_AttackBase_State
 
     public override void Update()
     {
-        
+        base.Update();
+
+        if (isFinishAnim)
+            stateMachine.SetupState(stateCon.idleState);
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canNextCombo)
+        {
+            canNextCombo = false;
+            comboCount++;
+            SetupCombo();
+        }
     }
 
     public override void Exit()
@@ -34,16 +44,6 @@ public class PlayerAttackState : Player_AttackBase_State
     public override void Transition()
     {
         base.Transition();
-
-        if(isFinishAnim)
-            stateMachine.ChangeState(stateCon.idleState);
-
-        if(Input.GetKeyDown(KeyCode.Mouse0) && canNextCombo)
-        {
-            canNextCombo = false;
-            comboCount++;
-            SetupCombo();
-        }
     }
 
     private void SetupCombo()

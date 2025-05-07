@@ -27,16 +27,14 @@ public class PlayerStopState : PlayerState
     public override void Transition()
     {
         base.Transition();
-
-        if (isFinishAnim)
-            stateMachine.ChangeState(stateCon.idleState);
-
-        if (input.camDir.sqrMagnitude > 0)
-            stateMachine.ChangeState(stateCon.moveState);
     }
 
     public override void Update()
     {
-        base.Update();    
+        base.Update();
+        if (isFinishAnim)
+            stateMachine.SetupState(stateCon.idleState);
+        else if (input.camDir.sqrMagnitude > 0)
+            stateMachine.SetupState(stateCon.moveState);
     }
 }
