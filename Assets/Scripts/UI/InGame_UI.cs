@@ -6,7 +6,23 @@ using UnityEngine;
 public class InGame_UI : MonoBehaviour
 {
     private GameObject curUI;
-    [SerializeField] private ItemToolTip toolTip;
+    [SerializeField] private GameObject inventoryPenal;
+    [SerializeField] private GameObject inGamePanel;
+    [SerializeField] private GameObject optionPanel;
+
+    private void Start()
+    {
+        AllUIClose();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            SwitchUI(inventoryPenal);
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            SwitchUI(optionPanel);
+    }
 
     public void SwitchUI(GameObject ui)
     {
@@ -14,6 +30,8 @@ public class InGame_UI : MonoBehaviour
         {
             ui.SetActive(false);
             curUI = null;
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
@@ -24,13 +42,14 @@ public class InGame_UI : MonoBehaviour
 
             ui.SetActive(true);
             curUI = ui;
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
-    public void OpenToolTip(ItemData data)
+    private void AllUIClose()
     {
-        toolTip.gameObject.SetActive(true);
-        toolTip.SetupToolTip(data);
+        inGamePanel.SetActive(true);
+        inventoryPenal.SetActive(false);
     }
-    public void CloseToolTip() => toolTip.gameObject.SetActive(false);
 }

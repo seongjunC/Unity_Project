@@ -1,13 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// state들이 상속받을 클래스
 public class PlayerState
 {
-    protected Player player;              // owner에 대한 정보를 가지고 있음
-    protected StateMachine stateMachine;    // 상태 전이를 위해 stateMachine을 가지고 있음
-    private string animBoolName;
+    protected Player player;              
+    protected StateMachine stateMachine;  
+    protected Animator anim => player.anim;
+    protected Rigidbody rb => player.rigid;
+    protected StateController stateCon => player.stateCon;
+    protected PlayerInput input => player.input;
+
+    public string animBoolName;
+    protected float stateTimer;
+    protected bool isFinishAnim;
 
     public PlayerState(Player _player, StateMachine _stateMachine, string _animBoolName)
     {
@@ -18,26 +22,34 @@ public class PlayerState
 
     public virtual void Enter()
     {
-        // 상태로 들어왔을 때 실행되는 함수
+        stateMachine.SetupState(null);
+        isFinishAnim = false;
         player.anim.SetBool(animBoolName, true);
     }
 
     public virtual void Update()
     {
-        // 상태가 실행되는 동안 실행되는 함수
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            stateMachine.SetupState(stateCon.rollState);
+    }
+
+    public virtual void FixedUpdate()
+    {
+
     }
 
     public virtual void Exit()
     {
-        // 상태에서 나갈때 실행되는 함수
-        player.anim.SetBool(animBoolName, false);
+        player.anim.SetBool(animBoolName, false);   
     }
 
     public virtual void Transition()
     {
-        // 전이 될 조건과 전이 될 상태를 지정하는 함수
+        stateMachine.ChangeState();
+    }
 
-        //ex if(플레이어가 땅에서 스페이스바를 누르면)
-        //      stateMacine.ChangeState(점프 상태);
+    public void AnimFinishEvent()
+    {
+        isFinishAnim = true;
     }
 }

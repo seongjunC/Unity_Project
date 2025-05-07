@@ -1,7 +1,5 @@
 using EnumType;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class SkillController : MonoBehaviour
@@ -9,7 +7,7 @@ public class SkillController : MonoBehaviour
     public Skill curSkill;
     public ISkillOwner owner;
 
-    protected Skill[] ownerSkills;
+    [SerializeField] protected Skill[] ownerSkills;
     private Coroutine skillRoutine;
     [SerializeField] private float test;
 
@@ -18,7 +16,7 @@ public class SkillController : MonoBehaviour
         owner = GetComponent<ISkillOwner>();   
     }
 
-    public void UseSKill(Skill skill)
+    public bool UseSKill(Skill skill)
     {
         if(skillRoutine == null && skill.CanUse())
         {
@@ -26,7 +24,9 @@ public class SkillController : MonoBehaviour
             curSkill.Init(owner);
             StartCoroutine(curSkill.CoolTimeRoutine());
             StartCoroutine(SkillMainRoutine());
+            return true;
         }
+        return false;
     }
 
     public void CancelSkill()
@@ -41,11 +41,27 @@ public class SkillController : MonoBehaviour
 
     private IEnumerator SkillMainRoutine()
     {
-        curSkill.StartSkill();
+        curSkill.SkillStart();
         skillRoutine ??= StartCoroutine(curSkill.SkillRoutine());
         yield return curSkill.waitSkillEndDelay;
-        curSkill.EndSkill();
+        StartCoroutine(curSkill.SkillEnd());
+        StopCoroutine(skillRoutine);
         skillRoutine = null;
+    }
+
+    private void CreateEffectEvent()
+    {
+        curSkill.CreateEffect(curSkill.effectPrefab);
+    }
+
+    private void CurrentEffectDamageToTargets()
+    {
+        curSkill.DamageToTargets();
+    }
+
+    private void IndexEffectDamageToTargets(int index)
+    {
+        curSkill.DamageToTargets(index);
     }
 
 #if UNITY_EDITOR

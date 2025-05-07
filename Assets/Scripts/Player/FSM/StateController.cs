@@ -1,17 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
-public class StateController : MonoBehaviour
+public class StateController : MonoBehaviour 
 {
     private Player player;
+
+#region States
     public StateMachine stateMachine {  get; private set; }
     public PlayerMoveState moveState { get; private set; }
-    public PlayerJumpState jumpState { get; private set; }
     public PlayerIdleState idleState { get; private set; }
+    public PlayerStopState stopState { get; private set; }
     public PlayerAttackState attackState { get; private set; }
+    public Player_Roll_State rollState { get; private set; }
+
     public PlayerDieState dieState { get; private set; }
 
+    // Skill
+    public Player_CrossSlash_State crossSlashState { get; private set; }
+    public Player_PowerSkill_State powerSkillState { get; private set; }
+    public Player_Bladestorm_State bladestormState { get; private set; }
+    public Player_Ultimate_State ultimateState { get; private set; }
+
+#endregion
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -19,20 +31,43 @@ public class StateController : MonoBehaviour
         stateMachine = new StateMachine();
                 
         moveState = new PlayerMoveState(player, stateMachine, "Move");
-        jumpState = new PlayerJumpState(player, stateMachine, "Jump");
         idleState = new PlayerIdleState(player, stateMachine, "Idle");
         attackState = new PlayerAttackState(player, stateMachine, "Attack");
+
+        stopState = new PlayerStopState(player, stateMachine, "Stop");
+        rollState = new Player_Roll_State(player, stateMachine, "Roll");
         dieState = new PlayerDieState(player, stateMachine, "Die");
-        // ±×·¡¼­ °´Ã¼¸¶´Ù stateMachineÀ» °¢ÀÚ °¡Áö°í ÀÖ¾î¾ßÇÔ
+
+        // Skill
+
+        crossSlashState = new Player_CrossSlash_State(player, stateMachine, "CrossSlash");
+        powerSkillState = new Player_PowerSkill_State(player, stateMachine, "Power");
+        bladestormState = new Player_Bladestorm_State(player, stateMachine, "Bladestorm");
+        ultimateState = new Player_Ultimate_State(player, stateMachine, "Ultimate");
     }
 
     private void Start()
     {
-        stateMachine.InitState(idleState); // Ã³À½¿£ »óÅÂ ÃÊ±âÈ­
+        stateMachine.InitState(idleState); // ì²˜ìŒì—” ìƒíƒœ ì´ˆê¸°í™”
     }
 
     private void Update()
     {
-        stateMachine.UpdateStateMachine(); // stateÀÚÃ¼¿¡´Â Update¸¦ È£ÃâÇÒ ¼ö ¾ø¾î¼­ Controller¿¡¼­ ½ÇÇà
+        stateMachine.currentState.Update(); // stateìžì²´ì—ëŠ” Updateë¥¼ í˜¸ì¶œí•  ìˆ˜ ì—†ì–´ì„œ Controllerì—ì„œ ì‹¤í–‰
     }
+
+    private void LateUpdate()
+    {
+        stateMachine.currentState.Transition();
+    }
+
+    private void FixedUpdate()
+    {
+        stateMachine.currentState.FixedUpdate();
+    }
+
+    public void AnimFinishEvent() => stateMachine.currentState.AnimFinishEvent();
+    public void CanNextComboEvent() => attackState.canNextCombo = true;
+    private void MoveEvent(float force) => player.rigid.AddForce(player.transform.forward * force,ForceMode.Impulse);
+    private void JumpEvent(float force) => player.rigid.AddForce(player.transform.up * force, ForceMode.Impulse);
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
@@ -9,13 +7,23 @@ public class FollowCamera : MonoBehaviour
     private float x, y;
     private float xRot, yRot;
 
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void LateUpdate()
     {
         x = Input.GetAxis("Mouse X");
         y = Input.GetAxis("Mouse Y");
 
-        xRot -= y * mouseSensitivity;
-        yRot += x * mouseSensitivity;
+        xRot -= y * mouseSensitivity * Time.deltaTime;
+        yRot += x * mouseSensitivity * Time.deltaTime;
         xRot = Mathf.Clamp(xRot, -80, 80);
 
         cameraBoom.rotation = Quaternion.Euler(xRot, yRot, 0);

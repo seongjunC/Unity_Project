@@ -3,76 +3,49 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISkillOwner
 {
-    [SerializeField] private Transform groundCheckPoint;
-
     public Animator anim;
     public Rigidbody rigid;
     public StateController stateCon;
-    public GameObject attackHitbox;
-    public PlayerStatusData status;
+    public PlayerStatusController statusCon;
+    public PlayerInput input;
+    public Equipment_ItemData curWeapon => Manager.Data.inventory.GetCurrentWeapon();
+    public PlayerStatusData status => Manager.Data.playerStatus;
+
+    public bool isSkillActive { get; set; }
+
+    [Header("Move info")]
     public float moveSpeed;
     public float rotateSpeed;
-    public float hp;
+    public float rollForce = 10;
 
-    public Vector3 moveDir;
-    public Vector3 camDir;
 
-    // 유니티에서 Ground 레이어 추가하기
-    public LayerMask groundLayer;
-    public float groundCheckDistance = 0.2f;
+    [Header("Combat info")]
+    public Transform attackTransform;
+    public Transform[] attackEffectTransform;
+    public GameObject defaultAttackEffect;
+    public GameObject lastAttackEffect;
+    public float attackRaius;
+    public float[] attackForce;
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-        rigid = GetComponent<Rigidbody>();
-        stateCon = GetComponent<StateController>();
-
-        status = new PlayerStatusData();
-    }
-    private void Update()
-    {
-        if (stateCon.stateMachine.currentState == stateCon.dieState)
-        {
-            return;
-        }
-
-        HandleInput();
-
-    }
-    public bool IsGrounded()
-    {
-        return Physics.Raycast(groundCheckPoint.position, Vector3.down, groundCheckDistance, groundLayer);
+        anim        = GetComponent<Animator>();
+        rigid       = GetComponent<Rigidbody>();
+        stateCon    = GetComponent<StateController>();
+        input       = GetComponent<PlayerInput>();
+        statusCon   = GetComponent<PlayerStatusController>();
     }
 
-    private void Rotate()
+    public Transform GetTransform()
     {
-        if (camDir.sqrMagnitude == 0) return;
-        Quaternion targetRot = Quaternion.LookRotation(camDir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotateSpeed * Time.deltaTime);
+        return transform;
     }
 
-    private void HandleInput()
+    public int GetDamage()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        moveDir = new Vector3(x, 0, z);
-
-        Vector3 camForward = Camera.main.transform.forward;
-        Vector3 camRight = Camera.main.transform.right;
-
-        camForward.y = 0;
-        camRight.y = 0;
-
-        camForward.Normalize();
-        camRight.Normalize();
-
-        camDir = camForward * moveDir.z + camRight * moveDir.x;
-
-        if (camDir.sqrMagnitude > 0)
-            Rotate();
+        return status.damage.GetValue();
     }
     public void TakeDamage(int amount)
     {

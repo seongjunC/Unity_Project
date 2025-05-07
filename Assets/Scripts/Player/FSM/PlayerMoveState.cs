@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// 생성된 state
+
 public class PlayerMoveState : PlayerState
 {
+
     public PlayerMoveState(Player _player, StateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
@@ -16,7 +15,25 @@ public class PlayerMoveState : PlayerState
     public override void Update()
     {
         base.Update();
-        Move();
+
+        player.transform.Translate(input.camDir * player.moveSpeed * Time.deltaTime, Space.World);
+
+        if (input.camDir.sqrMagnitude > 0.2f)
+        {
+            input.lastMoveDir = input.camDir;
+        }
+
+        if (input.camDir.sqrMagnitude > 0)
+            Rotate();
+
+        if (input.moveDir.sqrMagnitude < .1f)
+        {
+            stateMachine.SetupState(stateCon.stopState);
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            stateMachine.SetupState(stateCon.attackState);
+        }
     }
 
     public override void Exit()
@@ -26,25 +43,12 @@ public class PlayerMoveState : PlayerState
     public override void Transition()
     {
         base.Transition();
-
-        // ex) 스페이스바를 누르면 상태 전이
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            stateMachine.ChangeState(player.stateCon.jumpState);
-        }
-        else if (player.moveDir.sqrMagnitude == 0)
-        {
-            stateMachine.ChangeState(player.stateCon.idleState);
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
-            stateMachine.ChangeState(player.stateCon.attackState);
-        }
     }
 
-    // 움직임
-    private void Move()
+    private void Rotate()
     {
-        player.transform.Translate(player.moveDir*player.moveSpeed*Time.deltaTime);
+        if (input.camDir.sqrMagnitude == 0) return;
+        Quaternion targetRot = Quaternion.LookRotation(input.camDir);
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRot, player.rotateSpeed * Time.deltaTime);
     }
 }

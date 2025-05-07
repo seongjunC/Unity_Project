@@ -1,4 +1,6 @@
+using EnumType;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StructType
@@ -17,10 +19,16 @@ namespace StructType
         public Material material;
     }
 
+    public struct PlayerStatData
+    {
+        public int damage;
+        public int hp;
+    }
+
     public struct SkillData
     {
         public string skillName;
-        public int skillPower;
+        public float skillPower;
         public float coolTime;
     }
 
@@ -29,5 +37,21 @@ namespace StructType
         public Vector3 forward;
         public Vector3 right;
         public Vector3 up;
+    }
+
+    [Serializable]
+    public struct BuffData
+    {
+        public StatType type;
+        public float duration;
+    }
+
+    [Serializable]
+    public struct DropData
+    {
+        public ItemData item;
+
+        [Range(0, 100)] 
+        public float chance;
     }
 }

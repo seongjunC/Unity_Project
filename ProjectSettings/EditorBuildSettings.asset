@@ -4,5 +4,32 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Student/HSD/LoadScene.unity
+    guid: 1f64a88f6af96bf41aef68e6718c5b48
+  - enabled: 1
+    path: Assets/Scenes/HSDTestScene.unity
+    guid: 8ae9ef09394c0404fb3b5a901d0d25ef
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: 8b75f7316768b694eb2a0e69909bf350
+  - enabled: 1
+    path: Assets/Scenes/Dungeon1F.unity
+    guid: 035477d2aafb63c44805fae47cfe310e
+  - enabled: 1
+    path: Assets/Scenes/Dungeon2F.unity
+    guid: eff7f8c8c8e280f48941706297908dfc
+  - enabled: 1
+    path: Assets/Scenes/Dungeon3F.unity
+    guid: 7953597cc9e24cd4e8873d387f1ac460
+  - enabled: 1
+    path: Assets/Scenes/Dungeon4F.unity
+    guid: f324108758e0a53428f53efa15b5fcfa
+  - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 16b7de7c553bc334fb9104b55d1ff5c9
+  - enabled: 1
+    path: Assets/Scenes/HSDTestScene 1.unity
+    guid: 4007d1f78d1d50d4ca49f7b78b2919c4
   m_configObjects: {}

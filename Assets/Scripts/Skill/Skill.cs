@@ -1,7 +1,7 @@
 using EnumType;
 using StructType;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Skill : ScriptableObject
@@ -17,10 +17,10 @@ public abstract class Skill : ScriptableObject
     public SkillOverlapData overlap;
 
     [Header("Effect Data")]
-    [SerializeField] protected GameObject effectPrefab;
+    public GameObject effectPrefab;
     [Space]
-    [SerializeField] private Vector3 effectRotation;
-    [SerializeField] private Vector3 effectDistance;
+    [SerializeField] private Vector3[] effectRotations;
+    [SerializeField] private Vector3[] effectDistances;
 
     [Header("Tick")]
     [SerializeField] protected bool isTick;
@@ -32,21 +32,25 @@ public abstract class Skill : ScriptableObject
     [SerializeField] protected Vector3 dir;
 
     [Header("Skill Data")]
-    [Tooltip("Ω∫≈≥Ω««‡ »ƒ ∏Ó√  »ƒ µ•πÃ¡ˆ ∆«¥‹¿ª Ω√¿€«“¡ˆ")]
+    [Tooltip("Ïä§ÌÇ¨Ïã§Ìñâ ÌõÑ Î™áÏ¥à ÌõÑ Ïù¥ÌéôÌä∏Í∞Ä ÏÇ¨ÎùºÏßàÏßÄ")]
     [SerializeField] private float delay;
 
-    [Tooltip("Ω∫≈≥ ∞Ëºˆ")] [SerializeField] private float skillPower;
-    [Tooltip("Ω∫≈≥ ƒ≈∏¿”")] public float coolTime;
-    [Tooltip("Ω∫≈≥ ¡ˆº”Ω√∞£")] [SerializeField] private float skillDuration;
+    [Tooltip("Ïä§ÌÇ¨ Í≥ÑÏàò")] [SerializeField] protected float skillPower;
+    [Tooltip("Ïä§ÌÇ¨ Ïø®ÌÉÄÏûÑ")] public float coolTime;
+    [Tooltip("Ïä§ÌÇ¨ ÏßÄÏÜçÏãúÍ∞Ñ")] [SerializeField] private float skillDuration;
 
     public YieldInstruction waitTickDelay;
     public YieldInstruction waitDelay;
     public YieldInstruction waitSkillEndDelay;
 
-    private GameObject curEffect;
-    private ISkillOwner onwer;
+    protected GameObject curEffect;
+    private List<GameObject> effects = new List<GameObject>();
+    private List<SkillVector> skillVectors = new List<SkillVector>();
+    private ISkillOwner owner;
 
     private float timer;
+    private int effectCount;
+    private bool isSetup = false;
 
     public float CoolTimeRatio
     {
@@ -59,13 +63,14 @@ public abstract class Skill : ScriptableObject
 
     public void Init(ISkillOwner _owner)
     {
-        onwer = _owner;
+        owner = _owner;
 
-        waitTickDelay = new WaitForSeconds(tickDelay);
-        waitDelay = new WaitForSeconds(delay);
-        waitSkillEndDelay = new WaitForSeconds(skillDuration);
+        waitTickDelay ??= new WaitForSeconds(tickDelay);
+        waitDelay ??= new WaitForSeconds(delay);
+        waitSkillEndDelay ??= new WaitForSeconds(skillDuration);
 
-        SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
+        if(!isSetup)
+            SetupSkillData(Manager.Data.skillData.GetSkillData(skillName));
     }
 
     public IEnumerator CoolTimeRoutine()
@@ -88,36 +93,89 @@ public abstract class Skill : ScriptableObject
         return false;
     }
 
-    public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, onwer.GetDamage());
+    public void DamageToTargets() => overlap.DealDamageToTargets(curEffect.transform, skillVec, skillPower, owner.GetDamage());
+
+    public void DamageToTargets(int count) => overlap.DealDamageToTargets(effects[count].transform, skillVectors[count], skillPower, owner.GetDamage());
+
+    public void DamageToTargets(float _skillPower) => overlap.DealDamageToTargets(curEffect.transform, skillVec, _skillPower, owner.GetDamage());
+
+    public void DamageToTargets(float _skillPower, Vector3 overlapDistance) => overlap.DealDamageToTargets(curEffect.transform, overlapDistance, skillVec, _skillPower, owner.GetDamage());
 
     protected abstract bool SkillCondition();
     
-    public virtual void StartSkill()
+    public virtual void SkillStart()
     {
+        owner.isSkillActive = true;
 
+        if(effects.Count > 0)
+            effects.Clear();
+
+        if(skillVectors.Count > 0)
+            skillVectors.Clear();
+
+        effectCount = 0;
     }
-    public virtual void EndSkill()
+    public IEnumerator SkillEnd()
     {
-        DestroyEffect();
+        owner.isSkillActive = false;
+        effects.Add(curEffect);  
         curEffect = null;
+
+        yield return waitDelay;
+
+        DestroyEffect();
     }
 
     public abstract IEnumerator SkillRoutine();
 
-    protected void CreateEffect(GameObject effect)
+    public void CreateEffect(GameObject effect)
     {
-        curEffect = Manager.Resources.Instantiate(effect, onwer.GetTransform().position, onwer.GetTransform().rotation, true);
+        curEffect = Manager.Resources.Instantiate(effect, owner.GetTransform().position, owner.GetTransform().rotation, true);
+
+        effects.Add(curEffect);
 
         skillVec.forward = curEffect.transform.forward;
         skillVec.right = curEffect.transform.right;
         skillVec.up = curEffect.transform.up;
 
-        curEffect.transform.rotation *= Quaternion.Euler(effectRotation);
+        skillVectors.Add(skillVec);
 
-        Vector3 position = curEffect.transform.position + (curEffect.transform.forward * effectDistance.z) 
-            + (curEffect.transform.right * effectDistance.x) + (curEffect.transform.up * effectDistance.y);
+        curEffect.transform.rotation *= Quaternion.Euler(effectRotations[effectCount]);
+
+        Vector3 position = OwnerPos(effectDistances[effectCount]);
 
         curEffect.transform.position = position;
+        effectCount++;
+    }
+
+    private Vector3 OwnerPos(Vector3 effectDistances)
+    {
+        return curEffect.transform.position +
+                    (owner.GetTransform().forward * effectDistances.z) +
+                    (owner.GetTransform().right * effectDistances.x) +
+                    (owner.GetTransform().up * effectDistances.y);
+    }
+
+    private Transform OwnerTransform(Vector3 effectDistances)
+    {
+        Transform temp = curEffect.transform;
+        temp.position = curEffect.transform.position +
+                    (owner.GetTransform().forward * effectDistances.z) +
+                    (owner.GetTransform().right * effectDistances.x) +
+                    (owner.GetTransform().up * effectDistances.y);
+
+        return temp;
+    }
+
+    private Transform EffectTransform(Vector3 distance)
+    {
+        Transform temp = curEffect.transform;
+        temp.position = curEffect.transform.position +
+                    (curEffect.transform.forward * distance.z) +
+                    (curEffect.transform.right * distance.x) +
+                    (curEffect.transform.up * distance.y);
+
+        return temp;
     }
 
     IEnumerator DelayCreateEffect(GameObject effect, float delay)
@@ -127,10 +185,17 @@ public abstract class Skill : ScriptableObject
         CreateEffect(effect);
     }
 
-    public void DestroyEffect() { Manager.Resources.Destroy(curEffect); }
+    public void DestroyEffect() 
+    {
+        foreach (var e in effects)
+        {
+            Manager.Resources.Destroy(e);
+        }
+    }
 
     private void SetupSkillData(SkillData data)
     {
+        isSetup = true;
         skillPower = data.skillPower;
         skillName = data.skillName;
         coolTime = data.coolTime;

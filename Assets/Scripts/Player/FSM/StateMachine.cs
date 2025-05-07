@@ -1,40 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-// »óÅÂÀÇ ÀüÀÌ, »ı¼ºÀ» °ü¸®ÇÏ´Â Å¬·¡½º
 public class StateMachine
 {
     public PlayerState currentState;
+    private PlayerState newState;
 
-    /// <summary>
-    /// »óÅÂ ÃÊ±âÈ­ ÇÔ¼ö
-    /// </summary>
-    /// <param name="newState"></param>
     public void InitState(PlayerState newState)
     {
         currentState = newState;
         currentState.Enter();
     }
 
-    /// <summary>
-    /// »óÅÂ º¯°æ ÇÔ¼ö
-    /// </summary>
-    /// <param name="newState"></param>
-    public void ChangeState(PlayerState newState)
+    public void ChangeState()
     {
+        if (newState == null) return;
+
         currentState.Exit();
+        Debug.Log($"í˜„ì¬ : {currentState.animBoolName}, ì „ì´ : {newState.animBoolName}");
         currentState = newState;
         currentState.Enter();
     }
-
-    /// <summary>
-    /// ÇÁ·¹ÀÓ ¸¶´Ù ¾÷µ¥ÀÌÆ® µÉ ÇÔ¼öÀÎ stateÀÇ Update¿Í TransitionÀ» È£Ãâ½ÃÅ°´Â ÇÔ¼ö
-    /// </summary>
-    public void UpdateStateMachine()
+    public void ChangeState(PlayerState _newState)
     {
-        currentState.Update();
-        currentState.Transition();
+        if (_newState == null) return;
+
+        currentState.Exit();
+        currentState = _newState;
+        currentState.Enter();
+    }
+
+    public void SetupState(PlayerState _newState)
+    {
+        newState = _newState;
     }
 }

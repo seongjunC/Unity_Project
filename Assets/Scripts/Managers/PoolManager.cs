@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,8 +8,10 @@ public class PoolManager : Singleton<PoolManager>
     private Dictionary<string, IObjectPool<GameObject>> poolDic;
     private Dictionary<string, Transform> poolParent;
     private Dictionary<string, float> lastUsedTime;
+    private ObjectPool<GameObject> popUpPool;
 
     private Transform parent;
+    private Transform popUpParent;
 
     Coroutine poolCleanupRoutine;
 
@@ -18,15 +19,66 @@ public class PoolManager : Singleton<PoolManager>
     const float poolCleanupDelay = 30;
 
     public PoolData poolData;
+    public Transform UI;
 
-    private void Awake()
+    public void Init()
     {
         poolDic = new Dictionary<string, IObjectPool<GameObject>>();
         poolParent = new Dictionary<string, Transform>();
         lastUsedTime = new Dictionary<string, float>();
 
         parent = new GameObject("Pool Parent").transform;
-        poolData = new();
+        poolData = Manager.Data.poolData;
+
+        GameObject canvasObj = Manager.Game.canvas;
+        UI = canvasObj.transform;
+
+        popUpParent = new GameObject("PopUpParent").transform;
+        popUpParent.parent = UI.transform;
+    }
+
+    private void CreatePopUpTextPool(GameObject popUp)
+    {
+        popUpPool = new ObjectPool<GameObject>(
+            () =>
+            {
+                var obj = Instantiate(popUp, popUpParent);
+                obj.name = popUp.name;
+                return obj;
+            },
+            obj =>
+            {
+                obj.SetActive(true);
+                obj.transform.SetParent(null);
+            },
+            obj =>
+            {
+                obj.SetActive(false);
+                obj.transform.SetParent(popUpParent);
+            },
+            obj =>
+            {
+                Destroy(obj);
+            },
+            maxSize: 15
+        );
+    }
+
+    public GameObject GetPopUp (GameObject popUp, Vector3 position)
+    {
+        if (popUpPool == null)
+            CreatePopUpTextPool(popUp);
+
+        GameObject obj = popUpPool.Get();
+        obj.transform.position = position;
+
+        return obj;
+    }
+
+    public void ReleasePopUp(GameObject popUp)
+    {
+        if (popUpPool != null)
+            popUpPool.Release(popUp);
     }
 
     private void Start()
@@ -61,7 +113,10 @@ public class PoolManager : Singleton<PoolManager>
             foreach (var value in removePoolKeys)
             {
                 poolDic.Remove(value);
-                Manager.Resources.Destroy(poolParent[value].gameObject);
+
+                if(poolParent[value].gameObject != null)
+                    Manager.Resources.Destroy(poolParent[value].gameObject);
+
                 poolParent.Remove(value);
                 lastUsedTime.Remove(value);
             }
@@ -80,29 +135,29 @@ public class PoolManager : Singleton<PoolManager>
             return poolDic[name];
 
         Transform root = new GameObject($"{name} Pool").transform;
-        root.transform.parent = parent;
+        root.transform.SetParent(parent, false);
         poolParent.Add(name, root);
-
+            
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>
         (
             createFunc: () =>
             {
                 GameObject obj = Instantiate(go);
                 obj.name = name;
-                obj.transform.parent = root;
+                obj.transform.SetParent(root, false);
                 lastUsedTime[name] = Time.time;
                 return obj;
             },
             actionOnGet: (GameObject obj) =>
             {
                 obj.SetActive(true);
-                obj.transform.parent = null;
+                obj.transform.SetParent(null, false); 
                 lastUsedTime[name] = Time.time;
             },
             actionOnRelease: (GameObject obj) =>
             {
                 obj.SetActive(false);
-                obj.transform.parent = root;
+                obj.transform.SetParent(root, false);
             },
             actionOnDestroy: (GameObject obj) =>
             {
@@ -135,7 +190,9 @@ public class PoolManager : Singleton<PoolManager>
 
         GameObject obj = pool.Get();
 
-        obj.transform.parent = parent;
+        if(parent != null)
+            obj.transform.SetParent(parent, false);
+
         obj.transform.localPosition = position;
         obj.transform.localRotation = rotation;
 

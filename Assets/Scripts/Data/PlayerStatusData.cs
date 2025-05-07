@@ -1,25 +1,22 @@
 using EnumType;
+using StructType;
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Collections;
 using UnityEngine;
 
+[Serializable]
 public class PlayerStatusData
 {
-    public int baseDamage;
-    public int baseMaxHP;
-
-    public int damage { get { int totalValue = baseDamage; foreach (int i in damageModifier) { totalValue += i; } return totalValue; } }
-    private List<int> damageModifier = new List<int>();
-
-    public int maxHP { get { int totalValue = 0; foreach (int i in hpModifier) { totalValue += i; } return totalValue; } }
-    private List<int> hpModifier = new List<int>();
+    public Stat maxHP = new Stat();
+    public Stat damage = new Stat();
+    public Stat critChance = new Stat();
+    public Stat critDamage = new Stat();
 
     private int _curHP;
     public int curHP { get => _curHP; private set { _curHP = value; OnHPChanged?.Invoke(_curHP); } }
 
-    private int _curExp;
-    public int curExp { get => curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
+    [SerializeField] private int _curExp;
+    public int curExp { get => _curExp; private set { _curExp = value; OnExpChanged?.Invoke(_curExp); } }
 
     private int _level = 1;
     public int level { get => _level; private set { _level = value; OnLevelUp?.Invoke(_level); } }
@@ -28,61 +25,96 @@ public class PlayerStatusData
     public event Action<int> OnExpChanged;
     public event Action<int> OnLevelUp;
 
-    public PlayerLevelData levelExpData = new();
+    public PlayerLevelDatas levelExpData = new();
+    public PlayerStatDatas playerStatData = new();
 
-    public Skill[] playerSkills {  get; private set; }
-    public bool[] skillUnlock {  get; private set; }
-
-    public void AddModifier(int amount, StatType type)
-    {
-        switch(type)
-        {
-            case StatType.Damage:
-                damageModifier.Add(amount); break;
-            case StatType.MaxHP:
-                hpModifier.Add(amount); break;
-        }
-    }
-    public void RemoveModifier(int amount, StatType type)
-    {
-        switch (type)
-        {
-            case StatType.Damage:
-                damageModifier.Remove(amount); break;
-            case StatType.MaxHP:
-                hpModifier.Remove(amount); break;
-        }
-    }
+    public Skill[] playerSkills {  get; private set; } = new Skill[4];
+    public bool[] skillUnlock {  get; private set; } = new bool[4];
 
     public void IncreaseHealth(int amount)
     {
         curHP += amount;
 
-        if(curHP > maxHP)
-            curHP = maxHP;
+        if(curHP > maxHP.GetValue())
+            curHP = maxHP.GetValue();
     }
+
+    public bool DecreaseHealth(float amount)
+    {
+        curHP -= Mathf.RoundToInt(amount);
+
+        if (curHP <= 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void AddExp(int amount)
     {
         curExp += Mathf.RoundToInt((UnityEngine.Random.Range(amount * 0.8f, amount * 1.2f)));
-
+        Debug.Log("ê²½í—™ì¹˜ íšë“");
         CheckLevelUp();
     }
 
-    private void CheckLevelUp() // ÀÓ½Ã·Î ¿©±â µÎ¾úÀ½ ¹Ù²Ü ¼öµµ ÀÖÀ½.
+    private void CheckLevelUp()
     {
-        if(curExp >= levelExpData.GetLevelExp(level))
+        if(curExp >= GetLevelExp())
         {
             LevelUp();    
         }
     }
+
+    public int GetLevelExp()
+    {
+        return levelExpData.GetLevelExp(level);
+    }
     private void LevelUp()
     {
-        level = _level++;
+        Debug.Log("ë ˆë²¨ ì—…");
+        curExp -= GetLevelExp();
+        level++;
+        SetupPlayerStat();
     }
 
     public void SetupSkills(Skill[] skills)
     {
         playerSkills = skills;
         skillUnlock = new bool[playerSkills.Length];
+    }
+
+    public void SetupPlayerStat()
+    {
+        PlayerStatData data = playerStatData.GetStatData(level);
+
+        damage.SetBaseStat(data.damage);
+
+        int _maxHP = playerStatData.GetStatData(level).hp;
+        int amount = _maxHP - maxHP.baseStat;
+        maxHP.SetBaseStat(_maxHP);
+
+        curExp = curExp;
+
+        IncreaseHealth(amount);
+    }
+
+    public IEnumerator BuffRoutine(StatType type, int amount, float duration)
+    {
+        GetStat(type).AddModifier(amount);
+        yield return new WaitForSeconds(duration);
+        GetStat(type).RemoveModifier(amount);
+    }
+
+    private Stat GetStat(StatType type)
+    {
+        return (type) switch
+        {
+            StatType.Damage => damage,
+            StatType.MaxHP => maxHP,
+            StatType.CritDamage => critDamage,
+            StatType.CritChance => critChance,
+            _ => throw new NotSupportedException()
+        };
     }
 }
