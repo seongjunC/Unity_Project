@@ -9,7 +9,6 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private GameObject inventoryPenal;
     [SerializeField] private GameObject inGamePanel;
     [SerializeField] private GameObject optionPanel;
-    [SerializeField] private GameObject dogamPanel;
 
     private void Start()
     {
@@ -23,9 +22,6 @@ public class InGame_UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
             SwitchUI(optionPanel);
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            SwitchUI(dogamPanel);
     }
 
     public void SwitchUI(GameObject ui)
@@ -35,6 +31,7 @@ public class InGame_UI : MonoBehaviour
             ui.SetActive(false);
             curUI = null;
             Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
@@ -46,6 +43,7 @@ public class InGame_UI : MonoBehaviour
             ui.SetActive(true);
             curUI = ui;
             Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

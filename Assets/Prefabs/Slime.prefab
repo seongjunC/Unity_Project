@@ -659,7 +659,7 @@ Animator:
   m_GameObject: {fileID: 2942813909356569223}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7fec430887d724867a2483827db438a9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9b832284a9a7a4308b27932c7ba8f2f1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7b969078e49426e42a3f2a731f7b77a2, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -747,7 +747,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e855bde798f8346988ab629b9e2390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drops: []
+  drops:
+  - item: {fileID: 11400000, guid: 3d75250374f29694abd3e75045b206a5, type: 2}
+    chance: 64
+  - item: {fileID: 11400000, guid: 417ea7201f9cc9e4f8e344c3b169d3a1, type: 2}
+    chance: 35
+  - item: {fileID: 11400000, guid: 80091ba1b40dc584781b54772b2195cf, type: 2}
+    chance: 25
+  - item: {fileID: 11400000, guid: bb1ea51aba5cb67439bc11259402012f, type: 2}
+    chance: 30
+  - item: {fileID: 11400000, guid: 10e1fd96cd7d8d748800e6938e0e6e70, type: 2}
+    chance: 3
+  - item: {fileID: 11400000, guid: 10e1fd96cd7d8d748800e6938e0e6e70, type: 2}
+    chance: 1
 --- !u!65 &3983771571345295719
 BoxCollider:
   m_ObjectHideFlags: 0

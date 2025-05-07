@@ -7,6 +7,16 @@ public class FollowCamera : MonoBehaviour
     private float x, y;
     private float xRot, yRot;
 
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void LateUpdate()
     {
         x = Input.GetAxis("Mouse X");
