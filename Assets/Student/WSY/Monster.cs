@@ -48,7 +48,7 @@ public class Monster : MonoBehaviour
 
         if (target == null) return;
 
-        if (isMoving)
+        if (!isAttack && isMoving)
         {
             Move();
         }

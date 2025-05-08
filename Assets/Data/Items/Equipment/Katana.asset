@@ -15,12 +15,13 @@ MonoBehaviour:
   itemGrade: 4
   icon: {fileID: 21300000, guid: 08bb284f2022330419e4b812e13efb0e, type: 3}
   itemName: "\uCE74\uD0C0\uB098"
+  price: 0
   description: "\uC798 \uC7AC\uB828\uB418\uC5B4 \uC788\uB294 \uCE74\uD0C0\uB098\uC774\uB2E4."
   itemMeshData:
     mesh: {fileID: 4300000, guid: 2221a18cfc36ca7448f6f50bc66b151b, type: 3}
     material: {fileID: 2100000, guid: 568bf693920424f5cabdcb56e833091e, type: 2}
   type: 0
-  damage: 18
+  damage: 9
   maxHP: 20
   critChance: 30
   critDamage: 75

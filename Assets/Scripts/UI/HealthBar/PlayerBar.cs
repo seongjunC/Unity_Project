@@ -1,10 +1,12 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerBar : HealthBar
 {
     [SerializeField] private Slider expSlider;
+    [SerializeField] private TMP_Text level;
     private PlayerStatusData playerStatus;
 
     Coroutine easeRoutine;
@@ -18,6 +20,7 @@ public class PlayerBar : HealthBar
     {
         playerStatus.OnHPChanged += UpdateHealthBar;
         playerStatus.OnExpChanged += UpdateExpBar;
+        playerStatus.OnLevelUp += UpdateLevel;
         UpdateExpBar(playerStatus.curExp);
     }
 
@@ -25,11 +28,17 @@ public class PlayerBar : HealthBar
     {
         playerStatus.OnHPChanged -= UpdateHealthBar;
         playerStatus.OnExpChanged -= UpdateExpBar;
+        playerStatus.OnLevelUp -= UpdateLevel;
     }
 
     protected override void Update()
     {
         
+    }
+
+    private void UpdateLevel(int _level)
+    {
+        level.text = $"Level : {_level}";
     }
 
     private void UpdateHealthBar(int hp)

@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
 
     public Action<int, ItemData> OnItemChanged;
 
-    public void AddItem(int index ,ItemData data)
+    public void AddItem(int index, ItemData data)
     {
         if (inventoryDic.TryGetValue(data, out InventoryItem item))
         {
@@ -47,22 +47,18 @@ public class Inventory : MonoBehaviour
             if (item == null)
                 Debug.Log("Item is Null");
 
-            if (item.itemData is Equipment_ItemData)
+
+            if (TryGetEmptySlotIndex(out index))
             {
-                if(TryGetEmptySlotIndex(out index))
-                {
-                    InventoryItem newItem = new InventoryItem(data);
-                    inventory[index] = newItem;
-                }                
+                InventoryItem newItem = new InventoryItem(data);
+                inventory[index] = newItem; 
             }
-            else
-                item.AddStack();
 
             OnItemChanged?.Invoke(index, data);
         }
         else
         {
-            if(TryGetEmptySlotIndex(out index))
+            if (TryGetEmptySlotIndex(out index))
             {
                 InventoryItem newItem = new InventoryItem(data);
                 inventory[index] = newItem;
@@ -77,18 +73,12 @@ public class Inventory : MonoBehaviour
     {
         if (inventoryDic.TryGetValue(data, out InventoryItem item))
         {
-            if (item.stack > 1)
-            {
-                item.RemoveStack();
-                OnItemChanged?.Invoke(index, data);
-                return;
-            }
-
-            inventory[index] = null;
             inventoryDic.Remove(data);
-
-            OnItemChanged?.Invoke(index, null);
+            
         }
+        inventory[index] = null;
+
+        OnItemChanged?.Invoke(index, null);
     }
 
     public bool IsHaveItem(ItemData data)

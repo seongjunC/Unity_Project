@@ -39,5 +39,6 @@ public class Title_UI : MonoBehaviour
         yield return wft2;
 
         SceneManager.UnloadSceneAsync("TitleScene");
+        gameStartRoutine = null;
     }
 }

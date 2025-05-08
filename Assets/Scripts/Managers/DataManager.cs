@@ -25,18 +25,18 @@ public class DataManager : Singleton<DataManager>
     
     public IEnumerator SetupGameDataWithProgress(System.Action<float> onProgress)
     {
-        monsterData ??= new();
-        skillData ??= new();
-        playerStatus ??= new();
-        poolData ??= new();
+        monsterData = new();
+        skillData = new();
+        playerStatus = new();
+        poolData = new();
 
-        inventory ??= new GameObject("Inventory").AddComponent<Inventory>();
+        inventory = new GameObject("Inventory").AddComponent<Inventory>();
         inventory.transform.SetParent(transform, false);
 
-        equip ??= new GameObject("Equipment").AddComponent<Equipment>();
+        equip = new GameObject("Equipment").AddComponent<Equipment>();
         equip.transform.SetParent(transform, false);
 
-        dataSetter ??= new GameObject("DataSetter").AddComponent<DataSetter>();
+        dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
         dataSetter.transform.parent = transform;
 
         yield return null;

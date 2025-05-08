@@ -3,5 +3,5 @@ using UnityEngine.SceneManagement;
 
 public class GameClearPanel : MonoBehaviour
 {
-    public void ChangeTitleScene() => SceneManager.LoadSceneAsync("TitleScene");
+    public void ChangeTitleScene() => Application.Quit();
 }

@@ -38,6 +38,8 @@ public class InventoryPanel : MonoBehaviour
 
         Manager.Data.equip.OnEquipmentChanged += UpdateAll;
         Manager.Data.equip.OnEquipmentChanged += UpdateEquipSlot;
+
+        gameObject.SetActive(false);
     }
 
     private void UpdateAll()

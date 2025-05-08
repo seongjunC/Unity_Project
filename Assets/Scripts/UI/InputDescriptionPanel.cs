@@ -6,7 +6,7 @@ public class InputDescriptionPanel : MonoBehaviour
 {
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
             Destroy(gameObject);
     }
 }
