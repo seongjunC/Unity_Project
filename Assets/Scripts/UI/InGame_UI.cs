@@ -8,6 +8,7 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private GameObject optionPanel;
     public GameObject escapePanel;
 
+
     private void Start()
     {
         AllUIClose();
@@ -38,6 +39,7 @@ public class InGame_UI : MonoBehaviour
             curUI = null;
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
@@ -50,6 +52,7 @@ public class InGame_UI : MonoBehaviour
             curUI = ui;
             Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
