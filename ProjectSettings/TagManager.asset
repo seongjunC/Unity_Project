@@ -17,13 +17,13 @@ TagManager:
   - UI
   - Enemy
   - Player
+  - Ground1F
+  - Ground2F
+  - Ground3F
+  - Ground4F
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerDot
   - 
   - 
   - 

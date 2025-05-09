@@ -72,10 +72,10 @@ public class MonsterFactory : MonoBehaviour
     {
         // 몬스터 오브젝트를 오브젝트 풀에서, Instantiate으로 만들기
         GameObject monster = Instantiate(monsterPrefab, spawnPoint.transform.position, Quaternion.identity);
-
+        spawnPoint = spawnPoints[cumulativeMonsterNum];
         // 누적 몬스터 생성 갯수 증가시켜주기 
         cumulativeMonsterNum++;
-        spawnPoint = spawnPoints[cumulativeMonsterNum];
+
     }
 
 }
