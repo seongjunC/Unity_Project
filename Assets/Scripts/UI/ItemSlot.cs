@@ -31,7 +31,10 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             icon.sprite = invItem.itemData.icon;
             icon.color = Color.white;
 
-            stackSize.text = invItem.stack.ToString();
+            if (invItem.stack > 1)
+                stackSize.text = invItem.stack.ToString();
+            else
+                stackSize.text = "";
 
             if(invItem.itemData is Equipment_ItemData)
             {
@@ -60,7 +63,11 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         {
             icon.sprite = invItem.itemData.icon;
             icon.color = Color.white;
-            stackSize.text = invItem.stack.ToString();
+
+            if (invItem.stack > 1)
+                stackSize.text = invItem.stack.ToString();
+            else
+                stackSize.text = "";
         }
         else
         {

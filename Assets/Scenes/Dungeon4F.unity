@@ -135,12 +135,24 @@ PrefabInstance:
       value: 2.22
       objectReference: {fileID: 0}
     - target: {fileID: 1056508637374942869, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -25.69
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1056508637374942869, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.071
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056508637374942869, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056508637374942869, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056508637374942869, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2996697516436436934, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -187,38 +199,10 @@ PrefabInstance:
       value: 3FBossRoom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 7212885625023588173, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2600969189208271669, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 849647669}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
---- !u!4 &849647667 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 243937995839825135, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
-  m_PrefabInstance: {fileID: 849647666}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &849647668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2600969189208271669, guid: 0ef2984ee509e4e43be0a2df37bd9dff, type: 3}
-  m_PrefabInstance: {fileID: 849647666}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &849647669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849647668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77170b3163c77aa46b995865667fedba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boss: {fileID: 194587347137578757, guid: e5c3a90ec2e866745b457c38a628895f, type: 3}
-  spawnPoint: {fileID: 849647667}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

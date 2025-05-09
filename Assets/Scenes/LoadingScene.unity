@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingSlider: {fileID: 239872034}
+  name: Dungeon1F
 --- !u!1 &239872032
 GameObject:
   m_ObjectHideFlags: 0

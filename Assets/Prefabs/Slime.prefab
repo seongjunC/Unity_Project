@@ -749,17 +749,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drops:
   - item: {fileID: 11400000, guid: 3d75250374f29694abd3e75045b206a5, type: 2}
-    chance: 64
+    chance: 20.2
+  - item: {fileID: 11400000, guid: 488064691520e204f9e5d4a80c5bd758, type: 2}
+    chance: 10.1
+  - item: {fileID: 11400000, guid: 61627eb50d32697489120dce2ad814d7, type: 2}
+    chance: 5.5
+  - item: {fileID: 11400000, guid: a785e63b4251e1845b871bd7204e7664, type: 2}
+    chance: 3.7
+  - item: {fileID: 11400000, guid: 16804d09286b85e44b054d3b28904f24, type: 2}
+    chance: 1.8
+  - item: {fileID: 11400000, guid: 9d73fa97ca306e44380e2d11ed59d97d, type: 2}
+    chance: 8.3
+  - item: {fileID: 11400000, guid: 248d638db1eae994394466081a255ed6, type: 2}
+    chance: 10.1
   - item: {fileID: 11400000, guid: 417ea7201f9cc9e4f8e344c3b169d3a1, type: 2}
-    chance: 35
-  - item: {fileID: 11400000, guid: 80091ba1b40dc584781b54772b2195cf, type: 2}
-    chance: 25
-  - item: {fileID: 11400000, guid: bb1ea51aba5cb67439bc11259402012f, type: 2}
-    chance: 30
+    chance: 9.2
+  - item: {fileID: 11400000, guid: aaf4b7a8f2ed68c429a15f8492b88f36, type: 2}
+    chance: 27.5
   - item: {fileID: 11400000, guid: 10e1fd96cd7d8d748800e6938e0e6e70, type: 2}
-    chance: 3
-  - item: {fileID: 11400000, guid: 10e1fd96cd7d8d748800e6938e0e6e70, type: 2}
-    chance: 1
+    chance: 15.6
+  - item: {fileID: 11400000, guid: 6ec4586977b1ba442a5b89bbf199642a, type: 2}
+    chance: 7.3
+  - item: {fileID: 11400000, guid: 5211a0e67cae3ce46946841da13d293c, type: 2}
+    chance: 21.1
 --- !u!65 &3983771571345295719
 BoxCollider:
   m_ObjectHideFlags: 0

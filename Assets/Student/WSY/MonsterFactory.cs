@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 public class MonsterFactory : MonoBehaviour
 {
     [Header("Monster Factory Fields")]
@@ -24,7 +21,7 @@ public class MonsterFactory : MonoBehaviour
     void OnEnable()
     {
         // 오브젝트 풀 매니저에서 프리팹을 오브젝트 풀에 등록해주기. 
-        Manager.Resources.Instantiate(monsterPrefab, Vector3.zero, true);
+        //Manager.Resources.Instantiate(monsterPrefab, Vector3.zero, true);
         // 초기 맵에 있는 몬스터의 갯수 (예시: 2마리)
         // 0마리로 수정
         cumulativeMonsterNum = 0;

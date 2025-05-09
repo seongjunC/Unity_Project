@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LoadingSceneUI : MonoBehaviour
 {
     [SerializeField] private Slider loadingSlider;
+    [SerializeField] private string name;
 
     private void Start()
     {
@@ -19,7 +20,7 @@ public class LoadingSceneUI : MonoBehaviour
             loadingSlider.value = Mathf.Lerp(0f, 0.7f, p);
         }));
 
-        AsyncOperation op = SceneManager.LoadSceneAsync("Dungeon1F");
+        AsyncOperation op = SceneManager.LoadSceneAsync(name);
         op.allowSceneActivation = false;
 
         while (op.progress < 0.9f)

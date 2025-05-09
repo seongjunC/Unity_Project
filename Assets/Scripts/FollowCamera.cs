@@ -3,7 +3,7 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     [SerializeField] private Transform cameraBoom;
-    [SerializeField] private float mouseSensitivity = 60;
+    public float mouseSensitivity = 60;
     private float x, y;
     private float xRot, yRot;
 

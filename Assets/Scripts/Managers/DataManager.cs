@@ -20,10 +20,7 @@ public class DataManager : Singleton<DataManager>
         monsterData = new();
         skillData = new();
         playerStatus = new();
-        poolData = new();
-
-        dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
-        dataSetter.transform.parent = transform;          
+        poolData = new();       
     }
     
     public IEnumerator SetupGameDataWithProgress(System.Action<float> onProgress)
@@ -32,6 +29,12 @@ public class DataManager : Singleton<DataManager>
         skillData = new();
         playerStatus = new();
         poolData = new();
+
+        inventory = new GameObject("Inventory").AddComponent<Inventory>();
+        inventory.transform.SetParent(transform, false);
+
+        equip = new GameObject("Equipment").AddComponent<Equipment>();
+        equip.transform.SetParent(transform, false);
 
         dataSetter = new GameObject("DataSetter").AddComponent<DataSetter>();
         dataSetter.transform.parent = transform;
@@ -64,12 +67,6 @@ public class DataManager : Singleton<DataManager>
 
     public void PostSceneInit()
     {
-        inventory = new GameObject("Inventory").AddComponent<Inventory>();
-        inventory.transform.SetParent(transform, false);
-
-        equip = new GameObject("Equipment").AddComponent<Equipment>();
-        equip.transform.SetParent(transform, false);
-
         Manager.Game.Init();
         Manager.Audio.Init();
         Manager.Pool.Init();

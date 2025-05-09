@@ -42,11 +42,13 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
+
         FindTarget();
 
         if (target == null) return;
 
-        if (isMoving)
+        if (!isAttack && isMoving)
         {
             Move();
         }
@@ -103,12 +105,10 @@ public class Monster : MonoBehaviour
             {
                 IDamagable target = other.GetComponent<IDamagable>();
                 target.TakeDamage(statusCon.status.damage);
-
-                StartCoroutine(ResetAttackState(1f));
-
                 break;
             }
         }
+        StartCoroutine(ResetAttackState(1f));
     }
 
     IEnumerator ResetAttackState(float delay)
@@ -132,6 +132,6 @@ public class Monster : MonoBehaviour
     private void Die()
     {
         anim.SetTrigger("Die");
-        
+        isDead = true;
     }
 }

@@ -12,6 +12,7 @@ public class InventoryItem
     public InventoryItem(ItemData data)
     {
         itemData = data;
+        stack = 1;
     }
 
     public void AddStack () => stack++;

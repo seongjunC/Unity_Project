@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5752746896725709483
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  intensity:
+    overrideState: 1
+    value: 0.5
+  threshold:
+    overrideState: 0
+    value: 1
+  softKnee:
+    overrideState: 0
+    value: 0.81
+  clamp:
+    overrideState: 1
+    value: 65472
+  diffusion:
+    overrideState: 0
+    value: 8.5
+  anamorphicRatio:
+    overrideState: 0
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 1, g: 1, b: 1, a: 1}
+  fastMode:
+    overrideState: 1
+    value: 1
+  dirtTexture:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  dirtIntensity:
+    overrideState: 0
+    value: 0
 --- !u!114 &-1623425353320723428
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -104,13 +151,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 0.97032, z: 0.8514512, w: -0.06097572}
+    value: {x: 0.9335129, y: 0.9735687, z: 1, w: -0.06097572}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 0.92740846, z: 0.96426696, w: -0.21341461}
+    value: {x: 1, y: 0.9337466, z: 0.98535436, w: -0.21341461}
   gain:
     overrideState: 1
-    value: {x: 0.88216496, y: 0.8991723, z: 1, w: 0.03048781}
+    value: {x: 0.9516596, y: 0.9827536, z: 1, w: 0.03048781}
   masterCurve:
     overrideState: 0
     value:
@@ -1326,6 +1373,7 @@ MonoBehaviour:
   settings:
   - {fileID: 5427342385307191323}
   - {fileID: -1623425353320723428}
+  - {fileID: -5752746896725709483}
 --- !u!114 &5427342385307191323
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1353,7 +1401,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.55}
   intensity:
     overrideState: 1
-    value: 0.212
+    value: 0.09
   smoothness:
     overrideState: 1
     value: 1

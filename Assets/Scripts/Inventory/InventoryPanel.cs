@@ -30,20 +30,18 @@ public class InventoryPanel : MonoBehaviour
     private void OnEnable()
     {
         UpdateAll();
+    }
+
+    private void Start()
+    {
         Manager.Data.inventory.OnItemChanged += UpdateSlotUI;
 
         Manager.Data.equip.OnEquipmentChanged += UpdateAll;
         Manager.Data.equip.OnEquipmentChanged += UpdateEquipSlot;
+
+        gameObject.SetActive(false);
     }
 
-
-    private void OnDisable()
-    {
-        Manager.Data.inventory.OnItemChanged -= UpdateSlotUI;
-
-        Manager.Data.equip.OnEquipmentChanged -= UpdateAll;
-        Manager.Data.equip.OnEquipmentChanged -= UpdateEquipSlot;
-    }
     private void UpdateAll()
     {
         for (int i = 0; i < itemSlots.Length; i++)

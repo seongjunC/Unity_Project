@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class InGame_UI : MonoBehaviour
@@ -9,6 +6,8 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] private GameObject inventoryPenal;
     [SerializeField] private GameObject inGamePanel;
     [SerializeField] private GameObject optionPanel;
+    public GameObject escapePanel;
+
 
     private void Start()
     {
@@ -22,6 +21,14 @@ public class InGame_UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
             SwitchUI(optionPanel);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SwitchUI(escapePanel);
+    }
+
+    private void Out()
+    {
+        Application.Quit();
     }
 
     public void SwitchUI(GameObject ui)
@@ -30,6 +37,7 @@ public class InGame_UI : MonoBehaviour
         {
             ui.SetActive(false);
             curUI = null;
+            Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -42,6 +50,7 @@ public class InGame_UI : MonoBehaviour
 
             ui.SetActive(true);
             curUI = ui;
+            Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
         }

@@ -120,7 +120,7 @@ public class Skeleton_Chase : SkeletonState
 
     public void RandomAttack()
     {
-        if (attackTimer <= 0 && target != null)
+        if (attackTimer <= 0 && !monster.isAttack && target != null)
         {
             if (Vector3.Distance(target.transform.position, monster.transform.position) <= monster.attackDistance &&
             Vector3.Dot(monster.transform.forward, dirToTarget) > Mathf.Cos((monster.fov / 2f) * Mathf.Deg2Rad))
@@ -170,6 +170,7 @@ public class Skeleton_Chase : SkeletonState
     {
         while (attackTimer >= 0)
         {
+            Debug.Log(attackTimer);
             attackTimer -= Time.deltaTime;
             yield return null;
         }
@@ -186,6 +187,7 @@ public class Skeleton_AttackBase : SkeletonState
     {
         base.Enter();
         anim.SetBool("Idle", true);
+        monster.isAttack = true;
         monster.isUnhittable = true;
     }
 
@@ -193,6 +195,7 @@ public class Skeleton_AttackBase : SkeletonState
     {
         base.Exit();
         anim.SetBool("Idle", false);
+        monster.isAttack = false;
         monster.isUnhittable = false;
     }
 
@@ -229,8 +232,6 @@ public class Skeleton_Attack : Skeleton_AttackBase
     public override void Transition()
     {
         base.Transition();
-
-        
     }
 
     public override void Update()
@@ -304,6 +305,7 @@ public class Skeleton_Die : SkeletonState
     {
         base.Enter();
         monster.isUnhittable = true;
+        stateTimer = 4;
     }
 
     public override void Exit()
@@ -320,6 +322,12 @@ public class Skeleton_Die : SkeletonState
     public override void Update()
     {
         base.Update();
+
+        if (stateTimer >= 0)
+            stateTimer -= Time.deltaTime;
+
+        if (stateTimer <= 0)
+            Manager.Game.GameClear();
     }
 }
 

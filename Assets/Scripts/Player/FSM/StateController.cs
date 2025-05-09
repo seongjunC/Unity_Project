@@ -49,6 +49,7 @@ public class StateController : MonoBehaviour
     private void Start()
     {
         stateMachine.InitState(idleState); // 처음엔 상태 초기화
+        player.statusCon.OnDied += DieState;
     }
 
     private void Update()
@@ -64,6 +65,11 @@ public class StateController : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.currentState.FixedUpdate();
+    }
+
+    private void DieState()
+    {
+        stateMachine.ChangeState(dieState);
     }
 
     public void AnimFinishEvent() => stateMachine.currentState.AnimFinishEvent();

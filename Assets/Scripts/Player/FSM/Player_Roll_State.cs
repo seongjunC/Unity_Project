@@ -75,6 +75,7 @@ public class Player_Roll_State : Player_AttackBase_State
     IEnumerator DelayRoll(Vector3 inputDir)
     {
         yield return rollDelay;
+
         Manager.Audio.PlaySound("Roll1", SoundType.Effect, Random.Range(0.3f, 0.6f));
 
         float rollDuration = 0.6f;

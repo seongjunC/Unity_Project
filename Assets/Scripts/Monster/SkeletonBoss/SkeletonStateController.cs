@@ -9,6 +9,7 @@ public class SkeletonStateController : MonoBehaviour
     public Skeleton_Attack attack { get; private set; }
     public Skeleton_Hit hit { get; private set; }
     public Skeleton_Stun stun { get; private set; }
+    public Skeleton_Die die { get; private set; }
 
     // Skill
     public Skeleton_SwordSkill skill1 { get; private set; }
@@ -27,6 +28,7 @@ public class SkeletonStateController : MonoBehaviour
         chase   = new Skeleton_Chase(skeleton, sm, "Chase");
         hit     = new Skeleton_Hit(skeleton, sm, "Hit");
         stun    = new Skeleton_Stun(skeleton, sm, "Stun");
+        die     = new Skeleton_Die(skeleton, sm, "Dead");
 
         attack  = new Skeleton_Attack(skeleton, sm, "Attack");
         skill1  = new Skeleton_SwordSkill(skeleton, sm, "Skill1");
@@ -40,6 +42,7 @@ public class SkeletonStateController : MonoBehaviour
         sm.InitState(idle);
         skeleton.statusCon.OnHitted += HitState;
         skeleton.statusCon.OnStunGaugeChanged += StunState;
+        skeleton.statusCon.OnDied += DieState;
 
         Manager.Game.CreateBossBarUI(skeleton.statusCon);
     }
@@ -64,6 +67,11 @@ public class SkeletonStateController : MonoBehaviour
             skeleton.isStun = true;
             sm.ChangeState(stun);
         }
+    }
+
+    private void DieState()
+    {
+        sm.ChangeState(die);
     }
 
     private void OnDestroy()

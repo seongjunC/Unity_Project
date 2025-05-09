@@ -13,6 +13,11 @@ public class Title_UI : MonoBehaviour
 
     private Coroutine gameStartRoutine;
 
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     public void StartGame()
     {
         if (gameStartRoutine != null) return;
@@ -34,5 +39,6 @@ public class Title_UI : MonoBehaviour
         yield return wft2;
 
         SceneManager.UnloadSceneAsync("TitleScene");
+        gameStartRoutine = null;
     }
 }
